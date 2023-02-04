@@ -21,6 +21,10 @@ class Token:
             return payload
         except ExpiredSignature as es:
             print(f'{es}')
+            return None
+        except Exception as e:
+            print(f'{e}')
+            return None
         return None
 
 
