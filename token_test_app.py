@@ -41,7 +41,6 @@ def token_required(f):
             # return 404 if token is not passed
             if not token:
                 return make_response(jsonify({'message' : 'Token not found !!'}), 404)
-    
             # decoding the token to fetch the stored details
             data = Token.checkToken(bytes(token, 'utf-8'), secret_key)
             if "Jessica Temporal" != data['name']:
@@ -49,10 +48,8 @@ def token_required(f):
         except Exception as e:
             print(f'{e}')
             return make_response(jsonify({'message' : 'Could not verify token'}), 500)
-            
         # proceed with functionality
         return  f(*args, **kwargs)
-  
     return decorated
 
 
