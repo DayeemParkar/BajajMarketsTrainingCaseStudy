@@ -26,7 +26,6 @@ app.register_blueprint(SWAGGER_BLUEPRINT, url_prefix=SWAGGER_URL)
 
 # testing variables
 payload_data = {
-    "sub": "4242",
     "name": "Jessica Temporal",
     "pass": "JessPass"
 }
