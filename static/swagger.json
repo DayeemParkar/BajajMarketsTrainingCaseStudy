@@ -10,13 +10,6 @@
         }
     },
 
-    "tags": [
-        {
-            "name": "Test API",
-            "description": "Check authentication"
-        }
-    ],
-
     "servers": [
         {
             "url": "/"

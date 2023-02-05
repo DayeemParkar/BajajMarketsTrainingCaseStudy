@@ -1,0 +1,2 @@
+2023-02-05 23:21:04,101 - INFO - Generated token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Ikplc3NpY2EgVGVtcG9yYWwiLCJwYXNzd29yZCI6Ikplc3NQYXNzIn0.B1_JPd1f0CSeSSniCqeq7y-vNbYDEuCkHpIbD_N9wcY for customer Jessica Temporal
+2023-02-05 23:21:23,320 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Ikplc3NpY2EgVGVtcG9yYWwiLCJwYXNzd29yZCI6Ikplc3NQYXNzIn0.B1_JPd1f0CSeSSniCqeq7y-vNbYDEuCkHpIbD_N9wcY' to get {'username': 'Jessica Temporal', 'password': 'JessPass'}
