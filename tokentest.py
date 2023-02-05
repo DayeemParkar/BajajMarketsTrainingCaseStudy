@@ -11,7 +11,11 @@ class Token:
     
     @classmethod
     def generateToken(cls, payload, key):
-        return jwt.encode(payload=payload, key=key,)
+        try:
+            return jwt.encode(payload=payload, key=key,)
+        except InvalidKeyError as ike:
+            print(f'{ike}')
+            return ''
     
     @classmethod
     def checkToken(cls, token, key):
@@ -25,7 +29,6 @@ class Token:
         except Exception as e:
             print(f'{e}')
             return None
-        return None
 
 
 # if __name__ == '__main__':

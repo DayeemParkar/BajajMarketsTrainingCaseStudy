@@ -25,6 +25,28 @@
 
     "components": {
         "schemas": {
+            "RetrieveToken": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "TokenResult": {
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    },
+                    "success": {
+                        "type": "boolean"
+                    }
+                }
+            },
             "VerifyToken": {
                 "type" : "string",
                 "properties" : {
@@ -45,12 +67,51 @@
     },
 
     "paths": {
-        "/userheader": {
+        "/api/retrievetoken": {
+            "post": {
+                "tags": [
+                    "Retrieve token API"
+                ],
+                "summary": "Retrieve token",
+                "requestBody": {
+                    "description": "Enter credentials to retrieve token",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RetrieveToken"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema" : {
+                            "$ref": "#/components/schemas/TokenResult"
+                        }
+                    },
+                    "400": {
+                        "description": "BAD REQUEST",
+                        "schema" : {
+                            "$ref": "#/components/schemas/TokenResult"
+                        }
+                    },
+                    "500": {
+                        "description": "SERVER ERROR",
+                        "schema" : {
+                            "$ref": "#/components/schemas/TokenResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/verifytoken": {
             "get": {
                 "tags": [
-                    "Verify authentication API"
+                    "Verify token API"
                 ],
-                "summary": "Verify authentication",
+                "summary": "Verify token",
                 "parameters": [
                     {
                         "name": "apikey",
@@ -78,6 +139,12 @@
                     },
                     "404": {
                         "description": "NOT FOUND",
+                        "schema" : {
+                            "$ref": "#/components/schemas/Success"
+                        }
+                    },
+                    "500": {
+                        "description": "SERVER ERROR",
                         "schema" : {
                             "$ref": "#/components/schemas/Success"
                         }

@@ -26,13 +26,14 @@ app.register_blueprint(SWAGGER_BLUEPRINT, url_prefix=SWAGGER_URL)
 
 # testing variables
 payload_data = {
-    "name": "Jessica Temporal",
-    "pass": "JessPass"
+    "username": "Jessica Temporal",
+    "password": "JessPass"
 }
 
 
-# for token in header
+# helper methods
 def token_required(f):
+    '''Decorator to authrnticate token when API call is made'''
     @wraps(f)
     def decorated(*args, **kwargs):
         try:
@@ -42,7 +43,7 @@ def token_required(f):
                 return make_response(jsonify({'message' : 'Token not found !!'}), 404)
             # decoding the token to fetch the stored details
             data = Token.checkToken(bytes(token, 'utf-8'), secret_key)
-            if "Jessica Temporal" != data['name']:
+            if "Jessica Temporal" != data['username']:
                 return make_response(jsonify({'message' : 'Token is invalid !!'}), 401)
         except Exception as e:
             print(f'{e}')
@@ -52,31 +53,60 @@ def token_required(f):
     return decorated
 
 
+# application routes
 @app.route('/')
 def generateToken():
-    session['username'] = payload_data['name']
+    '''Home page'''
+    session['username'] = payload_data['username']
     session['token'] = Token.generateToken(payload_data, secret_key)
     return f"{session['token'].decode()}"
 
 
-@app.route('/userheader', methods =['GET'])
-@token_required
-def getUserHeader():
-    return make_response(jsonify({'message' : 'Token is valid !!'}), 200)
-
-
 @app.route('/usersession/<some_val>', methods =['GET'])
 def getUserSession(some_val):
-    if Token.checkToken(session['token'], secret_key)['name'] == session['username']:
+    '''Test page to verify session token'''
+    if Token.checkToken(session['token'], secret_key)['username'] == session['username']:
         return f"{some_val}"
     return f"No authorization."
 
 
 @app.route('/clearsession')
 def clearsession():
+    '''Page to clear session variables'''
     session.pop('username', default=None)
     session.pop('token', default=None)
     return f"Cleared. Token is now {session.get('token', 'No token')}"
+
+
+# API methods
+@app.route('/api/retrievetoken', methods=['POST'])
+def retrieveToken():
+    '''Retrieve Token'''
+    try:
+        payload = request.get_json()
+        username = payload.get('username', '')
+        password = payload.get('password', '')
+        if len(username) == 0 or len(password) == 0 or len(payload) > 2:
+            print('Bad request')
+            return make_response(jsonify({'token' : '', 
+                                          'success' : False}), 400)
+        token = Token.generateToken(payload, secret_key).decode()
+        if len(token) == 0:
+            return make_response(jsonify({'token' : token, 
+                                          'success' : False}), 500)
+        return make_response(jsonify({'token' : token, 
+                                      'success' : True}), 200)
+    except Exception as e:
+        print(f'{e}')
+        return make_response(jsonify({'token' : '', 
+                                      'success' : False}), 500)
+
+
+'''Verify Token'''
+@app.route('/api/verifytoken', methods =['GET'])
+@token_required
+def getUserHeader():
+    return make_response(jsonify({'message' : 'Token is valid !!'}), 200)
 
 
 # error handling
