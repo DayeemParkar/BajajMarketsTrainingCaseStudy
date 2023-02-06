@@ -4,11 +4,7 @@
 from flask import Flask, session, render_template, redirect, url_for
 # for swagger ui
 from flask_swagger_ui import get_swaggerui_blueprint
-# for config vars
-from config import *
-# for DBConnection class
-from db_connector_class import DBConnection
-# for helper functions and Token class
+# for helper functions, logger, Token class, PasswordHash class, DB, config vars
 from helpers import *
 # for flask forms
 from forms import CustomerForm, AccountForm, LoginForm
@@ -49,6 +45,19 @@ def home():
         return f"{e}"
 
 
+@app.route('/signup')
+def signup():
+    '''Signup Page'''
+    try:
+        form = CustomerForm()
+        if form.validate_on_submit():
+            tryToAddCustomer(form)
+        return render_template('signup_form.html', title='Signup', form=form, id='nav2')
+    except Exception as e:
+        logger.exception('Error while accessing signup')
+        return f"{e}"
+
+
 @app.route('/login')
 def login():
     '''Login Page'''
@@ -56,18 +65,7 @@ def login():
         form = LoginForm()
         return render_template('login_form.html', title='Login', form=form, id='nav3')
     except Exception as e:
-        logger.exception(f'Error while accessing login for {session.get(USERNAME, "no user")}')
-        return f"{e}"
-
-
-@app.route('/signup')
-def signup():
-    '''Login Page'''
-    try:
-        form = CustomerForm()
-        return render_template('signup_form.html', title='Signup', form=form, id='nav2')
-    except Exception as e:
-        logger.exception(f'Error while accessing signup for {session.get(USERNAME, "no user")}')
+        logger.exception(f'Error while accessing login. User: {session.get(USERNAME, "no user")}')
         return f"{e}"
 
 

@@ -4,6 +4,8 @@
 import psycopg2
 # for config vars
 from config import DBVARS, CUSTOMER_TABLE, ACCOUNT_TABLE, ACCOUNT_MAPPING_TABLE, CUSTOMER_TABLE_COLS, ACCOUNT_TABLE_COLS, ACCOUNT_MAPPING_TABLE_COLS
+# for logger
+from logger_class import logger
 
 
 class DBConnection:
@@ -47,87 +49,113 @@ class DBConnection:
     @classmethod
     def dbConnect(cls):
         '''Establish a connection to DB and create table if they don't exist'''
-        if not cls.conn:
-            cls.conn = psycopg2.connect(
-                database=DBVARS['database'],
-                user=DBVARS['user'],
-                password=DBVARS['password'],
-                host=DBVARS['host'],
-                port=DBVARS['port']
-            )
-            cls.cur = cls.conn.cursor()
+        try:
+            if not cls.conn:
+                cls.conn = psycopg2.connect(
+                    database=DBVARS['database'],
+                    user=DBVARS['user'],
+                    password=DBVARS['password'],
+                    host=DBVARS['host'],
+                    port=DBVARS['port']
+                )
+                cls.cur = cls.conn.cursor()
+        except psycopg2.Error as pe:
+            logger.exception('Error while connecting to database')
     
     
     @classmethod
     def getConnection(cls):
         '''Return Connection object'''
-        DBConnection.dbConnect()
-        return cls.conn
+        try:
+            DBConnection.dbConnect()
+            return cls.conn
+        except psycopg2.Error as pe:
+            logger.exception('Error while retrieving connection')
+            return None
     
     
     @classmethod
     def createTables(cls):
         '''Create the required tables if they don't exist'''
-        DBConnection.dbConnect()
-        cls.cur.execute(cls.generateCreateQuery(CUSTOMER_TABLE, CUSTOMER_TABLE_COLS))
-        cls.cur.execute(cls.generateCreateQuery(ACCOUNT_TABLE, ACCOUNT_TABLE_COLS))
-        cls.cur.execute(cls.generateCreateQuery(ACCOUNT_MAPPING_TABLE, ACCOUNT_MAPPING_TABLE_COLS, cls.account_mapping_table_constraints))
-        cls.conn.commit()
+        try:
+            DBConnection.dbConnect()
+            cls.cur.execute(cls.generateCreateQuery(CUSTOMER_TABLE, CUSTOMER_TABLE_COLS))
+            cls.cur.execute(cls.generateCreateQuery(ACCOUNT_TABLE, ACCOUNT_TABLE_COLS))
+            cls.cur.execute(cls.generateCreateQuery(ACCOUNT_MAPPING_TABLE, ACCOUNT_MAPPING_TABLE_COLS, cls.account_mapping_table_constraints))
+            cls.conn.commit()
+        except psycopg2.Error as pe:
+            logger.exception('Error while creating tables')
     
     
     @classmethod
     def selectRows(cls, table_name, condition = None, additions = ''):
         '''Return rows from table'''
-        DBConnection.dbConnect()
-        DBConnection.createTables()
-        if condition:
-            cls.cur.execute(f"SELECT * FROM {table_name} WHERE {condition} {additions};")
-        else:
-            cls.cur.execute(f"SELECT * FROM {table_name} {additions};")
-        rows = cls.cur.fetchall()
-        return rows
+        try:
+            DBConnection.dbConnect()
+            DBConnection.createTables()
+            if condition:
+                cls.cur.execute(f"SELECT * FROM {table_name} WHERE {condition} {additions};")
+            else:
+                cls.cur.execute(f"SELECT * FROM {table_name} {additions};")
+            rows = cls.cur.fetchall()
+            return rows
+        except psycopg2.Error as pe:
+            logger.exception(f'Error while selecting rows of table {table_name}')
+            return ()
     
     
     @classmethod
     def insertRow(cls, table_name, params):
         '''Insert row into table'''
-        DBConnection.dbConnect()
-        DBConnection.createTables()
-        if table_name == CUSTOMER_TABLE:
-            cls.cur.execute(cls.generateInsertQuery(table_name, [f"'{param}'" for param in params], CUSTOMER_TABLE_COLS[1:]))
-        elif table_name == ACCOUNT_TABLE:
-            cls.cur.execute(cls.generateInsertQuery(table_name, [f"'{param}'" for param in params], ACCOUNT_TABLE_COLS[1:]))
-        else:
-            cls.cur.execute(cls.generateInsertQuery(table_name, params))
-        cls.conn.commit()
+        try:
+            DBConnection.dbConnect()
+            DBConnection.createTables()
+            if table_name == CUSTOMER_TABLE:
+                cls.cur.execute(cls.generateInsertQuery(table_name, [f"'{param}'" for param in params], CUSTOMER_TABLE_COLS[1:]))
+            elif table_name == ACCOUNT_TABLE:
+                cls.cur.execute(cls.generateInsertQuery(table_name, [f"'{param}'" for param in params], ACCOUNT_TABLE_COLS[1:]))
+            else:
+                cls.cur.execute(cls.generateInsertQuery(table_name, params))
+            cls.conn.commit()
+        except psycopg2.Error as pe:
+            logger.exception(f'Error while inserting row with params {params} in table {table_name}')
     
     
     @classmethod
-    def deleteRows(cls, tname, condition=None):
+    def deleteRows(cls, table_name, condition=None):
         '''Delete rows from table'''
-        DBConnection.dbConnect()
-        DBConnection.createTables()
-        if condition:
-            cls.cur.execute(f"DELETE FROM {tname} WHERE {condition};")
-        cls.conn.commit()
+        try:
+            DBConnection.dbConnect()
+            DBConnection.createTables()
+            if condition:
+                cls.cur.execute(f"DELETE FROM {table_name} WHERE {condition};")
+            cls.conn.commit()
+        except psycopg2.Error as pe:
+            logger.exception(f'Error while deleting rows from table {table_name} for condition {condition}')
     
     
     @classmethod
-    def updateRow(cls, tname, setCols=None, condition=None):
+    def updateRow(cls, table_name, setCols=None, condition=None):
         '''Update row in table'''
-        DBConnection.dbConnect()
-        DBConnection.createTables()
-        if setCols and condition:
-            cls.cur.execute(f"UPDATE {tname} SET {setCols} WHERE {condition}")
-        cls.conn.commit()
+        try:
+            DBConnection.dbConnect()
+            DBConnection.createTables()
+            if setCols and condition:
+                cls.cur.execute(f"UPDATE {table_name} SET {setCols} WHERE {condition}")
+            cls.conn.commit()
+        except psycopg2.Error as pe:
+            logger.exception(f'Error while updating rows {setCols} of table {table_name} on condition {condition}')
     
     
     @classmethod
-    def dropTable(cls, tname):
+    def dropTable(cls, table_name):
         '''Drop table'''
-        DBConnection.dbConnect()
-        cls.cur.execute(f"DROP TABLE IF EXISTS {tname};")
-        cls.conn.commit()
+        try:
+            DBConnection.dbConnect()
+            cls.cur.execute(f"DROP TABLE IF EXISTS {table_name};")
+            cls.conn.commit()
+        except psycopg2.Error as pe:
+            logger.exception(f'Error while dropping table {table_name}')
     
     
     @classmethod
