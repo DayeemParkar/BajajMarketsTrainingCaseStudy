@@ -35,3 +35,7 @@ def token_required(f):
         # proceed with functionality
         return  f(*args, **kwargs)
     return decorated
+
+
+def tryToAddCustomer(form):
+    '''Function to add a new customer to database'''

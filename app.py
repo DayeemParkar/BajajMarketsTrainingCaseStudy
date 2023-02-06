@@ -49,6 +49,19 @@ def home():
         return f"{e}"
 
 
+@app.route('/signup')
+def signup():
+    '''Signup Page'''
+    try:
+        form = CustomerForm()
+        if form.validate_on_submit():
+            return
+        return render_template('signup_form.html', title='Signup', form=form, id='nav2')
+    except Exception as e:
+        logger.exception('Error while accessing signup')
+        return f"{e}"
+
+
 @app.route('/login')
 def login():
     '''Login Page'''
@@ -56,18 +69,7 @@ def login():
         form = LoginForm()
         return render_template('login_form.html', title='Login', form=form, id='nav3')
     except Exception as e:
-        logger.exception(f'Error while accessing login for {session.get(USERNAME, "no user")}')
-        return f"{e}"
-
-
-@app.route('/signup')
-def signup():
-    '''Login Page'''
-    try:
-        form = CustomerForm()
-        return render_template('signup_form.html', title='Signup', form=form, id='nav2')
-    except Exception as e:
-        logger.exception(f'Error while accessing signup for {session.get(USERNAME, "no user")}')
+        logger.exception(f'Error while accessing login. User: {session.get(USERNAME, "no user")}')
         return f"{e}"
 
 
