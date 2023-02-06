@@ -15,9 +15,12 @@
             {{ form.username(class_="login__input") }}
             {{ form.password.label(class_="login__label") }}
             {{ form.password(class_="login__input") }}
-            
             {{ form.submit(class_="login__submit") }}
-            
         </form>
     </div>
+    {% if msg %}
+        <script>
+            alert("{{ msg }}");
+        </script>
+    {% endif %}
 {% endblock %}

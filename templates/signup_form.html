@@ -15,21 +15,20 @@
             {{ form.username(class_="login__input") }}
             {{ form.password.label(class_="login__label") }}
             {{ form.password(class_="login__input") }}
-            
-            
             {{ form.first_name.label(class_="login__label") }}
             {{ form.first_name(class_="login__input") }}
-            {{form.last_name.label(class_="login__label") }}
+            {{ form.last_name.label(class_="login__label") }}
             {{ form.last_name(class_="login__input") }}
             {{ form.address.label(class_="login__label") }}
             {{ form.address(class_="login__input") }}
             {{ form.mobile_number.label(class_="login__label") }}
             {{ form.mobile_number(class_="login__input") }}
-
-            
-            
             {{ form.submit(class_="login__submit") }}
-            
         </form>
     </div>
+    {% if msg %}
+        <script>
+            alert("{{ msg }}");
+        </script>
+    {% endif %}
 {% endblock %}
