@@ -10,6 +10,8 @@ from config import *
 from db_connector_class import DBConnection
 # for helper functions and Token class
 from helpers import *
+# for flask forms
+from forms import CustomerForm, AccountForm, LoginForm
 
 
 app = Flask(__name__)
@@ -41,9 +43,31 @@ def home():
         # session[TOKEN] = Token.generateToken(payload_data, SECRET_KEY).decode('latin-1')
         # logger.info(f'Generated token {session[TOKEN]} for customer {session[USERNAME]}')
         # return f"{session[TOKEN]} {rows}"
-        return render_template('login_form.html', title='Login')
+        return redirect(url_for('login'))
     except Exception as e:
-        logger.exception(f'Error while generating token for {session.get(USERNAME, "no user")}')
+        logger.exception(f'Error while accessing home for {session.get(USERNAME, "no user")}')
+        return f"{e}"
+
+
+@app.route('/login')
+def login():
+    '''Login Page'''
+    try:
+        form = LoginForm()
+        return render_template('login_form.html', title='Login', form=form, id='nav3')
+    except Exception as e:
+        logger.exception(f'Error while accessing login for {session.get(USERNAME, "no user")}')
+        return f"{e}"
+
+
+@app.route('/signup')
+def signup():
+    '''Login Page'''
+    try:
+        form = CustomerForm()
+        return render_template('signup_form.html', title='Login', form=form, id='nav2')
+    except Exception as e:
+        logger.exception(f'Error while accessing signup for {session.get(USERNAME, "no user")}')
         return f"{e}"
 
 

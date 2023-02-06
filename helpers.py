@@ -8,6 +8,8 @@ from flask import request, make_response, jsonify
 from logger_class import logger
 # for Token class
 from token_class import Token
+# for Password Hash class
+from password_hash_class import PasswordHash
 # for secret_key
 from config import SECRET_KEY
 

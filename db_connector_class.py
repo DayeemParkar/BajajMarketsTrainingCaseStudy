@@ -141,9 +141,13 @@ class DBConnection:
 # DBConnection.dropTable(ACCOUNT_MAPPING_TABLE)
 # DBConnection.dropTable(CUSTOMER_TABLE)
 # DBConnection.dropTable(ACCOUNT_TABLE)
-# DBConnection.insertRow(CUSTOMER_TABLE, ['uname', 'fname', 'lname', 'addr', '12345'])
-# DBConnection.insertRow(ACCOUNT_TABLE, ['salary', '70000'])
+# DBConnection.insertRow(CUSTOMER_TABLE, ['uname', PasswordHash.generateHash('upass'), 'fname', 'lname', 'addr', '12345'])
+# DBConnection.insertRow(ACCOUNT_TABLE, [PasswordHash.generateHash('apass'),'salary', '70000'])
 # DBConnection.insertRow(ACCOUNT_MAPPING_TABLE, ['1','1'])
-# print(DBConnection.selectRows(CUSTOMER_TABLE, additions=f"ORDER BY {CUSTOMER_TABLE_COLS[1][0]}"))
-# print(DBConnection.selectRows(ACCOUNT_TABLE, condition=f"{ACCOUNT_TABLE_COLS[1][0]} = 'salary'"))
+# custpass = DBConnection.selectRows(CUSTOMER_TABLE, additions=f"ORDER BY {CUSTOMER_TABLE_COLS[1][0]}")[0][2]
+# accpass = DBConnection.selectRows(ACCOUNT_TABLE, condition=f"{ACCOUNT_TABLE_COLS[2][0]} = 'salary'")[0][1]
+# print(custpass)
+# print(accpass)
+# print(PasswordHash.verifyHash(custpass, 'upass'))
+# print(PasswordHash.verifyHash(accpass, 'apass'))
 # print(DBConnection.selectRows(ACCOUNT_MAPPING_TABLE))
