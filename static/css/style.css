@@ -20,7 +20,7 @@ body {
     padding: 5rem 4rem 0 4rem;
 	width: 100%;
 	max-width: 525px;
-	min-height: 680px;
+	/* min-height: 680px; */
 	box-shadow: 0 50px 70px -20px rgba(0, 0, 0, 0.85);
 }
 
@@ -40,6 +40,7 @@ body {
 .form-login {
 	position: relative;
 	z-index: 1;
+	padding-bottom: 5rem;
 }
 
 .login-nav {
@@ -158,6 +159,7 @@ body {
 	text-transform: uppercase;
 	letter-spacing: 1px;
 	margin-top: 5rem;
+	/* margin-bottom: 5rem; */
 	padding: .75rem;
 	border-radius: 2rem;
 	display: block;

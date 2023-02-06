@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block body %}
     <div class="login-container">
-        <form action="" class="form-login">
+        <form action="" class="form-login" method="POST">
             <ul class="login-nav">
                 <li class="login-nav__item">
                     <a href="{{ url_for('login') }}">Log In</a>
@@ -10,15 +10,26 @@
                     <a href="{{ url_for('signup') }}">Sign Up</a>
                 </li>
             </ul>
-            <label for="login-input-user" class="login__label">
-                Username
-            </label>
-            <input id="login-input-user" class="login__input" type="text" />
-            <label for="login-input-password" class="login__label">
-                Password
-            </label>
-            <input id="login-input-password" class="login__input" type="password" />
-            <input type="submit" class="login__submit" value="Log in" />
+            {{ form.hidden_tag() }}
+            {{ form.username.label(class_="login__label") }}
+            {{ form.username(class_="login__input") }}
+            {{ form.password.label(class_="login__label") }}
+            {{ form.password(class_="login__input") }}
+            
+            
+            {{ form.first_name.label(class_="login__label") }}
+            {{ form.first_name(class_="login__input") }}
+            {{form.last_name.label(class_="login__label") }}
+            {{ form.last_name(class_="login__input") }}
+            {{ form.address.label(class_="login__label") }}
+            {{ form.address(class_="login__input") }}
+            {{ form.mobile_number.label(class_="login__label") }}
+            {{ form.mobile_number(class_="login__input") }}
+
+            
+            
+            {{ form.submit(class_="login__submit") }}
+            
         </form>
     </div>
 {% endblock %}
