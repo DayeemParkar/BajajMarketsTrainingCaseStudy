@@ -65,7 +65,7 @@ def signup():
     '''Login Page'''
     try:
         form = CustomerForm()
-        return render_template('signup_form.html', title='Login', form=form, id='nav2')
+        return render_template('signup_form.html', title='Signup', form=form, id='nav2')
     except Exception as e:
         logger.exception(f'Error while accessing signup for {session.get(USERNAME, "no user")}')
         return f"{e}"
