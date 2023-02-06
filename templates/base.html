@@ -6,19 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    <ul class="nav">
+    <ul class="navbar">
         <li><a id="nav1" href="{{ url_for('home') }}">Home</a></li>
         <ul class="topnav-right">
-            <li><a id="nav3" href="{{ url_for('login') }}">Login</a></li>
-            <li><a id="nav2" href="{{ url_for('signup') }}">Signup</a></li>
+            <li><a id="nav3" href="{{ url_for('login') }}">Log in/Sign up</a></li>
+            <li><a id="nav2" href="{{ url_for('home') }}">Logout</a></li>
         </ul>
-        <li><a id="nav4" href="{{ url_for('home') }}">Accounts</a></li>
-        <li><a id="nav5" href="{{ url_for('home') }}">New Account</a></li>
+        <!-- <li><a id="nav4" href="{{ url_for('home') }}">Accounts</a></li>
+        <li><a id="nav5" href="{{ url_for('home') }}">New Account</a></li> -->
+
+        <div class="dropdown">
+            <button class="dropbtn">Account(s) 
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content navbar">
+              <a href="#">New Account</a>
+              <a href="#">View Account(s)</a>
+            </div>
+        </div> 
+
+        <div class="dropdown">
+            <button class="dropbtn">Transaction 
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content navbar">
+              <a href="#">Make Transaction</a>
+              <a href="#">Transaction History</a>
+            </div>
+        </div> 
+        
         <li><a id="nav6" href="{{ url_for('home') }}">Deposit</a></li>
         <li><a id="nav7" href="{{ url_for('home') }}">Withdraw</a></li>
+    
+        
     </ul>
+      
     {% block body %}
     {% endblock %}
     {% if id %}
