@@ -266,3 +266,29 @@ background-color: gray;
 .dropdown:hover .dropdown-content {
 display: block;
 }
+
+table{
+border: 1px solid black;
+border-collapse: collapse;
+width: 50%;
+text-align: center;
+margin-top: 1rem;
+}
+th, td {
+border: 1px solid rgb(71, 4, 195);
+padding: 8px;
+/* text-align: center; */
+/* border-bottom: 1px solid rgb(51, 37, 171); */
+}
+
+th {
+background-color: rgb(137, 78, 248);
+color: white;
+}
+
+tr:hover {background-color: rgb(246, 239, 239)}
+
+table.center {
+margin-left: auto; 
+margin-right: auto;
+}
