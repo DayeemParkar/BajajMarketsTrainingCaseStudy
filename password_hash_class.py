@@ -1,6 +1,7 @@
 '''This file contains Password Hash Class'''
 
 from flask_bcrypt import Bcrypt
+from logger_class import logger
 
 
 class PasswordHash():
@@ -18,9 +19,17 @@ class PasswordHash():
     
     @classmethod
     def generateHash(cls, password):
-        return str(cls.bcrypt.generate_password_hash(password), 'utf-8')
+        try:
+            return str(cls.bcrypt.generate_password_hash(password), 'utf-8')
+        except Exception as e:
+            logger.exception('Error while generating password hash')
+            return ''
     
     
     @classmethod
     def verifyHash(cls, password_hash, password):
-        return cls.bcrypt.check_password_hash(bytes(password_hash, 'utf-8'), password)
+        try:
+            return cls.bcrypt.check_password_hash(bytes(password_hash, 'utf-8'), password)
+        except Exception as e:
+            logger.exception('Error while verifying password')
+            return False

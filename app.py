@@ -4,11 +4,7 @@
 from flask import Flask, session, render_template, redirect, url_for
 # for swagger ui
 from flask_swagger_ui import get_swaggerui_blueprint
-# for config vars
-from config import *
-# for DBConnection class
-from db_connector_class import DBConnection
-# for helper functions and Token class
+# for helper functions, logger, Token class, PasswordHash class, DB, config vars
 from helpers import *
 # for flask forms
 from forms import CustomerForm, AccountForm, LoginForm
@@ -55,7 +51,7 @@ def signup():
     try:
         form = CustomerForm()
         if form.validate_on_submit():
-            return
+            tryToAddCustomer(form)
         return render_template('signup_form.html', title='Signup', form=form, id='nav2')
     except Exception as e:
         logger.exception('Error while accessing signup')
