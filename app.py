@@ -1,7 +1,7 @@
 '''This file contains the app'''
 
 # for running app
-from flask import Flask, session, redirect, url_for
+from flask import Flask, session, render_template, redirect, url_for
 # for swagger ui
 from flask_swagger_ui import get_swaggerui_blueprint
 # for config vars
@@ -33,14 +33,15 @@ payload_data = {
 
 # application routes
 @app.route('/')
-def generateToken():
+def home():
     '''Home page'''
     try:
-        rows = DBConnection.selectRows(CUSTOMER_TABLE)
-        session[USERNAME] = payload_data['username']
-        session[TOKEN] = Token.generateToken(payload_data, SECRET_KEY).decode('latin-1')
-        logger.info(f'Generated token {session[TOKEN]} for customer {session[USERNAME]}')
-        return f"{session[TOKEN]} {rows}"
+        # rows = DBConnection.selectRows(CUSTOMER_TABLE)
+        # session[USERNAME] = payload_data['username']
+        # session[TOKEN] = Token.generateToken(payload_data, SECRET_KEY).decode('latin-1')
+        # logger.info(f'Generated token {session[TOKEN]} for customer {session[USERNAME]}')
+        # return f"{session[TOKEN]} {rows}"
+        return render_template('login_form.html', title='Login')
     except Exception as e:
         logger.exception(f'Error while generating token for {session.get(USERNAME, "no user")}')
         return f"{e}"

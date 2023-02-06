@@ -56,7 +56,6 @@ class DBConnection:
                 port=DBVARS['port']
             )
             cls.cur = cls.conn.cursor()
-            cls.createTables()
     
     
     @classmethod
@@ -80,6 +79,7 @@ class DBConnection:
     def selectRows(cls, table_name, condition = None, additions = ''):
         '''Return rows from table'''
         DBConnection.dbConnect()
+        DBConnection.createTables()
         if condition:
             cls.cur.execute(f"SELECT * FROM {table_name} WHERE {condition} {additions};")
         else:
@@ -92,6 +92,7 @@ class DBConnection:
     def insertRow(cls, table_name, params):
         '''Insert row into table'''
         DBConnection.dbConnect()
+        DBConnection.createTables()
         if table_name == CUSTOMER_TABLE:
             cls.cur.execute(cls.generateInsertQuery(table_name, [f"'{param}'" for param in params], CUSTOMER_TABLE_COLS[1:]))
         elif table_name == ACCOUNT_TABLE:
@@ -105,6 +106,7 @@ class DBConnection:
     def deleteRows(cls, tname, condition=None):
         '''Delete rows from table'''
         DBConnection.dbConnect()
+        DBConnection.createTables()
         if condition:
             cls.cur.execute(f"DELETE FROM {tname} WHERE {condition};")
         cls.conn.commit()
@@ -114,8 +116,17 @@ class DBConnection:
     def updateRow(cls, tname, setCols=None, condition=None):
         '''Update row in table'''
         DBConnection.dbConnect()
+        DBConnection.createTables()
         if setCols and condition:
             cls.cur.execute(f"UPDATE {tname} SET {setCols} WHERE {condition}")
+        cls.conn.commit()
+    
+    
+    @classmethod
+    def dropTable(cls, tname):
+        '''Drop table'''
+        DBConnection.dbConnect()
+        cls.cur.execute(f"DROP TABLE IF EXISTS {tname};")
         cls.conn.commit()
     
     
@@ -127,8 +138,11 @@ class DBConnection:
             cls.cur = None
             cls.conn = None
 
-# DBConnection.insertRow(CUSTOMER_TABLE, ['uname', 'fname', 'lname', 'addr', '12345', 'mobile'])
-# DBConnection.insertRowACCOUNT_TABLE, ['salary', '70000'])
+# DBConnection.dropTable(ACCOUNT_MAPPING_TABLE)
+# DBConnection.dropTable(CUSTOMER_TABLE)
+# DBConnection.dropTable(ACCOUNT_TABLE)
+# DBConnection.insertRow(CUSTOMER_TABLE, ['uname', 'fname', 'lname', 'addr', '12345'])
+# DBConnection.insertRow(ACCOUNT_TABLE, ['salary', '70000'])
 # DBConnection.insertRow(ACCOUNT_MAPPING_TABLE, ['1','1'])
 # print(DBConnection.selectRows(CUSTOMER_TABLE, additions=f"ORDER BY {CUSTOMER_TABLE_COLS[1][0]}"))
 # print(DBConnection.selectRows(ACCOUNT_TABLE, condition=f"{ACCOUNT_TABLE_COLS[1][0]} = 'salary'"))
