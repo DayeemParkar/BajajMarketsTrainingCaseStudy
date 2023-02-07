@@ -1,1 +1,23 @@
-2023-02-06 22:03:31,260 - INFO - Generated token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Ikplc3NpY2EgVGVtcG9yYWwiLCJwYXNzd29yZCI6Ikplc3NQYXNzIn0.B1_JPd1f0CSeSSniCqeq7y-vNbYDEuCkHpIbD_N9wcY for customer Jessica Temporal
+2023-02-06 22:03:31,260 - INFO - Generated token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Ikplc3NpY2EgVGVtcG9yYWwiLCJwYXNzd29yZCI6Ikplc3NQYXNzIn0.B1_JPd1f0CSeSSniCqeq7y-vNbYDEuCkHpIbD_N9wcY for customer Jessica Temporal2023-02-07 09:49:37,703 - ERROR - Error while accessing login. User: Jessica Temporal
+Traceback (most recent call last):
+  File "/Users/shivamtripathi2/Desktop/case Study/app.py", line 79, in login
+    return render_template('login_form.html', title='Login', form=form, id='nav3')
+  File "/Users/shivamtripathi2/opt/anaconda3/lib/python3.9/site-packages/flask/templating.py", line 147, in render_template
+    return _render(app, template, context)
+  File "/Users/shivamtripathi2/opt/anaconda3/lib/python3.9/site-packages/flask/templating.py", line 130, in _render
+    rv = template.render(context)
+  File "/Users/shivamtripathi2/opt/anaconda3/lib/python3.9/site-packages/jinja2/environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "/Users/shivamtripathi2/opt/anaconda3/lib/python3.9/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/Users/shivamtripathi2/Desktop/case Study/templates/login_form.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "/Users/shivamtripathi2/Desktop/case Study/templates/base.html", line 27, in top-level template code
+    <a id="nav5" href="{{ url_for('view_account')}}">View Account(s)</a>
+  File "/Users/shivamtripathi2/opt/anaconda3/lib/python3.9/site-packages/flask/app.py", line 2031, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File "/Users/shivamtripathi2/opt/anaconda3/lib/python3.9/site-packages/flask/app.py", line 2020, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File "/Users/shivamtripathi2/opt/anaconda3/lib/python3.9/site-packages/werkzeug/routing/map.py", line 917, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'view_account'. Did you mean 'verifyToken' instead?
