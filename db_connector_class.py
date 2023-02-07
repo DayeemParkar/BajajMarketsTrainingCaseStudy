@@ -3,9 +3,10 @@
 # for connecting db
 import psycopg2
 # for config vars
-from config import DBVARS, CUSTOMER_TABLE, ACCOUNT_TABLE, ACCOUNT_MAPPING_TABLE, CUSTOMER_TABLE_COLS, ACCOUNT_TABLE_COLS, ACCOUNT_MAPPING_TABLE_COLS
+from config import DBVARS, CUSTOMER_TABLE, ACCOUNT_TABLE, TRANSACTION_TABLE, ACCOUNT_MAPPING_TABLE, CUSTOMER_TABLE_COLS, ACCOUNT_TABLE_COLS, ACCOUNT_MAPPING_TABLE_COLS, TRANSACTION_TABLE_COLS
 # for logger
 from logger_class import logger
+from password_hash_class import PasswordHash
 
 
 class DBConnection:
@@ -18,6 +19,10 @@ class DBConnection:
     account_mapping_table_constraints = (
         f"constraint fk_account foreign key ({ACCOUNT_MAPPING_TABLE_COLS[0][0]}) references {ACCOUNT_TABLE} ({ACCOUNT_TABLE_COLS[0][0]}) on delete cascade",
         f"constraint fk_customer foreign key ({ACCOUNT_MAPPING_TABLE_COLS[1][0]}) references {CUSTOMER_TABLE} ({CUSTOMER_TABLE_COLS[0][0]}) on delete cascade",
+    )
+    transaction_table_constraints = (
+        f"constraint fk_account1 foreign key ({TRANSACTION_TABLE_COLS[1][0]}) references {ACCOUNT_TABLE} ({ACCOUNT_TABLE_COLS[0][0]}) on delete cascade",
+        f"constraint fk_account2 foreign key ({TRANSACTION_TABLE_COLS[2][0]}) references {ACCOUNT_TABLE} ({ACCOUNT_TABLE_COLS[0][0]}) on delete cascade",
     )
     
     def __new__(cls):
@@ -82,6 +87,7 @@ class DBConnection:
             cls.cur.execute(cls.generateCreateQuery(CUSTOMER_TABLE, CUSTOMER_TABLE_COLS))
             cls.cur.execute(cls.generateCreateQuery(ACCOUNT_TABLE, ACCOUNT_TABLE_COLS))
             cls.cur.execute(cls.generateCreateQuery(ACCOUNT_MAPPING_TABLE, ACCOUNT_MAPPING_TABLE_COLS, cls.account_mapping_table_constraints))
+            cls.cur.execute(cls.generateCreateQuery(TRANSACTION_TABLE, TRANSACTION_TABLE_COLS, cls.transaction_table_constraints))
             cls.conn.commit()
         except psycopg2.Error as pe:
             logger.exception('Error while creating tables')
@@ -114,8 +120,10 @@ class DBConnection:
                 cls.cur.execute(cls.generateInsertQuery(table_name, [f"'{param}'" for param in params], CUSTOMER_TABLE_COLS[1:]))
             elif table_name == ACCOUNT_TABLE:
                 cls.cur.execute(cls.generateInsertQuery(table_name, [f"'{param}'" for param in params], ACCOUNT_TABLE_COLS[1:]))
-            else:
+            elif table_name == ACCOUNT_MAPPING_TABLE:
                 cls.cur.execute(cls.generateInsertQuery(table_name, params))
+            else:
+                cls.cur.execute(cls.generateInsertQuery(table_name, params, TRANSACTION_TABLE_COLS[1:]))
             cls.conn.commit()
         except psycopg2.Error as pe:
             logger.exception(f'Error while inserting row with params {params} in table {table_name}')
@@ -141,7 +149,7 @@ class DBConnection:
             DBConnection.dbConnect()
             DBConnection.createTables()
             if setCols and condition:
-                cls.cur.execute(f"UPDATE {table_name} SET {setCols} WHERE {condition}")
+                cls.cur.execute(f"UPDATE {table_name} SET {setCols} WHERE {condition};")
             cls.conn.commit()
         except psycopg2.Error as pe:
             logger.exception(f'Error while updating rows {setCols} of table {table_name} on condition {condition}')
@@ -159,6 +167,17 @@ class DBConnection:
     
     
     @classmethod
+    def getTimeStamp(cls):
+        '''Function to get current timestamp'''
+        try:
+            DBConnection.dbConnect()
+            cls.cur.execute('select current_timestamp;')
+            return cls.cur.fetchall()[0][0]
+        except psycopg2.Error as pe:
+            logger.exception('Error while retrieving current timestamp')
+    
+    
+    @classmethod
     def closeDbConnection(cls):
         if cls.conn:
             cls.cur.close()
@@ -167,11 +186,13 @@ class DBConnection:
             cls.conn = None
 
 # DBConnection.dropTable(ACCOUNT_MAPPING_TABLE)
+# DBConnection.dropTable(TRANSACTION_TABLE)
 # DBConnection.dropTable(CUSTOMER_TABLE)
 # DBConnection.dropTable(ACCOUNT_TABLE)
 # DBConnection.insertRow(CUSTOMER_TABLE, ['uname', PasswordHash.generateHash('upass'), 'fname', 'lname', 'addr', '12345'])
 # DBConnection.insertRow(ACCOUNT_TABLE, [PasswordHash.generateHash('apass'),'salary', '70000'])
 # DBConnection.insertRow(ACCOUNT_MAPPING_TABLE, ['1','1'])
+# DBConnection.insertRow(TRANSACTION_TABLE, ['1', '1', '1000', f"'{DBConnection.getTimeStamp()}'"])
 # custpass = DBConnection.selectRows(CUSTOMER_TABLE, additions=f"ORDER BY {CUSTOMER_TABLE_COLS[1][0]}")[0][2]
 # accpass = DBConnection.selectRows(ACCOUNT_TABLE, condition=f"{ACCOUNT_TABLE_COLS[2][0]} = 'salary'")[0][1]
 # print(custpass)
@@ -179,3 +200,4 @@ class DBConnection:
 # print(PasswordHash.verifyHash(custpass, 'upass'))
 # print(PasswordHash.verifyHash(accpass, 'apass'))
 # print(DBConnection.selectRows(ACCOUNT_MAPPING_TABLE))
+# print(DBConnection.selectRows(TRANSACTION_TABLE)[0][4])

@@ -1,2 +1,17 @@
 2023-02-05 23:21:04,101 - INFO - Generated token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Ikplc3NpY2EgVGVtcG9yYWwiLCJwYXNzd29yZCI6Ikplc3NQYXNzIn0.B1_JPd1f0CSeSSniCqeq7y-vNbYDEuCkHpIbD_N9wcY for customer Jessica Temporal
 2023-02-05 23:21:23,320 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Ikplc3NpY2EgVGVtcG9yYWwiLCJwYXNzd29yZCI6Ikplc3NQYXNzIn0.B1_JPd1f0CSeSSniCqeq7y-vNbYDEuCkHpIbD_N9wcY' to get {'username': 'Jessica Temporal', 'password': 'JessPass'}
+
+2023-02-06 22:41:26,490 - INFO - Trying to add a new customer dayeemparkar
+2023-02-06 22:41:26,793 - INFO - Customer dayeemparkar created
+2023-02-06 22:42:13,058 - INFO - Trying to add a new customer dayeemparkar
+2023-02-06 22:42:13,323 - INFO - Customer dayeemparkar created
+2023-02-06 22:44:30,614 - INFO - Trying to add a new customer dayeemparkar
+2023-02-06 22:44:30,643 - WARNING - Username dayeemparkar is already taken
+2023-02-06 22:44:52,583 - INFO - Trying to add a new customer shivamtr
+2023-02-06 22:44:52,851 - INFO - Customer shivamtr created
+2023-02-06 22:46:51,268 - INFO - Trying to add a new customer fwazergxdtf
+2023-02-06 22:46:51,568 - WARNING - Mobile number 1234568907 already registered
+2023-02-06 22:47:11,376 - INFO - Trying to add a new customer fwazergxdtf
+2023-02-06 22:47:11,643 - INFO - Customer fwazergxdtf created
+2023-02-06 22:48:53,811 - INFO - Trying to add a new customer fwazergxdtr
+2023-02-06 22:48:54,129 - INFO - Customer fwazergxdtr created

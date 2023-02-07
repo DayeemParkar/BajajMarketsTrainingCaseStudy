@@ -45,14 +45,27 @@ def home():
         return f"{e}"
 
 
-@app.route('/signup')
+@app.route('/signup', methods=['GET','POST'])
 def signup():
     '''Signup Page'''
     try:
         form = CustomerForm()
         if form.validate_on_submit():
-            tryToAddCustomer(form)
-        return render_template('signup_form.html', title='Signup', form=form, id='nav2')
+            res = tryToAddCustomer(form)
+            form.username.data = ''
+            form.password.data = ''
+            form.first_name.data = ''
+            form.last_name.data = ''
+            form.address.data = ''
+            form.mobile_number.data = -1
+            # unable to register customer
+            if not res[0]:
+                logger.warning(res[1])
+                return render_template('signup_form.html', title='Signup', form=form, id='nav3', msg=res[1])
+            # customer registered, proceed to login
+            logger.info(res[1])
+            return render_template('login_form.html', title='Login', form=form, id='nav3', msg=res[1])
+        return render_template('signup_form.html', title='Signup', form=form, id='nav3')
     except Exception as e:
         logger.exception('Error while accessing signup')
         return f"{e}"
