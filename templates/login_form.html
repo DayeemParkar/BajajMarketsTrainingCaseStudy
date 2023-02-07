@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block body %}
+    <!-- <div class="backgroundimage"></div> -->
     <div class="login-container">
+    
         <form action="" class="form-login" method="POST">
             <ul class="login-nav">
                 <li class="login-nav__item active">
@@ -17,7 +19,13 @@
             {{ form.password(class_="login__input") }}
             {{ form.submit(class_="login__submit") }}
         </form>
+    
     </div>
+    <script>
+        var curr = document.getElementsByTagName("BODY")[0];
+        curr.classList.add("backgroundimage");
+
+    </script>
     {% if msg %}
         <script>
             alert("{{ msg }}");

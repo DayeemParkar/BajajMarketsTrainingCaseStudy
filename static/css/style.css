@@ -266,3 +266,12 @@ background-color: gray;
 .dropdown:hover .dropdown-content {
 display: block;
 }
+
+.backgroundimage{
+        background-image: url("../images/download.jpeg");
+        
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-attachment: fixed;
+}

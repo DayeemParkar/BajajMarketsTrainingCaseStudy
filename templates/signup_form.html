@@ -26,6 +26,13 @@
             {{ form.submit(class_="login__submit") }}
         </form>
     </div>
+
+    <script>
+        var curr = document.getElementsByTagName("BODY")[0];
+        curr.classList.add("backgroundimage");
+
+    </script>
+    
     {% if msg %}
         <script>
             alert("{{ msg }}");
