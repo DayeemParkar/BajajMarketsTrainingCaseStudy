@@ -65,9 +65,9 @@ def login():
     try:
         form = LoginForm()
         if form.validate_on_submit():
-            res = tryToLoginCustomer(form)
+            res = checkCustomerCredentials(form)
             if not res[0]:
-                # Could not log in
+                # Could not log in due to invalid credentials
                 return render_template('login_form.html', title='Login', form=form, id='nav3', msg=res[1])
             # Valid credentials
             customer = res[2]
@@ -83,7 +83,14 @@ def login():
         return render_template('login_form.html', title='Login', form=form, id='nav3', msg=f'An error during login')
 
 
-# @app.route()
+@app.route('/history/<account_no>')
+def viewTransactionHistory(account_no):
+    result = tryToViewTransactionHistory(account_no)
+    if not result[0]:
+        # could not retrieve rows
+        render_template('transaction_history.html', title=f"Account {account_no} history", id="nav7")
+    # render transaction history table
+    render_template('transaction_history.html', title=f"Account {account_no} history", id="nav7", result=result)
 
 
 @app.route('/usersession/<some_val>', methods =['GET'])
@@ -126,7 +133,7 @@ def retrieveToken():
         form = CustomerForm()
         form.username.data = username
         form.password.data = password
-        res = tryToLoginCustomer(form)
+        res = checkCustomerCredentials(form)
         if not res[0]:
             logger.warning(f'Invalid credentials: Username {username}, Password {password}')
             return make_response(jsonify({'token' : '', 

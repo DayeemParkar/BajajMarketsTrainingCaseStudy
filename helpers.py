@@ -36,7 +36,7 @@ def token_required(f):
             form = CustomerForm()
             form.username.data = data.get('username', '')
             form.password.data = data.get('password', '')
-            res = tryToLoginCustomer(form)
+            res = checkCustomerCredentials(form)
             if not res[0]:
                 logger.warning(f'Invalid token {token}')
                 return make_response(jsonify({'message' : 'Token is invalid !!'}), 401)
@@ -97,7 +97,7 @@ def tryToAddCustomer(form):
         return (False, 'Error while trying to sign up. Please try again')
 
 
-def tryToLoginCustomer(form):
+def checkCustomerCredentials(form):
     '''Function to try to login a customer'''
     username = form.username.data
     password = form.password.data
@@ -138,3 +138,57 @@ def prepareCustomerForLogin(customer):
     session['token'] = token
     logger.info(f"Customer {session['username']} logged in with token {session['token']}")
     return (True, "Successfully logged in")
+
+
+def tryToAddAccount(form):
+    '''Function to add a new account to database'''
+    try:
+        account_type = form.account_type.data
+        password = form.password.data
+        password_hash = PasswordHash.generateHash(password)
+        if len(password_hash) == 0:
+            return (False, f'Bad password {password}. Use another password.')
+        balance = form.balance.data
+        params = [password, account_type, balance]
+        DBConnection.insertRow(ACCOUNT_TABLE, params)
+        return (True, f'New account of type {account_type} with balance {balance} added')
+    except Exception as e:
+        logger.exception(f'Error while trying to adding account: {account_type}, {password}, {balance}')
+        return (False, 'Error while trying to sign up. Please try again')
+
+
+def tryToViewTransactionHistory(account_no):
+    '''Function to view transaction history of a specific account'''
+    try:
+        rows = DBConnection.selectRows(table_name=TRANSACTION_TABLE, condition=f"{TRANSACTION_TABLE_COLS[1][0]} = '{account_no}'")
+        result = []
+        for row in rows:
+            currrent_result = [row[0]]
+            if account_no == row[1]:
+                # current account was debited in this transaction
+                currrent_result.append(row[1])
+                currrent_result.append('NULL')
+                currrent_result.append(row[3])
+            else:
+                # current account was credited in this transaction
+                currrent_result.append(row[2])
+                currrent_result.append(row[3])
+                currrent_result.append('NULL')
+            currrent_result.append(row[4])
+            result.append(currrent_result)
+        return (True, result)
+    except Exception as e:
+        logger.exception(f'Error while trying to view transaction history of account {account_no}')
+        return (False, 'Error while trying to view transaction history. Please try again')
+
+
+def tryToViewAccounts(customer_id):
+    try:
+        DBConnection.dbConnect()
+        cur = DBConnection.cur
+        sql = f"SELECT account_no, account_type, account_balance from {ACCOUNT_TABLE} where account_no in (select account_no from {ACCOUNT_MAPPING_TABLE} where customer_id = '{customer_id}')"
+        cur.execute(sql)
+        return cur.fetchall()
+    except Exception as e:
+        logger.exception(f'Error while trying to view accounts of customer {customer_id}')
+        return ()

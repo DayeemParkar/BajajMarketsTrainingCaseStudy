@@ -49,3 +49,43 @@ IndexError: string index out of range
 2023-02-07 17:10:26,174 - INFO - Customer dayeemparkar logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJGJnYmxBNHhzMlRFczBrOGhqajQuZi5TSzlRU1RpL3QueE9JSjZpNzBCM0lONU05VE8ya2tlIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wNyAxNzoxMDoyNi4xNzQ1NDMifQ.YLPM72Z2Kn7DLqXSrTiVUjAAUaxoEx9LZOUwyZK0hH4
 2023-02-07 17:10:44,322 - INFO - Clearing session variables for user dayeemparkar
 2023-02-07 17:10:44,322 - INFO - Session variables cleared
+2023-02-07 21:00:24,277 - ERROR - Error while inserting row with params ['1', '1000', "'2023-02-07 21:00:24.275526+05:30'"] in table transactions
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/db_connector_class.py", line 130, in insertRow
+    cls.cur.execute(cls.generateInsertQuery(table_name, params, TRANSACTION_TABLE_COLS[1:]))
+psycopg2.errors.SyntaxError: INSERT has more target columns than expressions
+LINE 1: ...sactions (from_account_no, to_account_no, amount, transactio...
+                                                             ^
+
+2023-02-07 21:00:24,278 - ERROR - Error while creating tables
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/db_connector_class.py", line 87, in createTables
+    cls.cur.execute(cls.generateCreateQuery(CUSTOMER_TABLE, CUSTOMER_TABLE_COLS))
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+2023-02-07 21:00:24,278 - ERROR - Error while selecting rows of table transactions
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/db_connector_class.py", line 108, in selectRows
+    cls.cur.execute(f"SELECT {select_rows} FROM {table_name} {additions};")
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+2023-02-07 21:01:50,359 - ERROR - Error while inserting row with params ['1', '1000', "'2023-02-07 21:01:50.357982+05:30'"] in table transactions
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/db_connector_class.py", line 130, in insertRow
+    cls.cur.execute(cls.generateInsertQuery(table_name, params, cols))
+psycopg2.errors.UndefinedColumn: column "t" of relation "transactions" does not exist
+LINE 1: INSERT INTO transactions (t, a, t)  VALUES (1, 1000, '2023-0...
+                                  ^
+
+2023-02-07 21:01:50,360 - ERROR - Error while creating tables
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/db_connector_class.py", line 87, in createTables
+    cls.cur.execute(cls.generateCreateQuery(CUSTOMER_TABLE, CUSTOMER_TABLE_COLS))
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+2023-02-07 21:01:50,360 - ERROR - Error while selecting rows of table transactions
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/db_connector_class.py", line 108, in selectRows
+    cls.cur.execute(f"SELECT {select_rows} FROM {table_name} {additions};")
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
