@@ -1,6 +1,5 @@
 2023-02-05 23:21:04,101 - INFO - Generated token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Ikplc3NpY2EgVGVtcG9yYWwiLCJwYXNzd29yZCI6Ikplc3NQYXNzIn0.B1_JPd1f0CSeSSniCqeq7y-vNbYDEuCkHpIbD_N9wcY for customer Jessica Temporal
 2023-02-05 23:21:23,320 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Ikplc3NpY2EgVGVtcG9yYWwiLCJwYXNzd29yZCI6Ikplc3NQYXNzIn0.B1_JPd1f0CSeSSniCqeq7y-vNbYDEuCkHpIbD_N9wcY' to get {'username': 'Jessica Temporal', 'password': 'JessPass'}
-
 2023-02-06 22:41:26,490 - INFO - Trying to add a new customer dayeemparkar
 2023-02-06 22:41:26,793 - INFO - Customer dayeemparkar created
 2023-02-06 22:42:13,058 - INFO - Trying to add a new customer dayeemparkar
@@ -15,3 +14,38 @@
 2023-02-06 22:47:11,643 - INFO - Customer fwazergxdtf created
 2023-02-06 22:48:53,811 - INFO - Trying to add a new customer fwazergxdtr
 2023-02-06 22:48:54,129 - INFO - Customer fwazergxdtr created
+2023-02-07 12:30:21,319 - INFO - Generated token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbSIsInBhc3N3b3JkIjoicGFzc3dvcmQifQ.6nzB_m0uzUudC5O8PiZxQvh4LZ2b3rr93i7sx3YtQ3I for {'username': 'dayeem', 'password': 'password'}
+2023-02-07 14:52:27,263 - INFO - Customer Login info: Customer dayeemparkar verified
+2023-02-07 14:52:27,263 - INFO - Customer dayeemparkar logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJGJnYmxBNHhzMlRFczBrOGhqajQuZi5TSzlRU1RpL3QueE9JSjZpNzBCM0lONU05VE8ya2tlIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wNyAxNDo1MjoyNy4yNjM3NTUifQ.zRJeKqHeqPYbghBPNiuf-cWsfpBE17tFMHP80K9OBRE
+2023-02-07 14:53:07,774 - INFO - Clearing session variables for user dayeemparkar
+2023-02-07 14:53:07,774 - INFO - Session variables cleared
+2023-02-07 14:56:54,079 - INFO - Customer Login info: Customer dayeemparkar verified
+2023-02-07 14:56:54,079 - INFO - Customer dayeemparkar logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJGJnYmxBNHhzMlRFczBrOGhqajQuZi5TSzlRU1RpL3QueE9JSjZpNzBCM0lONU05VE8ya2tlIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wNyAxNDo1Njo1NC4wNzkyNzYifQ.THpjEc7tnNqd0IErd9tHw4-bxHF1l0OwViDG_8XhvIY
+2023-02-07 14:57:10,907 - INFO - Clearing session variables for user dayeemparkar
+2023-02-07 14:57:10,907 - INFO - Session variables cleared
+2023-02-07 14:57:22,500 - WARNING - Customer Login warning: Invalid password sdjhcbsjdhv for customer dayeemparkar
+IndexError: string index out of range
+2023-02-07 15:07:57,153 - WARNING - Customer Login warning: Customer dayeemparkar2sd does not exist
+2023-02-07 15:15:09,252 - INFO - Customer Login info: Customer dayeemparkar verified
+2023-02-07 15:15:09,252 - INFO - Customer dayeemparkar logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJGJnYmxBNHhzMlRFczBrOGhqajQuZi5TSzlRU1RpL3QueE9JSjZpNzBCM0lONU05VE8ya2tlIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wNyAxNToxNTowOS4yNTI4MDEifQ.cy0BWBYoyqEetcR0DzKSw-C7O3Yqga7UM0yX4J6CMlc
+2023-02-07 15:15:19,551 - INFO - Clearing session variables for user dayeemparkar
+2023-02-07 15:15:19,551 - INFO - Session variables cleared
+2023-02-07 15:15:37,248 - INFO - Customer Login info: Customer dayeemparkar verified
+2023-02-07 15:15:37,248 - INFO - Customer dayeemparkar logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJGJnYmxBNHhzMlRFczBrOGhqajQuZi5TSzlRU1RpL3QueE9JSjZpNzBCM0lONU05VE8ya2tlIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wNyAxNToxNTozNy4yNDgyNzgifQ.DNedWIbEnQplI-Ug3T-7qaV_93uZQ8JiY-WQPblJhM4
+2023-02-07 15:15:48,525 - INFO - Clearing session variables for user dayeemparkar
+2023-02-07 15:15:48,526 - INFO - Session variables cleared
+2023-02-07 15:23:42,700 - INFO - Customer Login info: Customer dayeemparkar verified
+2023-02-07 15:23:42,701 - INFO - Customer dayeemparkar logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJGJnYmxBNHhzMlRFczBrOGhqajQuZi5TSzlRU1RpL3QueE9JSjZpNzBCM0lONU05VE8ya2tlIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wNyAxNToyMzo0Mi43MDA5OTcifQ.jcZX__fsjnDEzp3sqHv_YtCH0oLElayo6m6vxggugo4
+2023-02-07 15:23:57,104 - INFO - Clearing session variables for user dayeemparkar
+2023-02-07 15:23:57,104 - INFO - Session variables cleared
+2023-02-07 15:46:52,989 - INFO - Generated token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiZGF5ZWVtIn0.pmULJvjDaoN4ippmiKCiHsJeWs5DXnPfN5ZWtUNYylw for {'username': 'dayeemparkar', 'password': 'dayeem'}
+2023-02-07 16:58:34,647 - WARNING - Customer Login warning: Invalid password random for customer dayeemparkar
+2023-02-07 16:58:34,648 - WARNING - Invalid credentials: Username dayeemparkar, Password random
+2023-02-07 16:58:45,449 - INFO - Customer Login info: Customer dayeemparkar verified
+2023-02-07 16:58:45,449 - INFO - Generated token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiZGF5ZWVtIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wNyAxNjo1ODo0NS40NDk4MTQifQ.BQ9EsUBtsSOky0nFRjO6VZPZAdaI3E2e68Res0sK7RA for {'username': 'dayeemparkar', 'password': 'dayeem', 'timestamp': '2023-02-07 16:58:45.449814'}
+2023-02-07 16:59:28,158 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiZGF5ZWVtIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wNyAxNjo1ODo0NS40NDk4MTQifQ.BQ9EsUBtsSOky0nFRjO6VZPZAdaI3E2e68Res0sK7RA' to get {'username': 'dayeemparkar', 'password': 'dayeem', 'timestamp': '2023-02-07 16:58:45.449814'}
+2023-02-07 16:59:28,419 - INFO - Customer Login info: Customer dayeemparkar verified
+2023-02-07 17:10:26,174 - INFO - Customer Login info: Customer dayeemparkar verified
+2023-02-07 17:10:26,174 - INFO - Customer dayeemparkar logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJGJnYmxBNHhzMlRFczBrOGhqajQuZi5TSzlRU1RpL3QueE9JSjZpNzBCM0lONU05VE8ya2tlIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wNyAxNzoxMDoyNi4xNzQ1NDMifQ.YLPM72Z2Kn7DLqXSrTiVUjAAUaxoEx9LZOUwyZK0hH4
+2023-02-07 17:10:44,322 - INFO - Clearing session variables for user dayeemparkar
+2023-02-07 17:10:44,322 - INFO - Session variables cleared
