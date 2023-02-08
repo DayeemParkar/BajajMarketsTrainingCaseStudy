@@ -1,8 +1,76 @@
 {% extends "navbar.html" %}
 {% block body %}
-<h1>
+<!-- <h1>
     Username: {{ username }}
     <br />
-    Token: {{ token }}
+    Token: {{ token }} -->
+    <div id="slide">
+        <div class="slideshow-container">
+         
+       <!-- 1 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/home"> <img src="static/images/home.jpeg" style="width:100%"> </a> </div> 
+          
+        <!-- 2 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/new_account"> <img src="https://www.w3schools.com/howto/img_snow_wide.jpg" style="width:100%"> </a>  </div>
+          
+        <!-- 3 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/view_account"> <img src="https://www.w3schools.com/howto/img_lights_wide.jpg" style="width:100%"> </a> </div>
+         
+        <!-- 4 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/make_transaction"> <img src="https://www.w3schools.com/howto/img_mountains_wide.jpg"  style="width:100%"> </a> </div>
+         
+        <!-- 5 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/transaction_history"> <img src="https://www.w3schools.com/howto/img_nature_wide.jpg" style="width:100%"> </a> </div>
+          
+        <!-- 6 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/deposit"> <img src="https://www.w3schools.com/howto/img_snow_wide.jpg" style="width:100%"> </a>  </div>
+          
+        <!-- 7 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/deposit"> <img src="https://www.w3schools.com/howto/img_lights_wide.jpg" style="width:100%"> </a> </div>
+         
+        <!-- 8 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/login"> <img src="https://www.w3schools.com/howto/img_mountains_wide.jpg"  style="width:100%"> </a> </div>
+
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a> <a class="next" onclick="plusSlides(1)">&#10095;</a> </div>
+        
+        <br>
+        <div style="text-align:center"> 
+        <span class="dot" onclick="currentSlide(1)"></span> 
+        <span class="dot" onclick="currentSlide(2)"></span> 
+        <span class="dot" onclick="currentSlide(3)"></span>
+        <span class="dot" onclick="currentSlide(4)"></span>
+        <span class="dot" onclick="currentSlide(5)"></span> 
+        <span class="dot" onclick="currentSlide(6)"></span> 
+        <span class="dot" onclick="currentSlide(7)"></span>
+        <span class="dot" onclick="currentSlide(8)"></span>
+         </div>
 </h1>
+<script>
+    var slideIndex = 0;
+showSlides();
+var slides,dots;
+
+function showSlides() {
+    var i;
+    slides = document.getElementsByClassName("mySlides");
+    dots = document.getElementsByClassName("dot");
+    for (i = 0; i < slides.length; i++) {
+       slides[i].style.display = "none";  
+    }
+    slideIndex++;
+    if (slideIndex> slides.length) {slideIndex = 1}    
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" activeslider", "");
+    }
+    slides[slideIndex-1].style.display = "block";  
+    dots[slideIndex-1].className += " activeslider";
+    setTimeout(showSlides, 3000); // Change image every 3 seconds
+}
+
+function plusSlides(position) {
+    slideIndex +=position;
+    if (slideIndex> slides.length) {slideIndex = 1}
+    else if(slideIndex<1){slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+       slides[i].style.display = "none";  
+    }
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" activeslider", "");
+    }
+    slides[slideIndex-1].style.display = "block";  
+    dots[slideIndex-1].className += " activeslider";
+}
+</script>
 {% endblock %}

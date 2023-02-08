@@ -89,3 +89,55 @@ Traceback (most recent call last):
     cls.cur.execute(f"SELECT {select_rows} FROM {table_name} {additions};")
 psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
 
+2023-02-07 22:46:13,134 - INFO - Customer Login info: Customer uname verified
+2023-02-07 22:46:13,135 - INFO - Customer uname logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkRmhYSTBEYjlQL0c0cEgyaEpsVVBqdWUyQ0FKSWpBTWtndVhmWHVHT1Nqblh3LjVjVWx1Li4iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA3IDIyOjQ2OjEzLjEzNTI4NCJ9.5YIuPuTw43JBfLmv20tpQR70lZlgP20Ilpb7Jl9pUjc
+2023-02-07 22:56:36,724 - INFO - Clearing session variables for user uname
+2023-02-07 22:56:36,725 - INFO - Session variables cleared
+2023-02-07 23:10:50,928 - ERROR - Error while clearing session
+Traceback (most recent call last):
+  File "/Users/shivamtripathi2/Desktop/case Study/app.py", line 110, in clearsession
+    logger.info(f"Clearing session variables for user {session[USERNAME]}")
+  File "/Users/shivamtripathi2/opt/anaconda3/lib/python3.9/site-packages/flask/sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'username'
+2023-02-08 10:03:15,217 - INFO - Customer Login info: Customer uname verified
+2023-02-08 10:03:15,218 - INFO - Customer uname logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkRmhYSTBEYjlQL0c0cEgyaEpsVVBqdWUyQ0FKSWpBTWtndVhmWHVHT1Nqblh3LjVjVWx1Li4iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA4IDEwOjAzOjE1LjIxODY4NiJ9.XtL_FzCZ2_D1AB1zvMoCLOIVyCf5wagZnRnzpZWkvBc
+2023-02-08 10:05:17,608 - INFO - Customer Login info: Customer uname verified
+2023-02-08 10:05:17,609 - INFO - Customer uname logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkRmhYSTBEYjlQL0c0cEgyaEpsVVBqdWUyQ0FKSWpBTWtndVhmWHVHT1Nqblh3LjVjVWx1Li4iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA4IDEwOjA1OjE3LjYwOTc4OCJ9.RHoNmhlx1w992w8jUHqYvWvbxOQ9QPL5-kRyfzzdyR4
+2023-02-08 10:05:21,117 - INFO - Clearing session variables for user uname
+2023-02-08 10:05:21,118 - INFO - Session variables cleared
+2023-02-08 10:05:25,812 - INFO - Customer Login info: Customer uname verified
+2023-02-08 10:05:25,812 - INFO - Customer uname logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkRmhYSTBEYjlQL0c0cEgyaEpsVVBqdWUyQ0FKSWpBTWtndVhmWHVHT1Nqblh3LjVjVWx1Li4iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA4IDEwOjA1OjI1LjgxMjU1MCJ9.SOFngdPqTLG149AyGHT6IYdZYjj7i4Smv2QgLWR_OX0
+2023-02-08 10:05:33,837 - INFO - Clearing session variables for user uname
+2023-02-08 10:05:33,838 - INFO - Session variables cleared
+2023-02-08 10:07:14,133 - WARNING - Customer Login warning: Invalid password upoass for customer uname
+2023-02-08 10:07:21,160 - INFO - Customer Login info: Customer uname verified
+2023-02-08 10:07:21,161 - INFO - Customer uname logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkRmhYSTBEYjlQL0c0cEgyaEpsVVBqdWUyQ0FKSWpBTWtndVhmWHVHT1Nqblh3LjVjVWx1Li4iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA4IDEwOjA3OjIxLjE2MTczOSJ9.C9Nnx3hlETI2wQbBxIppXh9VQ7br0YOr7VAGO4yb2Ns
+2023-02-08 10:20:25,729 - INFO - Clearing session variables for user uname
+2023-02-08 10:20:25,729 - INFO - Session variables cleared
+2023-02-08 10:22:03,417 - INFO - Customer Login info: Customer uname verified
+2023-02-08 10:22:03,418 - INFO - Customer uname logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkRmhYSTBEYjlQL0c0cEgyaEpsVVBqdWUyQ0FKSWpBTWtndVhmWHVHT1Nqblh3LjVjVWx1Li4iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA4IDEwOjIyOjAzLjQxODM2OSJ9.pbjyEvog_btvJUamenSVibM-SuJhI90wXJiO8I3QA-o
+2023-02-08 11:14:12,922 - INFO - Clearing session variables for user uname
+2023-02-08 11:14:12,924 - INFO - Session variables cleared
+2023-02-08 11:14:20,482 - INFO - Customer Login info: Customer uname verified
+2023-02-08 11:14:20,482 - INFO - Customer uname logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkRmhYSTBEYjlQL0c0cEgyaEpsVVBqdWUyQ0FKSWpBTWtndVhmWHVHT1Nqblh3LjVjVWx1Li4iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA4IDExOjE0OjIwLjQ4MjY1OSJ9.PwDmJBTK6KxKzlfnS5u-n3I4_sXlpRREH87DL2Veg7s
+2023-02-08 12:40:04,019 - INFO - Customer Login info: Customer uname verified
+2023-02-08 12:40:04,020 - INFO - Customer uname logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkRmhYSTBEYjlQL0c0cEgyaEpsVVBqdWUyQ0FKSWpBTWtndVhmWHVHT1Nqblh3LjVjVWx1Li4iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA4IDEyOjQwOjA0LjAyMDQ2MyJ9.s_RTE1rrM3a8KZZCjUwCk2fOXYhBTxwMLyGd8SDltSA
+2023-02-08 12:40:11,837 - INFO - Customer Login info: Customer uname verified
+2023-02-08 12:40:11,837 - INFO - Customer uname logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkRmhYSTBEYjlQL0c0cEgyaEpsVVBqdWUyQ0FKSWpBTWtndVhmWHVHT1Nqblh3LjVjVWx1Li4iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA4IDEyOjQwOjExLjgzNzY1MSJ9.zmQ1FmcVGABmho_4WIrFKltRq1fkyr2UANV3rArHCjU
+2023-02-08 12:41:48,021 - INFO - Customer Login info: Customer uname verified
+2023-02-08 12:41:48,023 - INFO - Customer uname logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkRmhYSTBEYjlQL0c0cEgyaEpsVVBqdWUyQ0FKSWpBTWtndVhmWHVHT1Nqblh3LjVjVWx1Li4iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA4IDEyOjQxOjQ4LjAyMjkxMiJ9.qd1uw9ZroltE-NJC4jq0vM_y-322VWLYy3yW2ZbD2eA
+2023-02-08 12:42:07,043 - INFO - Customer Login info: Customer uname verified
+2023-02-08 12:42:07,043 - INFO - Customer uname logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkRmhYSTBEYjlQL0c0cEgyaEpsVVBqdWUyQ0FKSWpBTWtndVhmWHVHT1Nqblh3LjVjVWx1Li4iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA4IDEyOjQyOjA3LjA0MzgzNCJ9.-fqP-XR2ZjGMsD-E_qHx1TFPbjuWT7R8Hws989V8r2s
+2023-02-08 12:42:40,683 - INFO - Customer Login info: Customer uname verified
+2023-02-08 12:42:40,684 - INFO - Customer uname logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkRmhYSTBEYjlQL0c0cEgyaEpsVVBqdWUyQ0FKSWpBTWtndVhmWHVHT1Nqblh3LjVjVWx1Li4iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA4IDEyOjQyOjQwLjY4NDEyNCJ9.iTn48zhZUmfyO_pmaPrJd3do6bolbJ-nnq2IDwmQKpI
+2023-02-08 12:42:59,050 - INFO - Customer Login info: Customer uname verified
+2023-02-08 12:42:59,051 - INFO - Customer uname logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkRmhYSTBEYjlQL0c0cEgyaEpsVVBqdWUyQ0FKSWpBTWtndVhmWHVHT1Nqblh3LjVjVWx1Li4iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA4IDEyOjQyOjU5LjA1MTAzNyJ9.gNhLlmvPar4hacwWjBnq9tY24dNRDJUpw2IpiW4EDeE
+2023-02-08 12:44:56,572 - INFO - Customer Login info: Customer uname verified
+2023-02-08 12:44:56,573 - INFO - Customer uname logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkRmhYSTBEYjlQL0c0cEgyaEpsVVBqdWUyQ0FKSWpBTWtndVhmWHVHT1Nqblh3LjVjVWx1Li4iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA4IDEyOjQ0OjU2LjU3MzcxMSJ9.iNYmzW8GnQj7ElLdxL94_-ywLMZNSxrjIps197mECPU
+2023-02-08 12:54:18,065 - INFO - Clearing session variables for user uname
+2023-02-08 12:54:18,065 - INFO - Session variables cleared
+2023-02-08 12:54:35,947 - INFO - Customer Login info: Customer uname verified
+2023-02-08 12:54:35,947 - INFO - Customer uname logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkRmhYSTBEYjlQL0c0cEgyaEpsVVBqdWUyQ0FKSWpBTWtndVhmWHVHT1Nqblh3LjVjVWx1Li4iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA4IDEyOjU0OjM1Ljk0NzM5MCJ9.tfnirPzyiIOaFxrKfoEMFzC82L-DW9w8t-F4Sp8eQII
+2023-02-08 13:00:42,962 - INFO - Customer Login info: Customer uname verified
+2023-02-08 13:00:42,964 - INFO - Customer uname logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkRmhYSTBEYjlQL0c0cEgyaEpsVVBqdWUyQ0FKSWpBTWtndVhmWHVHT1Nqblh3LjVjVWx1Li4iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA4IDEzOjAwOjQyLjk2MzkzOCJ9.DG4hdkUdzd2VMxq-FJf2auBjTY9g6YDjAXGoS1f3ALw

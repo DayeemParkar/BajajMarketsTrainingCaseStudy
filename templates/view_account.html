@@ -1,1 +1,27 @@
 {% extends "navbar.html" %}
+{% block body %}
+
+
+{% if result %}
+        <table border="1" style="border-collapse:collapse;">
+            <tr>
+                <th>Account Number</th>
+                <th>Account Type</th>
+                <th>Account Balance</th>
+                <th>Action</th>
+            </tr>
+            {% for row in result %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td><a href="{{ url_for('viewTransactionHistory', account_no=row[0]) }}">View History</a> </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        No data to display
+    {% endif %}
+
+
+{% endblock %}

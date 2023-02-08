@@ -1,1 +1,38 @@
 {% extends "navbar.html" %}
+{% if accountNotSelected %}
+    <table border="1" style="border-collapse:collapse;">
+        <tr>
+            <th>Account Number</th>
+            <th>Account Type</th>
+            <th>Account Balance</th>
+            <th>Action</th>
+        </tr>
+        {% for row in result %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td><a href="{{ url_for('deposit', account_no=row[0]) }}">Select Account</a> </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <div class="login-container">
+        
+        <form action="" class="form-login" method="POST">
+            <ul class="login-nav">
+            </ul>
+            {{ form.hidden_tag() }}
+
+            {{ form.amount.label(class_="login__label") }}
+            {{ form.amount(class_="login__input") }}
+
+            {{ form.password.label(class_="login__label") }}
+            {{ form.password(class_="login__input") }}
+
+            {{ form.submit(class_="login__submit") }}
+            
+        </form>
+
+    </div>
+{% endif %}    

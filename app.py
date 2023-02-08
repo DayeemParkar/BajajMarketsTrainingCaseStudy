@@ -28,7 +28,7 @@ def home():
     try:
         if not session.get('username', None):
             return redirect(url_for('login'))
-        return render_template('home.html',  title='Home', id='nav1', username=session['username'], token=session['token'])
+        return render_template('home.html',  title='Home', id=['nav1'], username=session['username'], token=session['token'])
     except Exception as e:
         logger.exception(f'Error while accessing home for {session.get(USERNAME, "no user")}')
         return f"{'message': 'server error'}"

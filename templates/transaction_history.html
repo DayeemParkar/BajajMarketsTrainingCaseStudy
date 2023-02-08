@@ -1,1 +1,33 @@
 {% extends "navbar.html" %}
+{% block body %}
+
+
+{% if result %}
+        <table border="1" style="border-collapse:collapse;">
+            <tr>
+                <th>Transaction Id</th>
+                <th>Account</th>
+                <th>Debit</th>
+                <th>Credit</th>
+                <th>Transaction Time</th>
+            </tr>
+            {% for row in result %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                {% if row[1] %}
+                    <td>{{ row[1] }}</td>
+                {% else %}
+                <td>{{ Cash }}</td>
+                {% endif %}
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        No data to display
+    {% endif %}
+
+
+{% endblock %}

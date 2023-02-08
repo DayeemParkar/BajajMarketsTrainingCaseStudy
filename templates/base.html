@@ -14,9 +14,16 @@
     {% block body %}
     {% endblock %}
     {% if id %}
+
         <script>
-            var curr = document.getElementById("{{ id }}");
-            curr.classList.add("navactive");
+            var ids = '{{ id }}';
+            var t = ids.slice(6, -6);
+            ids = t.split('&#39;, &#39;');
+            for (i of ids){
+                var curr = document.getElementById(i);
+                curr.classList.add("navactive"); 
+            }
+            
         </script>
     {% endif %}
 </body>

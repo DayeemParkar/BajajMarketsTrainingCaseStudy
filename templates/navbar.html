@@ -3,34 +3,30 @@
 <ul class="navbar">
     <li><a id="nav1" href="{{ url_for('home') }}">Home</a></li>
     <ul class="topnav-right">
-        <li><a id="nav3" href="{{ url_for('login') }}">Log in/Sign up</a></li>
         <li><a id="nav2" href="{{ url_for('clearsession') }}">Logout</a></li>
     </ul>
-    <!-- <li><a id="nav4" href="{{ url_for('home') }}">Accounts</a></li>
-    <li><a id="nav5" href="{{ url_for('home') }}">New Account</a></li> -->
-
     <div class="dropdown">
-        <button class="dropbtn">Account(s) 
+        <button id="nav3" class="dropbtn">Account(s) 
           <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content navbar">
-          <a href="#">New Account</a>
-          <a href="#">View Account(s)</a>
+          <a id="nav4" href="#">New Account</a>
+          <a id="nav5" href="#">View Account(s)</a>
         </div>
     </div> 
 
     <div class="dropdown">
-        <button class="dropbtn">Transaction 
+        <button id="nav6" class="dropbtn">Transaction 
           <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content navbar">
-          <a href="#">Make Transaction</a>
-          <a href="#">Transaction History</a>
+          <a id="nav7" href="#">Make Transaction</a>
+          <a id="nav8" href="#">Transaction History</a>
         </div>
     </div> 
     
-    <li><a id="nav6" href="{{ url_for('home') }}">Deposit</a></li>
-    <li><a id="nav7" href="{{ url_for('home') }}">Withdraw</a></li>
+    <li><a id="nav9" href="{{ url_for('home') }}">Deposit</a></li>
+    <li><a id="nav10" href="{{ url_for('home') }}">Withdraw</a></li>
 
     
 </ul>
