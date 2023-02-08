@@ -46,7 +46,7 @@ def token_required(f):
                 return make_response(jsonify({'message' : 'Token is invalid !!'}), 401)
         except Exception as e:
             logger.exception(f'Could not authenticate token {token}')
-            return make_response(jsonify({'message' : 'Could not verify token !!'}), 400)
+            return make_response(jsonify({'message' : 'Could not verify token !!'}), 401)
         # proceed with functionality
         return  f(*args, **kwargs)
     return decorated
@@ -182,7 +182,7 @@ def tryToAddAccount(form, username):
         DBConnection.insertRow(ACCOUNT_TABLE, params)
         account_no = DBConnection.selectRows(table_name=ACCOUNT_TABLE, additions=f"ORDER BY {ACCOUNT_TABLE_COLS[0][0]} DESC LIMIT 1")[0][0]
         DBConnection.insertRow(ACCOUNT_MAPPING_TABLE, params=[f"{account_no}", f"{customer[0]}"])
-        return (True, f'New account of type {account_type} with balance {balance} added')
+        return (True, f'New account {account_no} of type {account_type} with balance {balance} added')
     except Exception as e:
         logger.exception(f"Account add error: Customer {username}. Error while trying to adding account: {account_type}, {password}, {balance}")
         return (False, 'Error while trying to add account. Please try again')
@@ -320,6 +320,8 @@ def tryToMakeTransaction(from_account_no, to_account_no, amount, password, usern
             return (False, "One or more accounts do not exist or invalid credentials. Please try again")
         if not checkIfAccountBelongsToCustomer(from_account_no, username):
             return (False, "Account does not belong to you")
+        if from_account_no == to_account_no:
+            return (False, "Cannot transfer to the same account")
         from_account_row = res1[1][0]
         to_account_row = res2[1][0]
         from_balance = int(from_account_row[3])

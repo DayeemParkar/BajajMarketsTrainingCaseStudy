@@ -48,10 +48,96 @@
                     }
                 }
             },
+            "AccountNumber": {
+                "type" : "integer",
+                "properties" : {
+                    "account_no" : {
+                        "type" : "integer"
+                    }
+                }
+            },
             "Success": {
                 "type" : "object",
                 "properties" : {
                     "message" : {
+                        "type" : "string"
+                    }
+                }
+            },
+            "AddAccount": {
+                "type" : "object",
+                "properties" : {
+                    "account_type" : {
+                        "type" : "string"
+                    },
+                    "password" : {
+                        "type" : "string"
+                    },
+                    "balance" : {
+                        "type" : "integer"
+                    }
+                }
+            },
+            "Transaction": {
+                "type" : "object",
+                "properties" : {
+                    "from_account" : {
+                        "type" : "integer"
+                    },
+                    "to_account" : {
+                        "type" : "integer"
+                    },
+                    "amount" : {
+                        "type" : "integer"
+                    },
+                    "password" : {
+                        "type" : "string"
+                    }
+                }
+            },
+            "Cash": {
+                "type" : "object",
+                "properties" : {
+                    "account_no" : {
+                        "type" : "integer"
+                    },
+                    "amount" : {
+                        "type" : "integer"
+                    },
+                    "password" : {
+                        "type" : "string"
+                    }
+                }
+            },
+            "AddAccountResult": {
+                "type" : "object",
+                "properties" : {
+                    "message" : {
+                        "type" : "string"
+                    },
+                    "account" : {
+                        "type" : "string"
+                    }
+                }
+            },
+            "ViewAccountResult": {
+                "type" : "object",
+                "properties" : {
+                    "message" : {
+                        "type" : "string"
+                    },
+                    "accounts" : {
+                        "type" : "string"
+                    }
+                }
+            },
+            "ViewHistoryResult": {
+                "type" : "object",
+                "properties" : {
+                    "message" : {
+                        "type" : "string"
+                    },
+                    "history" : {
                         "type" : "string"
                     }
                 }
@@ -105,6 +191,336 @@
                     "Verify token API"
                 ],
                 "summary": "Verify token",
+                "parameters": [
+                    {
+                        "name": "apikey",
+                        "in": "header",
+                        "description": "Authentication token",
+                        "required": true,
+                        "type": "string",
+                        "schema" : {
+                            "$ref": "#/components/schemas/VerifyToken"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema" : {
+                            "$ref": "#/components/schemas/Success"
+                        }
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED",
+                        "schema" : {
+                            "$ref": "#/components/schemas/Success"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema" : {
+                            "$ref": "#/components/schemas/Success"
+                        }
+                    },
+                    "500": {
+                        "description": "SERVER ERROR",
+                        "schema" : {
+                            "$ref": "#/components/schemas/Success"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/addaccount": {
+            "post": {
+                "tags": [
+                    "Add account API"
+                ],
+                "summary": "Add account",
+                "requestBody": {
+                    "description": "Enter account details",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AddAccount"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "apikey",
+                        "in": "header",
+                        "description": "Authentication token",
+                        "required": true,
+                        "type": "string",
+                        "schema" : {
+                            "$ref": "#/components/schemas/VerifyToken"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema" : {
+                            "$ref": "#/components/schemas/AddAccountResult"
+                        }
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED",
+                        "schema" : {
+                            "$ref": "#/components/schemas/Success"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema" : {
+                            "$ref": "#/components/schemas/AddAccountResult"
+                        }
+                    },
+                    "500": {
+                        "description": "SERVER ERROR",
+                        "schema" : {
+                            "$ref": "#/components/schemas/AddAccountResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/viewaccount": {
+            "get": {
+                "tags": [
+                    "View accounts API"
+                ],
+                "summary": "View accounts",
+                "parameters": [
+                    {
+                        "name": "apikey",
+                        "in": "header",
+                        "description": "Authentication token",
+                        "required": true,
+                        "type": "string",
+                        "schema" : {
+                            "$ref": "#/components/schemas/VerifyToken"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema" : {
+                            "$ref": "#/components/schemas/ViewAccountResult"
+                        }
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED",
+                        "schema" : {
+                            "$ref": "#/components/schemas/Success"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema" : {
+                            "$ref": "#/components/schemas/ViewAccountResult"
+                        }
+                    },
+                    "500": {
+                        "description": "SERVER ERROR",
+                        "schema" : {
+                            "$ref": "#/components/schemas/ViewAccountResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/viewtransactionhistory": {
+            "get": {
+                "tags": [
+                    "View Transaction History API"
+                ],
+                "summary": "View transaction history",
+                "parameters": [
+                    {
+                        "name": "apikey",
+                        "in": "header",
+                        "description": "Authentication token",
+                        "required": true,
+                        "type": "string",
+                        "schema" : {
+                            "$ref": "#/components/schemas/VerifyToken"
+                        }
+                    },
+                    {
+                        "name": "account_no",
+                        "in": "header",
+                        "description": "Account number",
+                        "required": true,
+                        "type": "integer",
+                        "schema" : {
+                            "$ref": "#/components/schemas/AccountNumber"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema" : {
+                            "$ref": "#/components/schemas/ViewHistoryResult"
+                        }
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED",
+                        "schema" : {
+                            "$ref": "#/components/schemas/Success"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema" : {
+                            "$ref": "#/components/schemas/ViewHistoryResult"
+                        }
+                    },
+                    "500": {
+                        "description": "SERVER ERROR",
+                        "schema" : {
+                            "$ref": "#/components/schemas/ViewHistoryResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/maketransaction": {
+            "post": {
+                "tags": [
+                    "Make transaction API"
+                ],
+                "summary": "Make transaction",
+                "requestBody": {
+                    "description": "Enter transaction details",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Transaction"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "apikey",
+                        "in": "header",
+                        "description": "Authentication token",
+                        "required": true,
+                        "type": "string",
+                        "schema" : {
+                            "$ref": "#/components/schemas/VerifyToken"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema" : {
+                            "$ref": "#/components/schemas/Success"
+                        }
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED",
+                        "schema" : {
+                            "$ref": "#/components/schemas/Success"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema" : {
+                            "$ref": "#/components/schemas/Success"
+                        }
+                    },
+                    "500": {
+                        "description": "SERVER ERROR",
+                        "schema" : {
+                            "$ref": "#/components/schemas/Success"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/deposit": {
+            "post": {
+                "tags": [
+                    "Deposit Cash API"
+                ],
+                "summary": "Deposit cash",
+                "requestBody": {
+                    "description": "Enter transaction details",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Cash"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "apikey",
+                        "in": "header",
+                        "description": "Authentication token",
+                        "required": true,
+                        "type": "string",
+                        "schema" : {
+                            "$ref": "#/components/schemas/VerifyToken"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema" : {
+                            "$ref": "#/components/schemas/Success"
+                        }
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED",
+                        "schema" : {
+                            "$ref": "#/components/schemas/Success"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema" : {
+                            "$ref": "#/components/schemas/Success"
+                        }
+                    },
+                    "500": {
+                        "description": "SERVER ERROR",
+                        "schema" : {
+                            "$ref": "#/components/schemas/Success"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/withdraw": {
+            "post": {
+                "tags": [
+                    "Cash Withdrawal API"
+                ],
+                "summary": "Withdraw cash",
+                "requestBody": {
+                    "description": "Enter transaction details",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Cash"
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "apikey",

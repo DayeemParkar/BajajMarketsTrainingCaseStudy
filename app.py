@@ -353,6 +353,121 @@ def verifyToken():
     return make_response(jsonify({'message' : 'Token is valid !!'}), 200)
 
 
+@app.route('/api/addaccount', methods =['POST'])
+@token_required
+def apiAddAccount():
+    '''Add Account'''
+    try:
+        payload = request.get_json()
+        customer = Token.checkApiToken(request.headers.get('apikey', ''), SECRET_KEY)
+        form = AccountForm()
+        form.account_type.data = payload.get('account_type', '')
+        form.password.data = payload.get('password', '')
+        form.balance.data = payload.get('balance', '')
+        res = tryToAddAccount(form, customer.get('username', ''))
+        form.account_type.data = ''
+        form.password.data = ''
+        form.balance.data = ''
+        if not res[0]:
+            # unable to add account
+            return make_response(jsonify({'message' : 'Unable to add account', 'account' : ''}), 400)
+        logger.info(f"Created new account for api customer")
+        return make_response(jsonify({'message' : 'Account added', 'account' : f"{res[1]}"}), 200)
+    except Exception as e:
+        logger.exception(f"Api error while accessing add account page")
+        return make_response(jsonify({'message' : 'Failed due to input error', 'account' : ''}), 500)
+
+
+@app.route('/api/viewaccount', methods =['GET'])
+@token_required
+def apiViewAccount():
+    '''View Accounts'''
+    try:
+        customer = Token.checkApiToken(request.headers.get('apikey', ''), SECRET_KEY)
+        customer_id = getCustomer(customer.get('username', ''))[0]
+        accounts = tryToViewAccounts(customer_id)
+        logger.info(f"Showing accounts for api customer")
+        return make_response(jsonify({'message' : 'Successfully fetched accounts', 'accounts' : f"{accounts}"}), 200)
+    except Exception as e:
+        logger.exception(f"Api error while viewing accounts")
+        return make_response(jsonify({'message' : 'Failed due to server error', 'accounts' : f'{[]}'}), 500)
+
+
+@app.route('/api/viewtransactionhistory', methods =['GET'])
+@token_required
+def apiTransactionHistory():
+    '''View History'''
+    try:
+        customer = Token.checkApiToken(request.headers.get('apikey', ''), SECRET_KEY)
+        account_no = request.headers.get('account_no', '')
+        history = tryToViewTransactionHistory(account_no, customer.get('username', ''))
+        if not history[0]:
+            return make_response(jsonify({'message' : f"{history[1]}", 'history' : f'{[]}'}), 400)
+        logger.info(f"Showing history to api customer")
+        return make_response(jsonify({'message' : 'History fetched', 'history' : f"{history[1]}"}), 200)
+    except Exception as e:
+        logger.exception(f"Api error while retrieving transaction history")
+        return make_response(jsonify({'message' : 'Failed due to server error', 'history' : f'{[]}'}), 500)
+
+
+@app.route('/api/maketransaction', methods =['POST'])
+@token_required
+def apiTransaction():
+    '''Perform Transaction'''
+    try:
+        customer = Token.checkApiToken(request.headers.get('apikey', ''), SECRET_KEY)
+        payload = request.get_json()
+        from_account = payload.get('from_account', -1)
+        to_account = payload.get('to_account', -1)
+        amount = payload.get('amount', 0)
+        password = payload.get('account_password', '')
+        res = tryToMakeTransaction(from_account, to_account, amount, password, customer.get('username', ''))
+        if not res[0]:
+            return make_response(jsonify({'message' : f'{res[1]}'}), 400)
+        return make_response(jsonify({'message' : f'{res[1]}'}), 200)
+    except Exception as e:
+        logger.exception(f"Api error while making transaction")
+        return make_response(jsonify({'message' : 'Failed due to server error'}), 500)
+
+
+@app.route('/api/deposit', methods =['POST'])
+@token_required
+def apiDeposit():
+    '''Deposit Cash'''
+    try:
+        customer = Token.checkApiToken(request.headers.get('apikey', ''), SECRET_KEY)
+        payload = request.get_json()
+        account = payload.get('account_no', -1)
+        amount = payload.get('amount', 0)
+        password = payload.get('account_password', '')
+        res = tryToMakeDeposit(account, amount, password, customer.get('username', ''))
+        if not res[0]:
+            return make_response(jsonify({'message' : f'{res[1]}'}), 400)
+        return make_response(jsonify({'message' : f'{res[1]}'}), 200)
+    except Exception as e:
+        logger.exception(f"Api error while depositing")
+        return make_response(jsonify({'message' : 'Failed due to server error'}), 500)
+
+
+@app.route('/api/withdraw', methods =['POST'])
+@token_required
+def apiWithdraw():
+    '''Withdraw Cash'''
+    try:
+        customer = Token.checkApiToken(request.headers.get('apikey', ''), SECRET_KEY)
+        payload = request.get_json()
+        account = payload.get('account_no', -1)
+        amount = payload.get('amount', 0)
+        password = payload.get('account_password', '')
+        res = tryToMakeWithdrawal(account, amount, password, customer.get('username', ''))
+        if not res[0]:
+            return make_response(jsonify({'message' : f'{res[1]}'}), 400)
+        return make_response(jsonify({'message' : f'{res[1]}'}), 200)
+    except Exception as e:
+        logger.exception(f"Api error while depositing")
+        return make_response(jsonify({'message' : 'Failed due to server error'}), 500)
+
+
 # error handling
 @app.errorhandler(400)
 def handle_400_error(_error):
