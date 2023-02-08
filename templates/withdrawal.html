@@ -14,7 +14,7 @@
             <td>{{ row[0] }}</td>
             <td>{{ row[1] }}</td>
             <td>{{ row[2] }}</td>
-            <td><a href="{{ url_for('withdrawal', account_no=row[0]) }}">Select Account</a> </td>
+            <td><a href="{{ url_for('withdrawal', account_no=row[0]) }}">Select Account</a></td>
         </tr>
         {% endfor %}
     </table>
@@ -25,6 +25,7 @@
     <div class="login-container">
         
         <form action="" class="form-login" method="POST">
+            <div class="text"> WITHDRAW </div>
             <ul class="login-nav">
             </ul>
             {{ form.hidden_tag() }}

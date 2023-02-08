@@ -1,3 +1,30 @@
 {% extends "adminnavbar.html" %}
 {% block body %}
+{% if result %}
+        <table border="1" style="border-collapse:collapse;">
+            <tr>
+                <th>Transaction Id</th>
+                <th>From Account No</th>
+                <th>To Account No</th>
+                <th>Amount</th>
+                <th>Transaction Time</th>
+                <th>Action</th>
+            </tr>
+            {% for row in result %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td><a href="{{ url_for('withdrawal', account_no=row[0]) }}">Delete</a> <br>
+                    <a href="{{ url_for('withdrawal', account_no=row[0]) }}">Modify</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        No transactions done on this account
+    {% endif %}
+    
 {% endblock %}

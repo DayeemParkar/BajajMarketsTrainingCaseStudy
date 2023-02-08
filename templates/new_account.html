@@ -1,14 +1,15 @@
 {% extends "navbar.html" %}
 {% block body %}
     <div class="login-container">
-    
+        
         <form action="" class="form-login" method="POST">
+            <div class="text">  Create Account  </div>
             <ul class="login-nav">
             </ul>
             {{ form.hidden_tag() }}
             
             {{ form.account_type.label(class_="login__label") }}
-            {{ form.account_type(class_="login__label") }}
+            {{ form.account_type(class_="login__input") }}
 
             {{ form.password.label(class_="login__label") }}
             {{ form.password(class_="login__input") }}
@@ -17,9 +18,10 @@
             {{ form.balance(class_="login__input") }}
             
             {{ form.submit(class_="login__submit") }}
+        </div>
         </form>
     
-    </div>
+    
     <script>
         var curr = document.getElementsByTagName("BODY")[0];
         curr.classList.add("backgroundimage");

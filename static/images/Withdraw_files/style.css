@@ -46,7 +46,7 @@ padding-bottom: 5rem;
 .login-nav {
 position: relative;
 padding: 0;
-margin: 0 0 4em 1rem;
+margin: 0 0 6em 1rem;
 background-color: transparent;
 }
 
@@ -343,8 +343,9 @@ tr:hover {background-color: rgb(216, 186, 186)}
 }
 /* Caption text */
 .text {
-	color: rgba(255, 255, 255, 0.557);
-	font-size: 1.9rem;
+	color: white;
+	font-size: 2rem;
+	width: 100%;
 	text-align: center;
 	font-family: 'Times New Roman', Times, serif;
 }
