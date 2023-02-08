@@ -232,6 +232,53 @@ def clearsession():
         return redirect(url_for('login'))
 
 
+# Admin routes
+@app.route('/admin/login', methods=['GET','POST'])
+def adminlogin():
+    '''Page to login admin'''
+    try:
+        if verifySession():
+            return redirect(url_for('home'))
+        form = LoginForm()
+        if form.validate_on_submit():
+            res = form.username.data == ADMIN_USERNAME and PasswordHash.verifyHash(ADMIN_PASSWORD, form.password.data)
+            form.username.data = ''
+            form.password.data = ''
+            if not res:
+                # Could not log in due to invalid credentials
+                return render_template('admin_login.html', title='Admin Login', form=form, msg='Invalid credentials')
+            # Login successful
+            return redirect(url_for('adminViewCustomers'))
+        return render_template('admin_login.html', title='Admin Login', form=form)
+    except Exception as e:
+        logger.exception(f"Error while accessing admin login")
+        return render_template('admin_login.html', title='Admin Login', form=form)
+
+
+@app.route('/admin/customers')
+def adminViewCustomers():
+    try:
+        return render_template('admin_view_customer.html', title='Customers', id=["nav1"])
+    except Exception as e:
+        logger.exception(f"Error while accessing admin customer display page")
+        return render_template('admin_view_customer.html', title='Customers', id=["nav1"])
+
+
+@app.route('/admin/accounts')
+def adminViewAccounts():
+    return
+
+
+@app.route('/admin/history')
+def adminViewHistory():
+    return
+
+
+@app.route('/admin/logout')
+def adminLogout():
+    return
+
+
 # API methods
 @app.route('/api/retrievetoken', methods=['POST'])
 def retrieveToken():

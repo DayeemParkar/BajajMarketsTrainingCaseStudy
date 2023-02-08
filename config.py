@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 from ast import literal_eval
 import os
+from password_hash_class import PasswordHash
 
 dotenv_path = Path('config.env')
 load_dotenv(dotenv_path=dotenv_path)
@@ -30,6 +31,8 @@ CUSTOMER_TABLE_COLS = literal_eval(os.getenv('CUSTOMER_TABLE_COLS'))
 ACCOUNT_TABLE_COLS = literal_eval(os.getenv('ACCOUNT_TABLE_COLS'))
 ACCOUNT_MAPPING_TABLE_COLS = literal_eval(os.getenv('ACCOUNT_MAPPING_TABLE_COLS'))
 TRANSACTION_TABLE_COLS = literal_eval(os.getenv('TRANSACTION_TABLE_COLS'))
+ADMIN_USERNAME = os.getenv('ADMIN_USERNAME')
+ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD')
 
 # print(SECRET_KEY)
 # print(SWAGGER_URL)
@@ -46,3 +49,4 @@ TRANSACTION_TABLE_COLS = literal_eval(os.getenv('TRANSACTION_TABLE_COLS'))
 # print(ACCOUNT_MAPPING_TABLE_COLS)
 # print(TRANSACTION_TABLE)
 # print(TRANSACTION_TABLE_COLS)
+# print(PasswordHash.verifyHash(ADMIN_PASSWORD, 'admin'))

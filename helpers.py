@@ -122,7 +122,7 @@ def tryToAddCustomer(form):
 
 
 def checkCustomerCredentials(form):
-    '''Function to try to login a customer'''
+    '''Function to check if customer credentials are valid'''
     username = form.username.data
     password = form.password.data
     customer = getCustomer(username)
@@ -191,6 +191,11 @@ def tryToAddAccount(form, username):
 def tryToViewTransactionHistory(account_no, username):
     '''Function to view transaction history of a specific account'''
     try:
+        res = checkIfAccountExists(account_no)
+        if not res[0]:
+            return (False, "Account does not exist")
+        if not checkIfAccountBelongsToCustomer(account_no, username):
+            return (False, "This account does not belong to you")
         rows = DBConnection.selectRows(table_name=TRANSACTION_TABLE, condition=f"{TRANSACTION_TABLE_COLS[1][0]} = '{account_no}' OR {TRANSACTION_TABLE_COLS[2][0]} = '{account_no}'")
         result = []
         for row in rows:
