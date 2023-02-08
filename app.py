@@ -92,15 +92,15 @@ def addAccount():
             return redirect(url_for('clearsession'))
         form = AccountForm()
         if form.validate_on_submit():
-            res = tryToAddAccount(form)
+            res = tryToAddAccount(form, session.get(USERNAME, ''))
             form.account_type.data = ''
-            form.balance.data = ''
+            form.password.data = ''
             form.balance.data = ''
             if not res[0]:
                 # unable to add account
                 return render_template('new_account.html', title='Add account', form=form, id=["nav3", "nav4"], msg=res[1])
             logger.info(f"Created new account for customer {session.get(USERNAME, 'no user')}")
-            return redirect(url_for('viewaccount'))
+            return redirect(url_for('viewAccount'))
         return render_template('new_account.html', title='Add account', form=form, id=["nav3", "nav4"])
     except Exception as e:
         logger.exception(f"Error while accessing add account page. User: {session.get(USERNAME, 'no user')}")
@@ -112,16 +112,16 @@ def viewAccount():
     try:
         if not verifySession():
             return redirect(url_for('clearsession'))
-        return getViewAccountTemplate(template='view_account.html', title='View accounts', navid=['nav3', 'nav5'], msg=None)
-        # customer = getCustomer(session.get(USERNAME, ''))
-        # if not customer:
-        #     logger.warning(f"View account error: Username {session.get(USERNAME, 'no user')}. Customer not found")
-        #     return render_template('view_account.html', title='View accounts', id=["nav3", "nav5"], msg="Could not retrieve accounts")
-        # res = tryToViewAccounts(customer[0])
-        # if not res:
-        #     logger.warning(f"View account error: Username {session.get(USERNAME, 'no user')}. No accounts")
-        #     return render_template('view_account.html', title='View accounts', id=["nav3", "nav5"], msg="You have no accounts")
-        # return render_template('view_account.html', title='View accounts', id=["nav3", "nav5"], result=res)
+        # return getViewAccountTemplate(template='view_account.html', title='View accounts', navid=['nav3', 'nav5'], msg=None)
+        customer = getCustomer(session.get(USERNAME, ''))
+        if not customer:
+            logger.warning(f"View account error: Username {session.get(USERNAME, 'no user')}. Customer not found")
+            return render_template('view_account.html', title='View accounts', id=["nav3", "nav5"], msg="Could not retrieve accounts")
+        res = tryToViewAccounts(customer[0])
+        if not res:
+            logger.warning(f"View account error: Username {session.get(USERNAME, 'no user')}. No accounts")
+            return render_template('view_account.html', title='View accounts', id=["nav3", "nav5"], msg="You have no accounts")
+        return render_template('view_account.html', title='View accounts', id=["nav3", "nav5"], result=res)
     except Exception as e:
         logger.exception(f"Error while accessing add account page. User: {session.get(USERNAME, 'no user')}")
         return render_template('view_account.html', title='Add account', id=["nav3", "nav4"])
@@ -133,7 +133,7 @@ def viewTransactionHistory(account_no):
     try:
         if not verifySession():
             return redirect(url_for('clearsession'))
-        result = tryToViewTransactionHistory(account_no)
+        result = tryToViewTransactionHistory(account_no, session.get(USERNAME, ''))
         if not result[0]:
             # could not retrieve rows
             return render_template('transaction_history.html', title=f"Account {account_no} history", id=["nav7"])
@@ -151,21 +151,22 @@ def deposit(account_no):
         if not verifySession():
             return redirect(url_for('clearsession'))
         form = TransactionForm()
+        form.transaction_account_no.data = '-1'
         if form.validate_on_submit():
             amount = form.amount.data
             password = form.password.data
             form.amount.data = ''
-            form.password.data = ''
-            # accountNotSelected, result
             res = tryToMakeDeposit(account_no, amount, password, session.get(USERNAME, ''))
             if not res[0]:
-                # Failed to make deposit
-                return getViewAccountTemplate(template='deposit.html', title='Deposit', navid=["nav9"], msg=res[1])
+                # Failed to deposit
+                return render_template('deposit.html', title='Deposit', navid=["nav6", "nav9"], form=form, accountNotSelected=False, msg=res[1])
             # deposit successful
             return redirect(url_for('viewTransactionHistory', account_no=account_no))
-        return render_template('deposit.html', title="Deposit", id=["nav9"], accountNotSelected=not checkIfAccountExists(account_no))
+        if checkIfAccountExists(account_no)[0]:
+            return render_template('deposit.html', title='Deposit', navid=["nav6", "nav9"], form=form)
+        return getViewAccountTemplate(template='deposit.html', title='Deposit', navid=["nav6", "nav9"], msg=None)
     except Exception as e:
-        return render_template('deposit.html', title="Deposit", id=["nav9"], accountNotSelected=True)
+        return render_template('deposit.html', title="Deposit", id=["nav6", "nav9"], accountNotSelected=True)
 
 
 @app.route('/withdraw/<account_no>', methods=['GET','POST'])
@@ -173,9 +174,23 @@ def withdrawal(account_no):
     try:
         if not verifySession():
             return redirect(url_for('clearsession'))
-        return render_template('withdrawal.html', title="Withdraw", id=["nav10"], accountNotSelected=not checkIfAccountExists(account_no))
+        form = TransactionForm()
+        form.transaction_account_no.data = '-1'
+        if form.validate_on_submit():
+            amount = form.amount.data
+            password = form.password.data
+            form.amount.data = ''
+            res = tryToMakeWithdrawal(account_no, amount, password, session.get(USERNAME, ''))
+            if not res[0]:
+                # Failed to withdraw
+                return render_template('withdrawal.html', title='Withdraw', navid=["nav6", "nav10"], form=form, accountNotSelected=False, msg=res[1])
+            # withdrawal successful
+            return redirect(url_for('viewTransactionHistory', account_no=account_no))
+        if checkIfAccountExists(account_no)[0]:
+            return render_template('withdrawal.html', title='Withdraw', navid=["nav6", "nav10"], form=form)
+        return getViewAccountTemplate(template='withdrawal.html', title='Withdraw', navid=["nav6", "nav10"], msg=None)
     except Exception as e:
-        return render_template('withdrawal.html', title="Withdraw", id=["nav10"], accountNotSelected=True)
+        return render_template('withdrawal.html', title="Withdraw", id=["nav6", "nav10"], accountNotSelected=True)
 
 
 @app.route('/transaction/<account_no>', methods=['GET','POST'])
@@ -183,9 +198,24 @@ def transaction(account_no):
     try:
         if not verifySession():
             return redirect(url_for('clearsession'))
-        return render_template('transaction.html', title="Make Transaction", id=["nav6", "nav7"], accountNotSelected=not checkIfAccountExists(account_no))
+        form = TransactionForm()
+        if form.validate_on_submit():
+            amount = form.amount.data
+            password = form.password.data
+            transaction_account_no = form.transaction_account_no.data
+            form.amount.data = ''
+            form.transaction_account_no.data = ''
+            res = tryToMakeTransaction(account_no, transaction_account_no, amount, password, session.get(USERNAME, ''))
+            if not res[0]:
+                # Failed to make transaction
+                return render_template('transaction.html', title="Transaction", id=["nav6", "nav7"], form=form, accountNotSelected=False, msg=res[1])
+            # transaction successful
+            return redirect(url_for('viewTransactionHistory', account_no=account_no))
+        if checkIfAccountExists(account_no)[0]:
+            return render_template('transaction.html', title='Transaction', navid=["nav6", "nav7"], form=form)
+        return getViewAccountTemplate(template='transaction.html', title='Transaction', navid=["nav6", "nav7"], msg=None)
     except Exception as e:
-        return render_template('transaction.html', title="Make Transaction", id=["nav6", "nav7"], accountNotSelected=True)
+        return render_template('transaction.html', title="Transaction", id=["nav6", "nav7"], accountNotSelected=True)
 
 
 @app.route('/clearsession')

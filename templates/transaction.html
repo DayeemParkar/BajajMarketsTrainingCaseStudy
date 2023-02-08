@@ -1,5 +1,7 @@
 {% extends "navbar.html" %}
-{% if AccountNotSelected %}
+{% block body %}
+{% if accountNotSelected %}
+    {% if result %}
     <table border="1" style="border-collapse:collapse;">
         <tr>
             <th>Account Number</th>
@@ -16,6 +18,9 @@
         </tr>
         {% endfor %}
     </table>
+    {% else %}
+    You have no accounts. Make an account to start a transaction
+    {% endif %}
 {% else %}
     <div class="login-container">
         
@@ -37,4 +42,5 @@
         </form>
 
     </div>
-{% endif %}    
+{% endif %}
+{% endblock %}  

@@ -66,7 +66,7 @@ def getCustomer(username):
     '''Function to check if customer is valid by checking entry in DB'''
     rows = DBConnection.selectRows(table_name=CUSTOMER_TABLE, condition=f"{CUSTOMER_TABLE_COLS[1][0]} = '{username}'")
     if len(rows) == 0:
-        logger.warning(f"CUstomer retrieve warning: Username {username} not found")
+        logger.warning(f"Customer retrieve warning: Username {username} not found")
         return None
     return rows[0]
 
@@ -164,21 +164,27 @@ def prepareCustomerForLogin(customer):
     return (True, "Successfully logged in")
 
 
-def tryToAddAccount(form):
+def tryToAddAccount(form, username):
     '''Function to add a new account to database'''
     try:
         account_type = form.account_type.data
         password = form.password.data
         password_hash = PasswordHash.generateHash(password)
         if len(password_hash) == 0:
-            logger.warning(f"Account add warning: Customer {session.get(USERNAME, 'no user')}. Bad password {password}")
+            logger.warning(f"Account add warning: Customer {username}. Bad password {password}")
             return (False, f'Bad password {password}. Use another password.')
         balance = form.balance.data
-        params = [password, account_type, balance]
+        params = [password_hash, account_type, balance]
+        customer = getCustomer(username)
+        if not customer:
+            logger.warning(f"Account add warning: Customer {username} does not exist")
+            return (False, f'Username {username} not found')
         DBConnection.insertRow(ACCOUNT_TABLE, params)
+        account_no = DBConnection.selectRows(table_name=ACCOUNT_TABLE, additions=f"ORDER BY {ACCOUNT_TABLE_COLS[0][0]} DESC LIMIT 1")[0][0]
+        DBConnection.insertRow(ACCOUNT_MAPPING_TABLE, params=[f"{account_no}", f"{customer[0]}"])
         return (True, f'New account of type {account_type} with balance {balance} added')
     except Exception as e:
-        logger.exception(f"Account add error: Customer {session.get(USERNAME, 'no user')}. Error while trying to adding account: {account_type}, {password}, {balance}")
+        logger.exception(f"Account add error: Customer {username}. Error while trying to adding account: {account_type}, {password}, {balance}")
         return (False, 'Error while trying to add account. Please try again')
 
 
@@ -189,16 +195,22 @@ def tryToViewTransactionHistory(account_no, username):
         result = []
         for row in rows:
             currrent_result = [row[0]]
-            if account_no == row[1]:
+            if int(account_no) == row[1]:
                 # current account was debited in this transaction
-                currrent_result.append(row[1])
-                currrent_result.append('NULL')
+                if row[2]:
+                    currrent_result.append(row[2])
+                else:
+                    currrent_result.append('Withdrew cash')
                 currrent_result.append(row[3])
+                currrent_result.append('NULL')
             else:
                 # current account was credited in this transaction
-                currrent_result.append(row[2])
-                currrent_result.append(row[3])
+                if row[1]:
+                    currrent_result.append(row[1])
+                else:
+                    currrent_result.append('Deposited cash')
                 currrent_result.append('NULL')
+                currrent_result.append(row[3])
             currrent_result.append(row[4])
             result.append(currrent_result)
         return (True, result)
@@ -220,15 +232,15 @@ def tryToViewAccounts(customer_id):
         return None
 
 
-def getViewAccountTemplate(template, title, navid, msg):
-    customer = getCustomer(session.get(USERNAME, ''))
+def getViewAccountTemplate(template, title, navid, msg=None):
+    customer = getCustomer(session.get('username', ''))
     if not customer:
         logger.warning(f"View account error: Username {session.get(USERNAME, 'no user')}. Customer not found")
-        return render_template(template, title=title, id=navid, msg="Could not retrieve accounts", accountNotSelected=True)
+        return render_template(template, title=title, id=navid, msg="Could not retrieve accounts", result=False, accountNotSelected=True)
     res = tryToViewAccounts(customer[0])
     if not res:
         logger.warning(f"View account error: Username {session.get(USERNAME, 'no user')}. No accounts")
-        return render_template(template, title=title, id=navid, msg="You have no accounts", accountNotSelected=True)
+        return render_template(template, title=title, id=navid, msg="You have no accounts", result=False, accountNotSelected=True)
     return render_template(template, title=title, id=navid, result=res, accountNotSelected=True, msg=msg)
 
 
@@ -248,17 +260,17 @@ def checkIfAccountExists(account_no, password=None):
     '''Function to check if account is unique by checking in DB and password is valid if provided'''
     rows = DBConnection.selectRows(table_name=ACCOUNT_TABLE, condition=f"{ACCOUNT_TABLE_COLS[0][0]} = '{account_no}'")
     if not password:
-        return len(rows) != 0
+        return (len(rows) != 0, rows)
     if len(rows) == 0:
-        return False
+        return (False, rows)
     password_hash = rows[0][1]
-    return PasswordHash.verifyHash(password_hash, password)
+    return (PasswordHash.verifyHash(password_hash, password), rows)
 
 
 def tryToMakeDeposit(account_no, amount, password, username):
     try:
         res = checkIfAccountExists(account_no, password)
-        if not (res[0]):
+        if not res[0]:
             return (False, "Invalid credentials for account")
         if not checkIfAccountBelongsToCustomer(account_no, username):
             return (False, "Account does not belong to you")
@@ -277,7 +289,7 @@ def tryToMakeWithdrawal(account_no, amount, password, username):
     '''Function to try and withdraw cash from account'''
     try:
         res = checkIfAccountExists(account_no, password)
-        if not (res[0]):
+        if not res[0]:
             return (False, "Invalid credentials for account")
         if not checkIfAccountBelongsToCustomer(account_no, username):
             return (False, "Account does not belong to you")
@@ -307,7 +319,7 @@ def tryToMakeTransaction(from_account_no, to_account_no, amount, password, usern
         to_account_row = res2[1][0]
         from_balance = int(from_account_row[3])
         to_balance = int(to_account_row[3])
-        if from_balance <= amount:
+        if from_balance < amount:
             return(False, "Not Enough Balance")
         new_from_amount = from_balance - amount
         new_to_amount = to_balance + amount

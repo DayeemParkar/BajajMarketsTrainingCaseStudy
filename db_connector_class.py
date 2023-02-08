@@ -94,18 +94,15 @@ class DBConnection:
     
     
     @classmethod
-    def selectRows(cls, table_name, condition = None, additions = '', rows=None):
+    def selectRows(cls, table_name, condition = None, additions = ''):
         '''Return rows from table'''
         try:
             DBConnection.dbConnect()
             DBConnection.createTables()
-            select_rows = '*'
-            if rows:
-                select_rows = ', '.join(rows)
             if condition:
-                cls.cur.execute(f"SELECT {select_rows} FROM {table_name} WHERE {condition} {additions};")
+                cls.cur.execute(f"SELECT * FROM {table_name} WHERE {condition} {additions};")
             else:
-                cls.cur.execute(f"SELECT {select_rows} FROM {table_name} {additions};")
+                cls.cur.execute(f"SELECT * FROM {table_name} {additions};")
             rows = cls.cur.fetchall()
             return rows
         except psycopg2.Error as pe:
@@ -198,12 +195,12 @@ if __name__ == '__main__':
     DBConnection.dropTable(CUSTOMER_TABLE)
     DBConnection.dropTable(ACCOUNT_TABLE)
     DBConnection.insertRow(CUSTOMER_TABLE, ['uname', PasswordHash.generateHash('upass'), 'fname', 'lname', 'addr', '12345'])
-    DBConnection.insertRow(ACCOUNT_TABLE, [PasswordHash.generateHash('a1pass'),'salary', '70000'])
-    DBConnection.insertRow(ACCOUNT_TABLE, [PasswordHash.generateHash('a2pass'),'salary', '70000'])
-    DBConnection.insertRow(ACCOUNT_MAPPING_TABLE, ['1','1'])
-    DBConnection.insertRow(ACCOUNT_MAPPING_TABLE, ['2','1'])
-    DBConnection.insertRow(TRANSACTION_TABLE, ['1', '2', '1000', f"'{DBConnection.getTimeStamp()}'"])
-    DBConnection.insertRow(TRANSACTION_TABLE, ['1','1000', f"'{DBConnection.getTimeStamp()}'"], [TRANSACTION_TABLE_COLS[2], TRANSACTION_TABLE_COLS[3], TRANSACTION_TABLE_COLS[4]])
+    # DBConnection.insertRow(ACCOUNT_TABLE, [PasswordHash.generateHash('a1pass'),'salary', '70000'])
+    # DBConnection.insertRow(ACCOUNT_TABLE, [PasswordHash.generateHash('a2pass'),'salary', '70000'])
+    # DBConnection.insertRow(ACCOUNT_MAPPING_TABLE, ['1','1'])
+    # DBConnection.insertRow(ACCOUNT_MAPPING_TABLE, ['2','1'])
+    # DBConnection.insertRow(TRANSACTION_TABLE, ['1', '2', '1000', f"'{DBConnection.getTimeStamp()}'"])
+    # DBConnection.insertRow(TRANSACTION_TABLE, ['1','1000', f"'{DBConnection.getTimeStamp()}'"], [TRANSACTION_TABLE_COLS[2], TRANSACTION_TABLE_COLS[3], TRANSACTION_TABLE_COLS[4]])
     # custpass = DBConnection.selectRows(CUSTOMER_TABLE, additions=f"ORDER BY {CUSTOMER_TABLE_COLS[1][0]}")[0][2]
     # accpass = DBConnection.selectRows(ACCOUNT_TABLE, condition=f"{ACCOUNT_TABLE_COLS[2][0]} = 'salary'")[0][1]
     # print(custpass)
@@ -211,4 +208,4 @@ if __name__ == '__main__':
     # print(PasswordHash.verifyHash(custpass, 'upass'))
     # print(PasswordHash.verifyHash(accpass, 'apass'))
     # print(DBConnection.selectRows(ACCOUNT_MAPPING_TABLE))
-    print(DBConnection.selectRows(TRANSACTION_TABLE))
+    # print(DBConnection.selectRows(TRANSACTION_TABLE))
