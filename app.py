@@ -1,7 +1,7 @@
 '''This file contains the app'''
 
 # for running app
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, redirect, url_for
 # for swagger ui
 from flask_swagger_ui import get_swaggerui_blueprint
 # for helper functions, flask forms, logger, Token class, PasswordHash class, DB, config vars
@@ -30,7 +30,7 @@ def home():
             return redirect(url_for('login'))
         return render_template('home.html',  title='Home', id=['nav1'], username=session['username'], token=session['token'])
     except Exception as e:
-        logger.exception(f'Error while accessing home for {session.get(USERNAME, "no user")}')
+        logger.exception(f"Error while accessing home. User: {session.get(USERNAME, 'no user')}")
         return f"{'message': 'server error'}"
 
 
@@ -49,14 +49,14 @@ def signup():
             form.mobile_number.data = ''
             if not res[0]:
                 # unable to register customer
-                return render_template('signup_form.html', title='Signup', form=form, id='nav3', msg=res[1])
+                return render_template('signup_form.html', title='Signup', form=form, msg=res[1])
             # customer registered, proceed to login
             logger.info(res[1])
-            return render_template('login_form.html', title='Login', form=form, id='nav3', msg=res[1])
-        return render_template('signup_form.html', title='Signup', form=form, id='nav3')
+            return render_template('login_form.html', title='Login', form=form, msg=res[1])
+        return render_template('signup_form.html', title='Signup', form=form)
     except Exception as e:
         logger.exception('Error while accessing signup')
-        return render_template('signup_form.html', title='Signup', form=form, id='nav3', msg='Error while accessing signup')
+        return render_template('signup_form.html', title='Signup', form=form)
 
 
 @app.route('/login', methods=['GET','POST'])
@@ -66,41 +66,126 @@ def login():
         form = LoginForm()
         if form.validate_on_submit():
             res = checkCustomerCredentials(form)
+            form.username.data = ''
+            form.password.data = ''
             if not res[0]:
                 # Could not log in due to invalid credentials
-                return render_template('login_form.html', title='Login', form=form, id='nav3', msg=res[1])
+                return render_template('login_form.html', title='Login', form=form, msg=res[1])
             # Valid credentials
             customer = res[2]
             res = prepareCustomerForLogin(customer)
             if not res[0]:
                 # Could not authenticate
-                return render_template('login_form.html', title='Login', form=form, id='nav3', msg=res[1])
+                return render_template('login_form.html', title='Login', form=form, msg=res[1])
             # Login successful
             return redirect(url_for('home'))
-        return render_template('login_form.html', title='Login', form=form, id='nav3')
+        return render_template('login_form.html', title='Login', form=form)
     except Exception as e:
-        logger.exception(f'Error while accessing login. User: {session.get(USERNAME, "no user")}')
-        return render_template('login_form.html', title='Login', form=form, id='nav3', msg=f'An error during login')
+        logger.exception(f"Error while accessing login. User: {session.get(USERNAME, 'no user')}")
+        return render_template('login_form.html', title='Login', form=form)
+
+
+@app.route('/addaccount', methods=['GET','POST'])
+def addAccount():
+    try:
+        if not verifySession():
+            return redirect(url_for('clearsession'))
+        form = AccountForm()
+        if form.validate_on_submit():
+            res = tryToAddAccount(form)
+            form.account_type.data = ''
+            form.balance.data = ''
+            form.balance.data = ''
+            if not res[0]:
+                # unable to add account
+                return render_template('new_account.html', title='Add account', form=form, id=["nav3", "nav4"], msg=res[1])
+            logger.info(f"Created new account for customer {session.get(USERNAME, 'no user')}")
+            return redirect(url_for('viewaccount'))
+        return render_template('new_account.html', title='Add account', form=form, id=["nav3", "nav4"])
+    except Exception as e:
+        logger.exception(f"Error while accessing add account page. User: {session.get(USERNAME, 'no user')}")
+        return render_template('new_account.html', title='Add account', form=form, id=["nav3", "nav4"])
+
+
+@app.route('/viewaccount', methods=['GET','POST'])
+def viewAccount():
+    try:
+        if not verifySession():
+            return redirect(url_for('clearsession'))
+        return getViewAccountTemplate(template='view_account.html', title='View accounts', navid=['nav3', 'nav5'], msg=None)
+        # customer = getCustomer(session.get(USERNAME, ''))
+        # if not customer:
+        #     logger.warning(f"View account error: Username {session.get(USERNAME, 'no user')}. Customer not found")
+        #     return render_template('view_account.html', title='View accounts', id=["nav3", "nav5"], msg="Could not retrieve accounts")
+        # res = tryToViewAccounts(customer[0])
+        # if not res:
+        #     logger.warning(f"View account error: Username {session.get(USERNAME, 'no user')}. No accounts")
+        #     return render_template('view_account.html', title='View accounts', id=["nav3", "nav5"], msg="You have no accounts")
+        # return render_template('view_account.html', title='View accounts', id=["nav3", "nav5"], result=res)
+    except Exception as e:
+        logger.exception(f"Error while accessing add account page. User: {session.get(USERNAME, 'no user')}")
+        return render_template('view_account.html', title='Add account', id=["nav3", "nav4"])
 
 
 @app.route('/history/<account_no>')
 def viewTransactionHistory(account_no):
-    result = tryToViewTransactionHistory(account_no)
-    if not result[0]:
-        # could not retrieve rows
-        render_template('transaction_history.html', title=f"Account {account_no} history", id="nav7")
-    # render transaction history table
-    render_template('transaction_history.html', title=f"Account {account_no} history", id="nav7", result=result)
+    '''Page to view transaction history of an account'''
+    try:
+        if not verifySession():
+            return redirect(url_for('clearsession'))
+        result = tryToViewTransactionHistory(account_no)
+        if not result[0]:
+            # could not retrieve rows
+            return render_template('transaction_history.html', title=f"Account {account_no} history", id=["nav7"])
+        # render transaction history table
+        logger.info(f'Displaying transaction history of account {account_no}')
+        return render_template('transaction_history.html', title=f"Account {account_no} history", id=["nav7"], result=result[1])
+    except Exception as e:
+        logger.exception(f'Error while accessing login. User: {session.get(USERNAME, "no user")}')
+        return render_template('transaction_history.html', title=f"Account {account_no} history", id=["nav7"])
 
 
-@app.route('/usersession/<some_val>', methods =['GET'])
-def getUserSession(some_val):
-    '''Test page to verify session token'''
-    if Token.checkApiToken(session.get(TOKEN, ''), SECRET_KEY).get('username', '') == session.get(USERNAME, None):
-        logger.info(f'Customer {session.get(USERNAME, "no user")} has valid token {session.get(TOKEN, "no token")}')
-        return f"{some_val}"
-    logger.warning(f'Customer {session.get(USERNAME, "no user")} has invalid token {session.get(TOKEN, "no token")}')
-    return f"No authorization."
+@app.route('/deposit/<account_no>', methods=['GET','POST'])
+def deposit(account_no):
+    try:
+        if not verifySession():
+            return redirect(url_for('clearsession'))
+        form = TransactionForm()
+        if form.validate_on_submit():
+            amount = form.amount.data
+            password = form.password.data
+            form.amount.data = ''
+            form.password.data = ''
+            # accountNotSelected, result
+            res = tryToMakeDeposit(account_no, amount, password, session.get(USERNAME, ''))
+            if not res[0]:
+                # Failed to make deposit
+                return getViewAccountTemplate(template='deposit.html', title='Deposit', navid=["nav9"], msg=res[1])
+            # deposit successful
+            return redirect(url_for('viewTransactionHistory', account_no=account_no))
+        return render_template('deposit.html', title="Deposit", id=["nav9"], accountNotSelected=not checkIfAccountExists(account_no))
+    except Exception as e:
+        return render_template('deposit.html', title="Deposit", id=["nav9"], accountNotSelected=True)
+
+
+@app.route('/withdraw/<account_no>', methods=['GET','POST'])
+def withdrawal(account_no):
+    try:
+        if not verifySession():
+            return redirect(url_for('clearsession'))
+        return render_template('withdrawal.html', title="Withdraw", id=["nav10"], accountNotSelected=not checkIfAccountExists(account_no))
+    except Exception as e:
+        return render_template('withdrawal.html', title="Withdraw", id=["nav10"], accountNotSelected=True)
+
+
+@app.route('/transaction/<account_no>', methods=['GET','POST'])
+def transaction(account_no):
+    try:
+        if not verifySession():
+            return redirect(url_for('clearsession'))
+        return render_template('transaction.html', title="Make Transaction", id=["nav6", "nav7"], accountNotSelected=not checkIfAccountExists(account_no))
+    except Exception as e:
+        return render_template('transaction.html', title="Make Transaction", id=["nav6", "nav7"], accountNotSelected=True)
 
 
 @app.route('/clearsession')

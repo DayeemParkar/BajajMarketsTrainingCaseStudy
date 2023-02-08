@@ -3,9 +3,9 @@
 # for decorator
 from functools import wraps
 # for request and response
-from flask import request, make_response, jsonify, session
+from flask import request, make_response, jsonify, session, render_template
 # for flask forms
-from forms import CustomerForm, AccountForm, LoginForm
+from forms import CustomerForm, AccountForm, LoginForm, TransactionForm
 # for logger
 from logger_class import logger
 # for Token class
@@ -32,6 +32,10 @@ def token_required(f):
                 return make_response(jsonify({'message' : 'Token not found !!'}), 401)
             # decoding the token to fetch the stored details
             data = Token.checkApiToken(bytes(token, 'utf-8'), SECRET_KEY)
+            if not data:
+                # invalid token
+                logger.warning(f'Invalid token {token}')
+                return make_response(jsonify({'message' : 'Token is invalid !!'}), 401)
             # create form for checking authorization
             form = CustomerForm()
             form.username.data = data.get('username', '')
@@ -62,8 +66,28 @@ def getCustomer(username):
     '''Function to check if customer is valid by checking entry in DB'''
     rows = DBConnection.selectRows(table_name=CUSTOMER_TABLE, condition=f"{CUSTOMER_TABLE_COLS[1][0]} = '{username}'")
     if len(rows) == 0:
+        logger.warning(f"CUstomer retrieve warning: Username {username} not found")
         return None
     return rows[0]
+
+
+def verifySession():
+    try:
+        username = session.get('username', '')
+        token = session.get('token', '')
+        data = Token.checkApiToken(bytes(token, 'utf-8'), SECRET_KEY)
+        if not data:
+            # invalid token
+            logger.warning(f'Could not decode token {token} for user {username}')
+            return (False, 'Session was invalid or has expired. Please login again')
+        if data.get('username', '') != username:
+            # Token does not belong to this customer
+            logger.warning(f'Invalid token {token} for user {username}')
+            return (False, 'Session was invalid or has expired. Please login again')
+        return (True, 'Session is valid')
+    except Exception as e:
+        logger.exception(f'Could not verify session for user {username} with token {token}')
+        return (False, 'Session was invalid or has expired. Please login again')
 
 
 def tryToAddCustomer(form):
@@ -147,20 +171,21 @@ def tryToAddAccount(form):
         password = form.password.data
         password_hash = PasswordHash.generateHash(password)
         if len(password_hash) == 0:
+            logger.warning(f"Account add warning: Customer {session.get(USERNAME, 'no user')}. Bad password {password}")
             return (False, f'Bad password {password}. Use another password.')
         balance = form.balance.data
         params = [password, account_type, balance]
         DBConnection.insertRow(ACCOUNT_TABLE, params)
         return (True, f'New account of type {account_type} with balance {balance} added')
     except Exception as e:
-        logger.exception(f'Error while trying to adding account: {account_type}, {password}, {balance}')
-        return (False, 'Error while trying to sign up. Please try again')
+        logger.exception(f"Account add error: Customer {session.get(USERNAME, 'no user')}. Error while trying to adding account: {account_type}, {password}, {balance}")
+        return (False, 'Error while trying to add account. Please try again')
 
 
-def tryToViewTransactionHistory(account_no):
+def tryToViewTransactionHistory(account_no, username):
     '''Function to view transaction history of a specific account'''
     try:
-        rows = DBConnection.selectRows(table_name=TRANSACTION_TABLE, condition=f"{TRANSACTION_TABLE_COLS[1][0]} = '{account_no}'")
+        rows = DBConnection.selectRows(table_name=TRANSACTION_TABLE, condition=f"{TRANSACTION_TABLE_COLS[1][0]} = '{account_no}' OR {TRANSACTION_TABLE_COLS[2][0]} = '{account_no}'")
         result = []
         for row in rows:
             currrent_result = [row[0]]
@@ -183,6 +208,7 @@ def tryToViewTransactionHistory(account_no):
 
 
 def tryToViewAccounts(customer_id):
+    '''Function to try to retrieve all accounts of customer'''
     try:
         DBConnection.dbConnect()
         cur = DBConnection.cur
@@ -191,4 +217,104 @@ def tryToViewAccounts(customer_id):
         return cur.fetchall()
     except Exception as e:
         logger.exception(f'Error while trying to view accounts of customer {customer_id}')
-        return ()
+        return None
+
+
+def getViewAccountTemplate(template, title, navid, msg):
+    customer = getCustomer(session.get(USERNAME, ''))
+    if not customer:
+        logger.warning(f"View account error: Username {session.get(USERNAME, 'no user')}. Customer not found")
+        return render_template(template, title=title, id=navid, msg="Could not retrieve accounts", accountNotSelected=True)
+    res = tryToViewAccounts(customer[0])
+    if not res:
+        logger.warning(f"View account error: Username {session.get(USERNAME, 'no user')}. No accounts")
+        return render_template(template, title=title, id=navid, msg="You have no accounts", accountNotSelected=True)
+    return render_template(template, title=title, id=navid, result=res, accountNotSelected=True, msg=msg)
+
+
+def checkIfAccountBelongsToCustomer(account_no, username):
+    '''Function to check if the account belongs to current customer'''
+    try:
+        customer = getCustomer(username)
+        if not customer:
+            return False
+        rows = DBConnection.selectRows(table_name=ACCOUNT_MAPPING_TABLE, condition=f"{ACCOUNT_MAPPING_TABLE_COLS[0][0]} = {account_no} and {ACCOUNT_MAPPING_TABLE_COLS[1][0]} = {customer[0]}")
+        return len(rows) != 0
+    except Exception as e:
+        return False
+
+
+def checkIfAccountExists(account_no, password=None):
+    '''Function to check if account is unique by checking in DB and password is valid if provided'''
+    rows = DBConnection.selectRows(table_name=ACCOUNT_TABLE, condition=f"{ACCOUNT_TABLE_COLS[0][0]} = '{account_no}'")
+    if not password:
+        return len(rows) != 0
+    if len(rows) == 0:
+        return False
+    password_hash = rows[0][1]
+    return PasswordHash.verifyHash(password_hash, password)
+
+
+def tryToMakeDeposit(account_no, amount, password, username):
+    try:
+        res = checkIfAccountExists(account_no, password)
+        if not (res[0]):
+            return (False, "Invalid credentials for account")
+        if not checkIfAccountBelongsToCustomer(account_no, username):
+            return (False, "Account does not belong to you")
+        account_row = res[1][0]
+        balance = int(account_row[3])
+        new_amount = balance + amount
+        DBConnection.updateRow(ACCOUNT_TABLE, f"{ACCOUNT_TABLE_COLS[3][0]} = '{new_amount}'", f"{ACCOUNT_TABLE_COLS[0][0]} = {account_no}")
+        DBConnection.insertRow(TRANSACTION_TABLE, params=['NULL', account_no, f"{amount}", f"'{DBConnection.getTimeStamp()}'"])
+        return (True, 'Deposit successful')
+    except Exception as e:
+        logger.exception(f"Deposit error: Failed to deposit {amount} into {account_no}")
+        return (False, 'Error while depositing. Please try again')
+  
+
+def tryToMakeWithdrawal(account_no, amount, password, username):
+    '''Function to try and withdraw cash from account'''
+    try:
+        res = checkIfAccountExists(account_no, password)
+        if not (res[0]):
+            return (False, "Invalid credentials for account")
+        if not checkIfAccountBelongsToCustomer(account_no, username):
+            return (False, "Account does not belong to you")
+        account_row = res[1][0]
+        balance = int(account_row[3])
+        if balance < amount:
+            return(False, "Not Enough Balance")
+        new_amount = balance - amount
+        DBConnection.updateRow(ACCOUNT_TABLE, f"{ACCOUNT_TABLE_COLS[3][0]} = '{new_amount}'", f"{ACCOUNT_TABLE_COLS[0][0]} = {account_no}")
+        DBConnection.insertRow(TRANSACTION_TABLE, params=[account_no, 'NULL', f"{amount}", f"'{DBConnection.getTimeStamp()}'"])
+        return (True, 'Withdrawal successful')
+    except Exception as e:
+        logger.exception(f"Withdrawal error: Failed to withdraw {amount} from {account_no}")
+        return (False, 'Error while withdrawing. Please try again')
+
+
+def tryToMakeTransaction(from_account_no, to_account_no, amount, password, username):
+    '''Function to try to transfer from one account to another'''
+    try:
+        res1 = checkIfAccountExists(from_account_no, password)
+        res2 = checkIfAccountExists(to_account_no)
+        if not (res1[0] and res2[0]):
+            return (False, "One or more accounts do not exist or invalid credentials. Please try again")
+        if not checkIfAccountBelongsToCustomer(from_account_no, username):
+            return (False, "Account does not belong to you")
+        from_account_row = res1[1][0]
+        to_account_row = res2[1][0]
+        from_balance = int(from_account_row[3])
+        to_balance = int(to_account_row[3])
+        if from_balance <= amount:
+            return(False, "Not Enough Balance")
+        new_from_amount = from_balance - amount
+        new_to_amount = to_balance + amount
+        DBConnection.updateRow(ACCOUNT_TABLE, f"{ACCOUNT_TABLE_COLS[3][0]} = '{new_from_amount}'", f"{ACCOUNT_TABLE_COLS[0][0]} = {from_account_no}")
+        DBConnection.updateRow(ACCOUNT_TABLE, f"{ACCOUNT_TABLE_COLS[3][0]} = '{new_to_amount}'", f"{ACCOUNT_TABLE_COLS[0][0]} = {to_account_no}")
+        DBConnection.insertRow(TRANSACTION_TABLE, params=[from_account_no, to_account_no, f"{amount}", f"'{DBConnection.getTimeStamp()}'"])
+        return (True, 'Transaction successful')
+    except Exception as e:
+        logger.exception(f"Deposit error: Failed to transfer {amount} from account {from_account_no} into account {to_account_no}")
+        return (False, 'Error Making Transaction. Please try again')
