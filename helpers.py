@@ -325,7 +325,7 @@ def tryToMakeTransaction(from_account_no, to_account_no, amount, password, usern
         new_to_amount = to_balance + amount
         DBConnection.updateRow(ACCOUNT_TABLE, f"{ACCOUNT_TABLE_COLS[3][0]} = '{new_from_amount}'", f"{ACCOUNT_TABLE_COLS[0][0]} = {from_account_no}")
         DBConnection.updateRow(ACCOUNT_TABLE, f"{ACCOUNT_TABLE_COLS[3][0]} = '{new_to_amount}'", f"{ACCOUNT_TABLE_COLS[0][0]} = {to_account_no}")
-        DBConnection.insertRow(TRANSACTION_TABLE, params=[from_account_no, to_account_no, f"{amount}", f"'{DBConnection.getTimeStamp()}'"])
+        DBConnection.insertRow(TRANSACTION_TABLE, params=[f'{from_account_no}', f'{to_account_no}', f"{amount}", f"'{DBConnection.getTimeStamp()}'"])
         return (True, 'Transaction successful')
     except Exception as e:
         logger.exception(f"Deposit error: Failed to transfer {amount} from account {from_account_no} into account {to_account_no}")
