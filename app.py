@@ -88,7 +88,7 @@ def login():
 @app.route('/addaccount', methods=['GET','POST'])
 def addAccount():
     try:
-        if not verifySession():
+        if not verifySession()[0]:
             return redirect(url_for('clearsession'))
         form = AccountForm()
         if form.validate_on_submit():
@@ -110,7 +110,7 @@ def addAccount():
 @app.route('/viewaccount', methods=['GET','POST'])
 def viewAccount():
     try:
-        if not verifySession():
+        if not verifySession()[0]:
             return redirect(url_for('clearsession'))
         # return getViewAccountTemplate(template='view_account.html', title='View accounts', navid=['nav3', 'nav5'], msg=None)
         customer = getCustomer(session.get(USERNAME, ''))
@@ -131,7 +131,7 @@ def viewAccount():
 def viewTransactionHistory(account_no):
     '''Page to view transaction history of an account'''
     try:
-        if not verifySession():
+        if not verifySession()[0]:
             return redirect(url_for('clearsession'))
         result = tryToViewTransactionHistory(account_no, session.get(USERNAME, ''))
         if not result[0]:
@@ -148,7 +148,7 @@ def viewTransactionHistory(account_no):
 @app.route('/deposit/<account_no>', methods=['GET','POST'])
 def deposit(account_no):
     try:
-        if not verifySession():
+        if not verifySession()[0]:
             return redirect(url_for('clearsession'))
         form = TransactionForm()
         form.transaction_account_no.data = '-1'
@@ -172,7 +172,7 @@ def deposit(account_no):
 @app.route('/withdraw/<account_no>', methods=['GET','POST'])
 def withdrawal(account_no):
     try:
-        if not verifySession():
+        if not verifySession()[0]:
             return redirect(url_for('clearsession'))
         form = TransactionForm()
         form.transaction_account_no.data = '-1'
@@ -196,7 +196,7 @@ def withdrawal(account_no):
 @app.route('/transaction/<account_no>', methods=['GET','POST'])
 def transaction(account_no):
     try:
-        if not verifySession():
+        if not verifySession()[0]:
             return redirect(url_for('clearsession'))
         form = TransactionForm()
         if form.validate_on_submit():
@@ -222,7 +222,7 @@ def transaction(account_no):
 def clearsession():
     '''Page to clear session variables'''
     try:
-        logger.info(f"Clearing session variables for user {session[USERNAME]}")
+        logger.info(f"Clearing session variables for user {session.get(USERNAME, 'no user')}")
         session.pop(USERNAME, default=None)
         session.pop(TOKEN, default=None)
         logger.info(f'Session variables cleared')
@@ -237,9 +237,11 @@ def clearsession():
 def adminlogin():
     '''Page to login admin'''
     try:
-        if verifySession():
-            return redirect(url_for('home'))
+        print('In here')
+        if verifySession()[0]:
+            return redirect(url_for('clearsession'))
         form = LoginForm()
+        print('Here')
         if form.validate_on_submit():
             res = form.username.data == ADMIN_USERNAME and PasswordHash.verifyHash(ADMIN_PASSWORD, form.password.data)
             form.username.data = ''
@@ -248,6 +250,7 @@ def adminlogin():
                 # Could not log in due to invalid credentials
                 return render_template('admin_login.html', title='Admin Login', form=form, msg='Invalid credentials')
             # Login successful
+            session['admin'] = ADMIN_USERNAME
             return redirect(url_for('adminViewCustomers'))
         return render_template('admin_login.html', title='Admin Login', form=form)
     except Exception as e:
@@ -258,7 +261,12 @@ def adminlogin():
 @app.route('/admin/customers')
 def adminViewCustomers():
     try:
-        return render_template('admin_view_customer.html', title='Customers', id=["nav1"])
+        if verifySession()[0] or session.get('admin', '') != ADMIN_USERNAME:
+            return redirect(url_for('clearsession'))
+        rows = displayCustomers()
+        if len(rows) == 0:
+            return render_template('admin_view_customer.html', title='Customers', id=["nav1"])
+        return render_template('admin_view_customer.html', title='Customers', id=["nav1"], result=rows)
     except Exception as e:
         logger.exception(f"Error while accessing admin customer display page")
         return render_template('admin_view_customer.html', title='Customers', id=["nav1"])
@@ -266,17 +274,40 @@ def adminViewCustomers():
 
 @app.route('/admin/accounts')
 def adminViewAccounts():
-    return
+    try:
+        if verifySession()[0] or session.get('admin', '') != ADMIN_USERNAME:
+            return redirect(url_for('clearsession'))
+        rows = displayAccount()
+        if len(rows) == 0:
+            return render_template('admin_view_account.html', title='Accounts', id=["nav2"])
+        return render_template('admin_view_account.html', title='Accounts', id=["nav2"], result=rows)
+    except Exception as e:
+        logger.exception(f"Error while accessing admin account display page")
+        return render_template('admin_view_account.html', title='Accounts', id=["nav2"])
 
 
 @app.route('/admin/history')
 def adminViewHistory():
-    return
+    try:
+        if verifySession()[0] or session.get('admin', '') != ADMIN_USERNAME:
+            return redirect(url_for('clearsession'))
+        rows = displayTransactions()
+        if len(rows) == 0:
+            return render_template('admin_view_history.html', title='Transaction History', id=["nav3"])
+        return render_template('admin_view_history.html', title='Transaction History', id=["nav3"], result=rows)
+    except Exception as e:
+        logger.exception(f"Error while accessing admin account display page")
+        return render_template('admin_view_history.html', title='Transaction History', id=["nav3"])
 
 
 @app.route('/admin/logout')
 def adminLogout():
-    return
+    try:
+        session.pop('home', default=None)
+        return redirect(url_for('home'))
+    except Exception as e:
+        logger.exception(f"Error while logging out admin account")
+        return redirect(url_for('home'))
 
 
 # API methods

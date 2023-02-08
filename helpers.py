@@ -335,3 +335,67 @@ def tryToMakeTransaction(from_account_no, to_account_no, amount, password, usern
     except Exception as e:
         logger.exception(f"Deposit error: Failed to transfer {amount} from account {from_account_no} into account {to_account_no}")
         return (False, 'Error Making Transaction. Please try again')
+
+
+def modifyCustomer(form):
+    try:
+        customer_id = form.customer_id.data
+        password = form.password.data
+        password_hash = PasswordHash.generateHash(password)
+        if len(password_hash) == 0:
+            return (False, f'Bad password {password}. Use another password.')
+        address = form.address.data
+        mobile_number = form.mobile_number.data
+        if mobile_number // 10000000000 <= 0 and mobile_number // 10000000000 > 9:
+            return (False, f'Invalid mobile number {mobile_number}. Enter a valid mobile number')
+        if not checkIfMobileIsUnique(mobile_number):
+            return (False, f'Mobile number {mobile_number} already registered')
+        
+        set_cols = f"{CUSTOMER_TABLE_COLS[2][0]} = '{password}', {CUSTOMER_TABLE_COLS[5][0]} = '{address}', {CUSTOMER_TABLE_COLS[6][0]} = '{mobile_number}'"
+        DBConnection.updateRow(CUSTOMER_TABLE,setCols=set_cols, condition=f"{CUSTOMER_TABLE_COLS[0][0]} = {customer_id}")
+        
+    except Exception as e:
+        print(f'{e}')
+        return (False, 'Error Making Transaction. Please try again')
+ 
+
+def deleteCustomer(customer_id):
+    try:
+        DBConnection.deleteRows(CUSTOMER_TABLE, condition=f"{CUSTOMER_TABLE_COLS[0][0]} = {customer_id}")
+    except Exception as e:
+        print(f'{e}')
+        return (False, 'Error Making Transaction. Please try again')
+
+
+def modifyAccount(form):
+    try:
+        account_no = form.account_no.data
+        password = form.password.data
+        password_hash = PasswordHash.generateHash(password)
+        if len(password_hash) == 0:
+            return (False, f'Bad password {password}. Use another password.')
+        set_cols = f"{ACCOUNT_TABLE_COLS[1][0]} = '{password}'"
+        DBConnection.updateRow(ACCOUNT_TABLE, setCols=set_cols, condition=f"{ACCOUNT_TABLE_COLS[0][0]} = {account_no}")
+    except Exception as e:
+        print(f'{e}')
+        return (False, 'Error Making Transaction. Please try again')
+    
+
+def deleteAccount(account_no):
+    try:
+        DBConnection.deleteRows(ACCOUNT_TABLE, condition=f"{ACCOUNT_TABLE_COLS[0][0]} = {account_no}")
+    except Exception as e:
+        print(f'{e}')
+        return (False, 'Error Making Transaction. Please try again')
+
+
+def displayTransactions():
+    return DBConnection.selectRows(TRANSACTION_TABLE)
+
+
+def displayCustomers():
+    return DBConnection.selectRows(CUSTOMER_TABLE)
+
+
+def displayAccount():
+    return DBConnection.selectRows(ACCOUNT_TABLE)
