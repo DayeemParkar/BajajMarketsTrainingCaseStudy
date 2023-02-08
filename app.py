@@ -440,7 +440,7 @@ def apiDeposit():
         account = payload.get('account_no', -1)
         amount = payload.get('amount', 0)
         password = payload.get('account_password', '')
-        res = tryToMakeDeposit(account, amount, password, customer.get('username', ''))
+        res = tryToMakeDeposit(f"{account}", amount, password, customer.get('username', ''))
         if not res[0]:
             return make_response(jsonify({'message' : f'{res[1]}'}), 400)
         return make_response(jsonify({'message' : f'{res[1]}'}), 200)
@@ -459,7 +459,7 @@ def apiWithdraw():
         account = payload.get('account_no', -1)
         amount = payload.get('amount', 0)
         password = payload.get('account_password', '')
-        res = tryToMakeWithdrawal(account, amount, password, customer.get('username', ''))
+        res = tryToMakeWithdrawal(f"{account}", amount, password, customer.get('username', ''))
         if not res[0]:
             return make_response(jsonify({'message' : f'{res[1]}'}), 400)
         return make_response(jsonify({'message' : f'{res[1]}'}), 200)
