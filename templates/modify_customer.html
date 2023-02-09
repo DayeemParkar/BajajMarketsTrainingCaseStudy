@@ -1,0 +1,20 @@
+{% extends "adminnavbar.html" %}
+{% block body %}
+
+<div class="login-container">
+    <form action="" class="form-login" method="POST">
+        <div class="text"> Modify Customer </div>
+        <ul class="login-nav">
+        </ul>
+        {{ form.hidden_tag() }}
+        {{ form.password.label(class_="login__label") }}
+        {{ form.password(class_="login__input") }}
+        {{ form.address.label(class_="login__label") }}
+        {{ form.address(class_="login__input") }}
+        {{ form.mobile_number.label(class_="login__label") }}
+        {{ form.mobile_number(class_="login__input") }}
+        {{ form.submit(class_="login__submit") }}
+    </form>
+</div>
+    
+{% endblock %}

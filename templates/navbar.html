@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block nav %}
 <ul class="navbar">
-    <li><a id="nav1" href="{{ url_for('home') }}">Home</a></li>
+    <li><a id="nav1" href="{{ url_for('home') }}">Saraswati Bank</a></li>
     <ul class="topnav-right">
         <li><a id="nav2" href="{{ url_for('clearsession') }}">Logout</a></li>
     </ul>
@@ -25,6 +25,9 @@
           <a id="nav10" href="{{ url_for('withdrawal', account_no=-1) }}">Withdraw</a>
         </div>
     </div>
+
+    <li><a id="nav11" href="{{ url_for('api') }}">API</a></li>
+    <li><a id="nav12" href="{{ url_for('admin') }}">Admin</a></li>
 </ul>
 {% endblock %}
 

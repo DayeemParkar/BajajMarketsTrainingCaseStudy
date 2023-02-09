@@ -5,7 +5,7 @@ from functools import wraps
 # for request and response
 from flask import request, make_response, jsonify, session, render_template
 # for flask forms
-from forms import CustomerForm, AccountForm, LoginForm, TransactionForm
+from forms import CustomerForm, AccountForm, LoginForm, TransactionForm, CustomerModifyForm, AccountModifyForm
 # for logger
 from logger_class import logger
 # for Token class
@@ -174,6 +174,8 @@ def tryToAddAccount(form, username):
             logger.warning(f"Account add warning: Customer {username}. Bad password {password}")
             return (False, f'Bad password {password}. Use another password.')
         balance = form.balance.data
+        if balance < 0:
+            return (False, "Amount must be greater than or equal to 0")
         params = [password_hash, account_type, balance]
         customer = getCustomer(username)
         if not customer:
@@ -196,7 +198,7 @@ def tryToViewTransactionHistory(account_no, username):
             return (False, "Account does not exist")
         if not checkIfAccountBelongsToCustomer(account_no, username):
             return (False, "This account does not belong to you")
-        rows = DBConnection.selectRows(table_name=TRANSACTION_TABLE, condition=f"{TRANSACTION_TABLE_COLS[1][0]} = '{account_no}' OR {TRANSACTION_TABLE_COLS[2][0]} = '{account_no}'")
+        rows = DBConnection.selectRows(table_name=TRANSACTION_TABLE, condition=f"{TRANSACTION_TABLE_COLS[1][0]} = '{account_no}' OR {TRANSACTION_TABLE_COLS[2][0]} = '{account_no}'", additions=F'ORDER BY {TRANSACTION_TABLE_COLS[-1][0]} DESC')
         result = []
         for row in rows:
             currrent_result = [row[0]]
@@ -229,7 +231,7 @@ def tryToViewAccounts(customer_id):
     try:
         DBConnection.dbConnect()
         cur = DBConnection.cur
-        sql = f"SELECT account_no, account_type, account_balance from {ACCOUNT_TABLE} where account_no in (select account_no from {ACCOUNT_MAPPING_TABLE} where customer_id = '{customer_id}')"
+        sql = f"SELECT account_no, account_type, account_balance from {ACCOUNT_TABLE} where account_no in (select account_no from {ACCOUNT_MAPPING_TABLE} where customer_id = '{customer_id}' ORDER BY {ACCOUNT_MAPPING_TABLE_COLS[0][0]})"
         cur.execute(sql)
         return cur.fetchall()
     except Exception as e:
@@ -279,6 +281,8 @@ def tryToMakeDeposit(account_no, amount, password, username):
             return (False, "Invalid credentials for account")
         if not checkIfAccountBelongsToCustomer(account_no, username):
             return (False, "Account does not belong to you")
+        if amount <= 0:
+            return (False, "Amount must be greater than 0")
         account_row = res[1][0]
         balance = int(account_row[3])
         new_amount = balance + amount
@@ -298,6 +302,8 @@ def tryToMakeWithdrawal(account_no, amount, password, username):
             return (False, "Invalid credentials for account")
         if not checkIfAccountBelongsToCustomer(account_no, username):
             return (False, "Account does not belong to you")
+        if amount <= 0:
+            return (False, "Amount must be greater than 0")
         account_row = res[1][0]
         balance = int(account_row[3])
         if balance < amount:
@@ -322,6 +328,8 @@ def tryToMakeTransaction(from_account_no, to_account_no, amount, password, usern
             return (False, "Account does not belong to you")
         if from_account_no == to_account_no:
             return (False, "Cannot transfer to the same account")
+        if amount <= 0:
+            return (False, "Amount must be greater than 0")
         from_account_row = res1[1][0]
         to_account_row = res2[1][0]
         from_balance = int(from_account_row[3])
@@ -339,65 +347,86 @@ def tryToMakeTransaction(from_account_no, to_account_no, amount, password, usern
         return (False, 'Error Making Transaction. Please try again')
 
 
-def modifyCustomer(form):
+def tryToModifyCustomer(customer_id, password, address, mobile_no):
     try:
-        customer_id = form.customer_id.data
-        password = form.password.data
+        customer_id = customer_id
+        password = password
         password_hash = PasswordHash.generateHash(password)
         if len(password_hash) == 0:
             return (False, f'Bad password {password}. Use another password.')
-        address = form.address.data
-        mobile_number = form.mobile_number.data
+        address = address
+        mobile_number = mobile_no
         if mobile_number // 10000000000 <= 0 and mobile_number // 10000000000 > 9:
             return (False, f'Invalid mobile number {mobile_number}. Enter a valid mobile number')
         if not checkIfMobileIsUnique(mobile_number):
             return (False, f'Mobile number {mobile_number} already registered')
-        
-        set_cols = f"{CUSTOMER_TABLE_COLS[2][0]} = '{password}', {CUSTOMER_TABLE_COLS[5][0]} = '{address}', {CUSTOMER_TABLE_COLS[6][0]} = '{mobile_number}'"
+        set_cols = f"{CUSTOMER_TABLE_COLS[2][0]} = '{password_hash}', {CUSTOMER_TABLE_COLS[5][0]} = '{address}', {CUSTOMER_TABLE_COLS[6][0]} = '{mobile_number}'"
         DBConnection.updateRow(CUSTOMER_TABLE,setCols=set_cols, condition=f"{CUSTOMER_TABLE_COLS[0][0]} = {customer_id}")
-        
+        return (True, f'Modified details of customer {customer_id}')
     except Exception as e:
         print(f'{e}')
         return (False, 'Error Making Transaction. Please try again')
  
 
-def deleteCustomer(customer_id):
+def tryToDeleteCustomer(customer_id):
     try:
         DBConnection.deleteRows(CUSTOMER_TABLE, condition=f"{CUSTOMER_TABLE_COLS[0][0]} = {customer_id}")
+        return (True, f'Deleted customer {customer_id}')
     except Exception as e:
         print(f'{e}')
         return (False, 'Error Making Transaction. Please try again')
 
 
-def modifyAccount(form):
+def tryToModifyAccount(account_no, password, account_type):
     try:
-        account_no = form.account_no.data
-        password = form.password.data
         password_hash = PasswordHash.generateHash(password)
         if len(password_hash) == 0:
             return (False, f'Bad password {password}. Use another password.')
-        set_cols = f"{ACCOUNT_TABLE_COLS[1][0]} = '{password}'"
+        set_cols = f"{ACCOUNT_TABLE_COLS[1][0]} = '{password_hash}', {ACCOUNT_TABLE_COLS[2][0]} = '{account_type}'"
         DBConnection.updateRow(ACCOUNT_TABLE, setCols=set_cols, condition=f"{ACCOUNT_TABLE_COLS[0][0]} = {account_no}")
+        return (True, f'Modified account {account_no}')
     except Exception as e:
         print(f'{e}')
         return (False, 'Error Making Transaction. Please try again')
     
 
-def deleteAccount(account_no):
+def tryToDeleteAccount(account_no):
     try:
         DBConnection.deleteRows(ACCOUNT_TABLE, condition=f"{ACCOUNT_TABLE_COLS[0][0]} = {account_no}")
+        return (True, f'Deleted account {account_no}')
     except Exception as e:
         print(f'{e}')
         return (False, 'Error Making Transaction. Please try again')
 
 
 def displayTransactions():
-    return DBConnection.selectRows(TRANSACTION_TABLE)
+    '''Function to view transaction history of all accounts'''
+    try:
+        rows = DBConnection.selectRows(TRANSACTION_TABLE, additions=f'ORDER BY {TRANSACTION_TABLE_COLS[-1][0]} DESC')
+        result = []
+        for row in rows:
+            currrent_result = [row[0]]
+            currrent_result.append(row[1] if row[1] else "Cash")
+            currrent_result.append(row[2] if row[1] else "Cash")
+            currrent_result.append(row[3])
+            currrent_result.append(row[4])
+            result.append(currrent_result)
+        return (True, result)
+    except Exception as e:
+        logger.exception(f'Error while trying to view entire transaction history')
+        return (False, 'Error while trying to view transaction history. Please try again')
 
 
 def displayCustomers():
-    return DBConnection.selectRows(CUSTOMER_TABLE)
+    return DBConnection.selectRows(CUSTOMER_TABLE, additions=f'ORDER BY {CUSTOMER_TABLE_COLS[0][0]}')
 
 
 def displayAccount():
-    return DBConnection.selectRows(ACCOUNT_TABLE)
+    DBConnection.dbConnect()
+    cur = DBConnection.cur
+    ACCOUNT_TABLE
+    ACCOUNT_TABLE_COLS
+    ACCOUNT_MAPPING_TABLE
+    ACCOUNT_MAPPING_TABLE_COLS
+    cur.execute(f"SELECT a.{ACCOUNT_TABLE_COLS[0][0]}, m.{ACCOUNT_MAPPING_TABLE_COLS[1][0]}, a.{ACCOUNT_TABLE_COLS[1][0]}, a.{ACCOUNT_TABLE_COLS[2][0]}, a.{ACCOUNT_TABLE_COLS[3][0]} from {ACCOUNT_TABLE} as a inner join {ACCOUNT_MAPPING_TABLE} as m on a.{ACCOUNT_TABLE_COLS[0][0]} = m.{ACCOUNT_MAPPING_TABLE_COLS[0][0]} order by a.{ACCOUNT_TABLE_COLS[0][0]};")
+    return cur.fetchall()

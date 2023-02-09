@@ -21,8 +21,9 @@
                 <td>{{ row[4] }}</td>
                 <td>{{ row[5] }}</td>
                 <td>{{ row[6] }}</td>
-                <td><a href="{{ url_for('withdrawal', account_no=row[0]) }}">Delete</a>
-                    <br><a href="{{ url_for('withdrawal', account_no=row[0]) }}">Modify</a>
+                <td><a href="{{ url_for('modifyCustomer', customer_id=row[0]) }}">Modify</a>
+                    <br>
+                    <a href="{{ url_for('deleteCustomer', customer_id=row[0]) }}">Delete</a>
                 </td>
             </tr>
             {% endfor %}

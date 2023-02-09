@@ -932,27 +932,3 @@ TypeError: sequence item 1: expected str instance, int found
 Traceback (most recent call last):
   File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/helpers.py", line 284, in tryToMakeDeposit
     new_amount = balance + amount
-TypeError: unsupported operand type(s) for +: 'int' and 'str'
-2023-02-09 00:39:21,961 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiJ1cGFzcyIsInRpbWVzdGFtcCI6IjIwMjMtMDItMDkgMDA6Mzg6MDkuMDcxMDU1In0.lFHuc2zHudIu-M_0rL2vcAG65zyZgfIYmEMZhClwxII' to get {'username': 'uname', 'password': 'upass', 'timestamp': '2023-02-09 00:38:09.071055'}
-2023-02-09 00:39:22,241 - INFO - Customer Login info: Customer uname verified
-2023-02-09 00:39:45,257 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiJ1cGFzcyIsInRpbWVzdGFtcCI6IjIwMjMtMDItMDkgMDA6Mzg6MDkuMDcxMDU1In0.lFHuc2zHudIu-M_0rL2vcAG65zyZgfIYmEMZhClwxII' to get {'username': 'uname', 'password': 'upass', 'timestamp': '2023-02-09 00:38:09.071055'}
-2023-02-09 00:39:45,523 - INFO - Customer Login info: Customer uname verified
-2023-02-09 00:39:45,524 - INFO - Decoded token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiJ1cGFzcyIsInRpbWVzdGFtcCI6IjIwMjMtMDItMDkgMDA6Mzg6MDkuMDcxMDU1In0.lFHuc2zHudIu-M_0rL2vcAG65zyZgfIYmEMZhClwxII to get {'username': 'uname', 'password': 'upass', 'timestamp': '2023-02-09 00:38:09.071055'}
-2023-02-09 00:39:59,131 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiJ1cGFzcyIsInRpbWVzdGFtcCI6IjIwMjMtMDItMDkgMDA6Mzg6MDkuMDcxMDU1In0.lFHuc2zHudIu-M_0rL2vcAG65zyZgfIYmEMZhClwxII' to get {'username': 'uname', 'password': 'upass', 'timestamp': '2023-02-09 00:38:09.071055'}
-2023-02-09 00:39:59,391 - INFO - Customer Login info: Customer uname verified
-2023-02-09 00:39:59,391 - INFO - Decoded token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiJ1cGFzcyIsInRpbWVzdGFtcCI6IjIwMjMtMDItMDkgMDA6Mzg6MDkuMDcxMDU1In0.lFHuc2zHudIu-M_0rL2vcAG65zyZgfIYmEMZhClwxII to get {'username': 'uname', 'password': 'upass', 'timestamp': '2023-02-09 00:38:09.071055'}
-2023-02-09 00:39:59,394 - INFO - Showing accounts for api customer
-2023-02-09 00:40:13,988 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiJ1cGFzcyIsInRpbWVzdGFtcCI6IjIwMjMtMDItMDkgMDA6Mzg6MDkuMDcxMDU1In0.lFHuc2zHudIu-M_0rL2vcAG65zyZgfIYmEMZhClwxII' to get {'username': 'uname', 'password': 'upass', 'timestamp': '2023-02-09 00:38:09.071055'}
-2023-02-09 00:40:14,249 - INFO - Customer Login info: Customer uname verified
-2023-02-09 00:40:14,250 - INFO - Decoded token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiJ1cGFzcyIsInRpbWVzdGFtcCI6IjIwMjMtMDItMDkgMDA6Mzg6MDkuMDcxMDU1In0.lFHuc2zHudIu-M_0rL2vcAG65zyZgfIYmEMZhClwxII to get {'username': 'uname', 'password': 'upass', 'timestamp': '2023-02-09 00:38:09.071055'}
-2023-02-09 00:40:21,336 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiJ1cGFzcyIsInRpbWVzdGFtcCI6IjIwMjMtMDItMDkgMDA6Mzg6MDkuMDcxMDU1In0.lFHuc2zHudIu-M_0rL2vcAG65zyZgfIYmEMZhClwxII' to get {'username': 'uname', 'password': 'upass', 'timestamp': '2023-02-09 00:38:09.071055'}
-2023-02-09 00:40:21,596 - INFO - Customer Login info: Customer uname verified
-2023-02-09 00:40:21,596 - INFO - Decoded token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiJ1cGFzcyIsInRpbWVzdGFtcCI6IjIwMjMtMDItMDkgMDA6Mzg6MDkuMDcxMDU1In0.lFHuc2zHudIu-M_0rL2vcAG65zyZgfIYmEMZhClwxII to get {'username': 'uname', 'password': 'upass', 'timestamp': '2023-02-09 00:38:09.071055'}
-2023-02-09 00:40:21,598 - INFO - Showing accounts for api customer
-2023-02-09 00:40:44,312 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiJ1cGFzcyIsInRpbWVzdGFtcCI6IjIwMjMtMDItMDkgMDA6Mzg6MDkuMDcxMDU1In0.lFHuc2zHudIu-M_0rL2vcAG65zyZgfIYmEMZhClwxII' to get {'username': 'uname', 'password': 'upass', 'timestamp': '2023-02-09 00:38:09.071055'}
-2023-02-09 00:40:44,577 - INFO - Customer Login info: Customer uname verified
-2023-02-09 00:40:44,584 - INFO - Decoded token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiJ1cGFzcyIsInRpbWVzdGFtcCI6IjIwMjMtMDItMDkgMDA6Mzg6MDkuMDcxMDU1In0.lFHuc2zHudIu-M_0rL2vcAG65zyZgfIYmEMZhClwxII to get {'username': 'uname', 'password': 'upass', 'timestamp': '2023-02-09 00:38:09.071055'}
-2023-02-09 00:40:55,119 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiJ1cGFzcyIsInRpbWVzdGFtcCI6IjIwMjMtMDItMDkgMDA6Mzg6MDkuMDcxMDU1In0.lFHuc2zHudIu-M_0rL2vcAG65zyZgfIYmEMZhClwxII' to get {'username': 'uname', 'password': 'upass', 'timestamp': '2023-02-09 00:38:09.071055'}
-2023-02-09 00:40:55,381 - INFO - Customer Login info: Customer uname verified
-2023-02-09 00:40:55,381 - INFO - Decoded token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiJ1cGFzcyIsInRpbWVzdGFtcCI6IjIwMjMtMDItMDkgMDA6Mzg6MDkuMDcxMDU1In0.lFHuc2zHudIu-M_0rL2vcAG65zyZgfIYmEMZhClwxII to get {'username': 'uname', 'password': 'upass', 'timestamp': '2023-02-09 00:38:09.071055'}
-2023-02-09 00:40:55,384 - INFO - Showing accounts for api customer

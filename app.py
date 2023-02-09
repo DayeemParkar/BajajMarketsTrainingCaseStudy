@@ -225,6 +225,7 @@ def clearsession():
         logger.info(f"Clearing session variables for user {session.get(USERNAME, 'no user')}")
         session.pop(USERNAME, default=None)
         session.pop(TOKEN, default=None)
+        session.pop(ADMIN_USERNAME, default=None)
         logger.info(f'Session variables cleared')
         return redirect(url_for('login'))
     except Exception as e:
@@ -232,16 +233,93 @@ def clearsession():
         return redirect(url_for('login'))
 
 
+@app.route('/deletecustomer/<customer_id>')
+def deleteCustomer(customer_id):
+    try:
+        if session.get('admin', '') != ADMIN_USERNAME:
+            return redirect(url_for('home'))
+        res = tryToDeleteCustomer(customer_id)
+        logger.info(res[1])
+        return redirect(url_for('adminViewCustomers'))
+    except:
+        logger.exception(f'Error while deleting customer with id {customer_id}')
+        return redirect(url_for('adminViewCustomers'))
+
+
+@app.route('/modifycustomer/<customer_id>', methods=['GET','POST'])
+def modifyCustomer(customer_id):
+    try:
+        if session.get('admin', '') != ADMIN_USERNAME:
+            return redirect(url_for('home'))
+        form = CustomerModifyForm()
+        if form.validate_on_submit():
+            res = tryToModifyCustomer(customer_id, form.password.data, form.address.data, form.mobile_number.data)
+            if not res[0]:
+                logger.warning(res[1])
+                return render_template('modify_customer.html', title=f'Modify customer {customer_id}', form=form, msg=res[1])
+            logger.info(res[1])
+            return redirect(url_for('adminViewCustomers'))
+        return render_template('modify_customer.html', title=f'Modify customer {customer_id}', form=form)
+    except:
+        logger.exception(f'Error while accesing form to modify customer')
+        return render_template('modify_customer.html', title=f'Modify customer {customer_id}', form=form)
+
+
+@app.route('/deleteaccount/<account_no>')
+def deleteAccount(account_no):
+    try:
+        if session.get('admin', '') != ADMIN_USERNAME:
+            return redirect(url_for('home'))
+        res = tryToDeleteAccount(account_no)
+        logger.info(res[1])
+        return redirect(url_for('adminViewAccounts'))
+    except:
+        logger.exception(f'Error while deleting account with id {account_no}')
+        return redirect(url_for('adminViewAccounts'))
+
+
+@app.route('/modifyaccount/<account_no>', methods=['GET','POST'])
+def modifyAccount(account_no):
+    try:
+        if session.get('admin', '') != ADMIN_USERNAME:
+            return redirect(url_for('home'))
+        form = AccountModifyForm()
+        if form.validate_on_submit():
+            res = tryToModifyAccount(account_no, form.password.data, form.account_type.data)
+            if not res[0]:
+                logger.warning(res[1])
+                return render_template('modify_account.html', title=f'Modify account {account_no}', form=form, msg=res[1])
+            logger.info(res[1])
+            return redirect(url_for('adminViewAccounts'))
+        return render_template('modify_account.html', title=f'Modify account {account_no}', form=form)
+    except:
+        logger.exception(f'Error while accesing form to modify customer')
+        return render_template('modify_account.html', title=f'Modify account {account_no}', form=form)
+
+
 # Admin routes
+@app.route('/admin')
+def admin():
+    '''Clear session variables and redirect to admin login'''
+    try:
+        logger.info(f"Clearing session variables")
+        session.pop(USERNAME, default=None)
+        session.pop(TOKEN, default=None)
+        session.pop(ADMIN_USERNAME, default=None)
+        logger.info(f'Session variables cleared')
+        return redirect(url_for('adminlogin'))
+    except Exception as e:
+        logger.exception(f'Session variables were already cleared')
+        return redirect(url_for('adminlogin'))
+
+
 @app.route('/admin/login', methods=['GET','POST'])
 def adminlogin():
     '''Page to login admin'''
     try:
-        print('In here')
         if verifySession()[0]:
-            return redirect(url_for('clearsession'))
+            return redirect(url_for('home'))
         form = LoginForm()
-        print('Here')
         if form.validate_on_submit():
             res = form.username.data == ADMIN_USERNAME and PasswordHash.verifyHash(ADMIN_PASSWORD, form.password.data)
             form.username.data = ''
@@ -261,8 +339,8 @@ def adminlogin():
 @app.route('/admin/customers')
 def adminViewCustomers():
     try:
-        if verifySession()[0] or session.get('admin', '') != ADMIN_USERNAME:
-            return redirect(url_for('clearsession'))
+        if session.get('admin', '') != ADMIN_USERNAME:
+            return redirect(url_for('home'))
         rows = displayCustomers()
         if len(rows) == 0:
             return render_template('admin_view_customer.html', title='Customers', id=["nav1"])
@@ -275,8 +353,8 @@ def adminViewCustomers():
 @app.route('/admin/accounts')
 def adminViewAccounts():
     try:
-        if verifySession()[0] or session.get('admin', '') != ADMIN_USERNAME:
-            return redirect(url_for('clearsession'))
+        if session.get('admin', '') != ADMIN_USERNAME:
+            return redirect(url_for('home'))
         rows = displayAccount()
         if len(rows) == 0:
             return render_template('admin_view_account.html', title='Accounts', id=["nav2"])
@@ -289,9 +367,12 @@ def adminViewAccounts():
 @app.route('/admin/history')
 def adminViewHistory():
     try:
-        if verifySession()[0] or session.get('admin', '') != ADMIN_USERNAME:
-            return redirect(url_for('clearsession'))
-        rows = displayTransactions()
+        if session.get('admin', '') != ADMIN_USERNAME:
+            return redirect(url_for('home'))
+        res = displayTransactions()
+        if not res[0]:
+            return render_template('admin_view_history.html', title='Transaction History', id=["nav3"])
+        rows = res[1]
         if len(rows) == 0:
             return render_template('admin_view_history.html', title='Transaction History', id=["nav3"])
         return render_template('admin_view_history.html', title='Transaction History', id=["nav3"], result=rows)
@@ -311,6 +392,21 @@ def adminLogout():
 
 
 # API methods
+@app.route('/api')
+def api():
+    '''Clear session variables and redirect to swagger ui page'''
+    try:
+        logger.info(f"Clearing session variables")
+        session.pop(USERNAME, default=None)
+        session.pop(TOKEN, default=None)
+        session.pop(ADMIN_USERNAME, default=None)
+        logger.info(f'Session variables cleared')
+        return redirect('/swagger')
+    except Exception as e:
+        logger.exception(f'Session variables were already cleared')
+        return redirect('/swagger')
+
+
 @app.route('/api/retrievetoken', methods=['POST'])
 def retrieveToken():
     '''Retrieve Token'''
