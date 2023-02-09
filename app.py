@@ -137,7 +137,7 @@ def viewTransactionHistory(account_no):
         result = tryToViewTransactionHistory(account_no, session.get(USERNAME, ''))
         if not result[0]:
             # could not retrieve rows
-            return render_template('transaction_history.html', title=f"Account {account_no} history", id=["nav7"])
+            return render_template('transaction_history.html', title=f"Account {account_no} history", id=["nav7"], msg=result[1])
         # render transaction history table
         logger.info(f'Displaying transaction history of account {account_no}')
         return render_template('transaction_history.html', title=f"Account {account_no} history", id=["nav7"], result=result[1])

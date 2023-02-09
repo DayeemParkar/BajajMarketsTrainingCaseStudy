@@ -1068,3 +1068,36 @@ Traceback (most recent call last):
   File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/flask/sessions.py", line 80, in __getitem__
     return super().__getitem__(key)
 KeyError: ('username', '')
+2023-02-09 15:04:12,910 - INFO - Clearing session variables for user uname
+2023-02-09 15:04:12,910 - INFO - Session variables cleared
+2023-02-09 15:04:18,554 - INFO - Customer Login info: Customer dayeemparkar verified
+2023-02-09 15:04:18,554 - INFO - Customer dayeemparkar logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxNTowNDoxOC41NTQzMTUifQ.Mn01AOeWRNSv-NsckJ4pRibNxVmAoFYxcGrEq1N00qo
+2023-02-09 15:04:56,117 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxNTowNDoxOC41NTQzMTUifQ.Mn01AOeWRNSv-NsckJ4pRibNxVmAoFYxcGrEq1N00qo' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 15:04:18.554315'}
+2023-02-09 15:05:02,289 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxNTowNDoxOC41NTQzMTUifQ.Mn01AOeWRNSv-NsckJ4pRibNxVmAoFYxcGrEq1N00qo' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 15:04:18.554315'}
+2023-02-09 15:05:02,294 - INFO - Displaying transaction history of account 6
+2023-02-09 15:05:07,335 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxNTowNDoxOC41NTQzMTUifQ.Mn01AOeWRNSv-NsckJ4pRibNxVmAoFYxcGrEq1N00qo' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 15:04:18.554315'}
+2023-02-09 15:08:00,872 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxNTowNDoxOC41NTQzMTUifQ.Mn01AOeWRNSv-NsckJ4pRibNxVmAoFYxcGrEq1N00qo' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 15:04:18.554315'}
+2023-02-09 15:08:36,200 - INFO - Clearing session variables
+2023-02-09 15:08:36,200 - INFO - Session variables cleared
+2023-02-09 15:08:36,206 - ERROR - Could not verify session for user  with token 
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 143, in _load
+    signing_input, crypto_segment = jwt.rsplit(b'.', 1)
+ValueError: not enough values to unpack (expected 2, got 1)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/helpers.py", line 78, in verifySession
+    data = Token.checkApiToken(bytes(token, 'utf-8'), SECRET_KEY)
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/token_class.py", line 34, in checkApiToken
+    header = jwt.get_unverified_header(token)
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 129, in get_unverified_header
+    headers = self._load(jwt)[2]
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 146, in _load
+    raise DecodeError('Not enough segments')
+jwt.exceptions.DecodeError: Not enough segments
+2023-02-09 15:09:07,142 - INFO - Customer Login info: Customer dayeemparkar verified
+2023-02-09 15:09:07,142 - INFO - Customer dayeemparkar logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxNTowOTowNy4xNDI1ODEifQ.O_c-P6E677aG_SONb4fXG8vpxW2BP9mCJJafQfDMCUs
+2023-02-09 15:09:21,610 - INFO - Clearing session variables
+2023-02-09 15:09:21,611 - INFO - Session variables cleared
