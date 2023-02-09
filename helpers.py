@@ -107,7 +107,7 @@ def tryToAddCustomer(form):
         last_name = form.last_name.data
         address = form.address.data
         mobile_number = form.mobile_number.data
-        if mobile_number // 10000000000 <= 0 and mobile_number // 10000000000 > 9:
+        if len(str(mobile_number)) != 10:
             logger.warning(f'Register customer warning: Username {username}, invalid mobile number {mobile_number}')
             return (False, f'Invalid mobile number {mobile_number}. Enter a valid mobile number')
         if not checkIfMobileIsUnique(mobile_number):
@@ -356,7 +356,7 @@ def tryToModifyCustomer(customer_id, password, address, mobile_no):
             return (False, f'Bad password {password}. Use another password.')
         address = address
         mobile_number = mobile_no
-        if mobile_number // 10000000000 <= 0 and mobile_number // 10000000000 > 9:
+        if len(str(mobile_number)) != 0:
             return (False, f'Invalid mobile number {mobile_number}. Enter a valid mobile number')
         if not checkIfMobileIsUnique(mobile_number):
             return (False, f'Mobile number {mobile_number} already registered')
