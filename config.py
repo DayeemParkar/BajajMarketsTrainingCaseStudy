@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 from pathlib import Path
 from ast import literal_eval
 import os
-from password_hash_class import PasswordHash
 
 dotenv_path = Path('config.env')
 load_dotenv(dotenv_path=dotenv_path)

@@ -974,3 +974,88 @@ Traceback (most recent call last):
   File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 146, in _load
     raise DecodeError('Not enough segments')
 jwt.exceptions.DecodeError: Not enough segments
+2023-02-09 12:43:06,643 - INFO - Customer Login info: Customer uname verified
+2023-02-09 12:43:06,644 - INFO - Customer uname logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkOTMxQi5Mb01ieXB5VkczV1A2Y1Y5T2l6OC54Ny5rTFBFUDZKejY4MC9Tb3Exa3htZ2hLTW0iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA5IDEyOjQzOjA2LjY0NDA4NiJ9.wKAVZmZ8OgPt675OFcIfcHkEALuQjAV8LCRg7JmevIA
+2023-02-09 12:43:32,704 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkOTMxQi5Mb01ieXB5VkczV1A2Y1Y5T2l6OC54Ny5rTFBFUDZKejY4MC9Tb3Exa3htZ2hLTW0iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA5IDEyOjQzOjA2LjY0NDA4NiJ9.wKAVZmZ8OgPt675OFcIfcHkEALuQjAV8LCRg7JmevIA' to get {'username': 'uname', 'password': '$2b$12$931B.LoMbypyVG3WP6cV9Oiz8.x7.kLPEP6Jz680/Soq1kxmghKMm', 'timestamp': '2023-02-09 12:43:06.644086'}
+2023-02-09 12:43:41,240 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkOTMxQi5Mb01ieXB5VkczV1A2Y1Y5T2l6OC54Ny5rTFBFUDZKejY4MC9Tb3Exa3htZ2hLTW0iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA5IDEyOjQzOjA2LjY0NDA4NiJ9.wKAVZmZ8OgPt675OFcIfcHkEALuQjAV8LCRg7JmevIA' to get {'username': 'uname', 'password': '$2b$12$931B.LoMbypyVG3WP6cV9Oiz8.x7.kLPEP6Jz680/Soq1kxmghKMm', 'timestamp': '2023-02-09 12:43:06.644086'}
+2023-02-09 12:43:41,247 - INFO - Displaying transaction history of account 2
+2023-02-09 12:44:43,305 - INFO - Clearing session variables for user uname
+2023-02-09 12:44:43,305 - INFO - Session variables cleared
+2023-02-09 12:46:01,846 - INFO - Clearing session variables
+2023-02-09 12:46:01,846 - INFO - Session variables cleared
+2023-02-09 12:46:01,851 - ERROR - Could not verify session for user  with token 
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 143, in _load
+    signing_input, crypto_segment = jwt.rsplit(b'.', 1)
+ValueError: not enough values to unpack (expected 2, got 1)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/helpers.py", line 78, in verifySession
+    data = Token.checkApiToken(bytes(token, 'utf-8'), SECRET_KEY)
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/token_class.py", line 34, in checkApiToken
+    header = jwt.get_unverified_header(token)
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 129, in get_unverified_header
+    headers = self._load(jwt)[2]
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 146, in _load
+    raise DecodeError('Not enough segments')
+jwt.exceptions.DecodeError: Not enough segments
+2023-02-09 12:53:46,715 - INFO - Trying to add a new customer dayeemparkar
+2023-02-09 12:53:47,017 - INFO - Customer dayeemparkar created
+2023-02-09 12:54:17,765 - INFO - Customer Login info: Customer dayeemparkar verified
+2023-02-09 12:54:17,765 - INFO - Customer dayeemparkar logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1NDoxNy43NjUyOTQifQ.rh0JnYdMBJj6ubLElVz6vQd_OOUFRn-N___ztA-irNA
+2023-02-09 12:54:29,024 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1NDoxNy43NjUyOTQifQ.rh0JnYdMBJj6ubLElVz6vQd_OOUFRn-N___ztA-irNA' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 12:54:17.765294'}
+2023-02-09 12:54:53,040 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1NDoxNy43NjUyOTQifQ.rh0JnYdMBJj6ubLElVz6vQd_OOUFRn-N___ztA-irNA' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 12:54:17.765294'}
+2023-02-09 12:54:53,311 - INFO - Created new account for customer dayeemparkar
+2023-02-09 12:54:53,315 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1NDoxNy43NjUyOTQifQ.rh0JnYdMBJj6ubLElVz6vQd_OOUFRn-N___ztA-irNA' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 12:54:17.765294'}
+2023-02-09 12:54:58,166 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1NDoxNy43NjUyOTQifQ.rh0JnYdMBJj6ubLElVz6vQd_OOUFRn-N___ztA-irNA' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 12:54:17.765294'}
+2023-02-09 12:54:58,173 - INFO - Displaying transaction history of account 5
+2023-02-09 12:55:09,906 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1NDoxNy43NjUyOTQifQ.rh0JnYdMBJj6ubLElVz6vQd_OOUFRn-N___ztA-irNA' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 12:54:17.765294'}
+2023-02-09 12:55:17,122 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1NDoxNy43NjUyOTQifQ.rh0JnYdMBJj6ubLElVz6vQd_OOUFRn-N___ztA-irNA' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 12:54:17.765294'}
+2023-02-09 12:55:26,296 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1NDoxNy43NjUyOTQifQ.rh0JnYdMBJj6ubLElVz6vQd_OOUFRn-N___ztA-irNA' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 12:54:17.765294'}
+2023-02-09 12:55:26,573 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1NDoxNy43NjUyOTQifQ.rh0JnYdMBJj6ubLElVz6vQd_OOUFRn-N___ztA-irNA' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 12:54:17.765294'}
+2023-02-09 12:55:26,576 - INFO - Displaying transaction history of account 5
+2023-02-09 12:55:40,045 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1NDoxNy43NjUyOTQifQ.rh0JnYdMBJj6ubLElVz6vQd_OOUFRn-N___ztA-irNA' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 12:54:17.765294'}
+2023-02-09 12:55:47,269 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1NDoxNy43NjUyOTQifQ.rh0JnYdMBJj6ubLElVz6vQd_OOUFRn-N___ztA-irNA' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 12:54:17.765294'}
+2023-02-09 12:55:49,014 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1NDoxNy43NjUyOTQifQ.rh0JnYdMBJj6ubLElVz6vQd_OOUFRn-N___ztA-irNA' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 12:54:17.765294'}
+2023-02-09 12:56:01,078 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1NDoxNy43NjUyOTQifQ.rh0JnYdMBJj6ubLElVz6vQd_OOUFRn-N___ztA-irNA' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 12:54:17.765294'}
+2023-02-09 12:56:01,356 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1NDoxNy43NjUyOTQifQ.rh0JnYdMBJj6ubLElVz6vQd_OOUFRn-N___ztA-irNA' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 12:54:17.765294'}
+2023-02-09 12:56:01,359 - INFO - Displaying transaction history of account 5
+2023-02-09 12:56:10,561 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1NDoxNy43NjUyOTQifQ.rh0JnYdMBJj6ubLElVz6vQd_OOUFRn-N___ztA-irNA' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 12:54:17.765294'}
+2023-02-09 12:56:58,141 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1NDoxNy43NjUyOTQifQ.rh0JnYdMBJj6ubLElVz6vQd_OOUFRn-N___ztA-irNA' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 12:54:17.765294'}
+2023-02-09 12:57:00,095 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1NDoxNy43NjUyOTQifQ.rh0JnYdMBJj6ubLElVz6vQd_OOUFRn-N___ztA-irNA' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 12:54:17.765294'}
+2023-02-09 12:57:10,580 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1NDoxNy43NjUyOTQifQ.rh0JnYdMBJj6ubLElVz6vQd_OOUFRn-N___ztA-irNA' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 12:54:17.765294'}
+2023-02-09 12:57:19,468 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1NDoxNy43NjUyOTQifQ.rh0JnYdMBJj6ubLElVz6vQd_OOUFRn-N___ztA-irNA' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 12:54:17.765294'}
+2023-02-09 12:57:34,035 - INFO - Clearing session variables
+2023-02-09 12:57:34,036 - INFO - Session variables cleared
+2023-02-09 12:57:53,179 - INFO - Customer Login info: Customer dayeemparkar verified
+2023-02-09 12:57:53,180 - INFO - Generated token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiZGF5ZWVtIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1Nzo1My4xNzk4OTYifQ.I04lLwRpoppB2IFFuKQQLno_y0TYay74o8XRtA-sa4k for {'username': 'dayeemparkar', 'password': 'dayeem', 'timestamp': '2023-02-09 12:57:53.179896'}
+2023-02-09 12:58:08,305 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiZGF5ZWVtIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1Nzo1My4xNzk4OTYifQ.I04lLwRpoppB2IFFuKQQLno_y0TYay74o8XRtA-sa4k' to get {'username': 'dayeemparkar', 'password': 'dayeem', 'timestamp': '2023-02-09 12:57:53.179896'}
+2023-02-09 12:58:08,567 - INFO - Customer Login info: Customer dayeemparkar verified
+2023-02-09 12:58:15,231 - ERROR - Could not authenticate token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUZI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiZGF5ZWVtIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1Nzo1My4xNzk4OTYifQ.I04lLwRpoppB2IFFuKQQLno_y0TYay74o8XRtA-sa4k
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 154, in _load
+    header = json.loads(header_data.decode('utf-8'))
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0x92 in position 22: invalid start byte
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/helpers.py", line 34, in decorated
+    data = Token.checkApiToken(bytes(token, 'utf-8'), SECRET_KEY)
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/token_class.py", line 34, in checkApiToken
+    header = jwt.get_unverified_header(token)
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 129, in get_unverified_header
+    headers = self._load(jwt)[2]
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 156, in _load
+    raise DecodeError('Invalid header string: %s' % e)
+jwt.exceptions.DecodeError: Invalid header string: 'utf-8' codec can't decode byte 0x92 in position 22: invalid start byte
+2023-02-09 12:58:57,104 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiZGF5ZWVtIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1Nzo1My4xNzk4OTYifQ.I04lLwRpoppB2IFFuKQQLno_y0TYay74o8XRtA-sa4k' to get {'username': 'dayeemparkar', 'password': 'dayeem', 'timestamp': '2023-02-09 12:57:53.179896'}
+2023-02-09 12:58:57,365 - INFO - Customer Login info: Customer dayeemparkar verified
+2023-02-09 12:58:57,365 - INFO - Decoded token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiZGF5ZWVtIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1Nzo1My4xNzk4OTYifQ.I04lLwRpoppB2IFFuKQQLno_y0TYay74o8XRtA-sa4k to get {'username': 'dayeemparkar', 'password': 'dayeem', 'timestamp': '2023-02-09 12:57:53.179896'}
+2023-02-09 12:58:57,594 - INFO - Created new account for api customer
+2023-02-09 12:59:22,008 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiZGF5ZWVtIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1Nzo1My4xNzk4OTYifQ.I04lLwRpoppB2IFFuKQQLno_y0TYay74o8XRtA-sa4k' to get {'username': 'dayeemparkar', 'password': 'dayeem', 'timestamp': '2023-02-09 12:57:53.179896'}
+2023-02-09 12:59:22,267 - INFO - Customer Login info: Customer dayeemparkar verified
+2023-02-09 12:59:22,267 - INFO - Decoded token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiZGF5ZWVtIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1Nzo1My4xNzk4OTYifQ.I04lLwRpoppB2IFFuKQQLno_y0TYay74o8XRtA-sa4k to get {'username': 'dayeemparkar', 'password': 'dayeem', 'timestamp': '2023-02-09 12:57:53.179896'}
+2023-02-09 12:59:22,269 - INFO - Showing accounts for api customer

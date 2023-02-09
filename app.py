@@ -568,25 +568,25 @@ def apiWithdraw():
 @app.errorhandler(400)
 def handle_400_error(_error):
     """Return a http 400 error to client"""
-    return make_response(jsonify({'error': 'Misunderstood'}), 400)
+    return redirect(url_for('home'))
 
 
 @app.errorhandler(401)
 def handle_401_error(_error):
     """Return a http 401 error to client"""
-    return make_response(jsonify({'error': 'Unauthorised'}), 401)
+    return redirect(url_for('home'))
 
 
 @app.errorhandler(404)
 def handle_404_error(_error):
     """Return a http 404 error to client"""
-    return make_response(jsonify({'error': 'Not found'}), 404)
+    return redirect(url_for('home'))
 
 
 @app.errorhandler(500)
 def handle_500_error(_error):
     """Return a http 500 error to client"""
-    return make_response(jsonify({'error': 'Server error'}), 500)
+    return redirect(url_for('home'))
 
 
 app.run(debug=True)
