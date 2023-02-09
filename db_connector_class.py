@@ -6,7 +6,6 @@ import psycopg2
 from config import DBVARS, CUSTOMER_TABLE, ACCOUNT_TABLE, TRANSACTION_TABLE, ACCOUNT_MAPPING_TABLE, CUSTOMER_TABLE_COLS, ACCOUNT_TABLE_COLS, ACCOUNT_MAPPING_TABLE_COLS, TRANSACTION_TABLE_COLS
 # for logger
 from logger_class import logger
-from password_hash_class import PasswordHash
 
 
 class DBConnection:
@@ -187,25 +186,3 @@ class DBConnection:
             cls.conn.close()
             cls.cur = None
             cls.conn = None
-
-
-if __name__ == '__main__':
-    DBConnection.dropTable(ACCOUNT_MAPPING_TABLE)
-    DBConnection.dropTable(TRANSACTION_TABLE)
-    DBConnection.dropTable(CUSTOMER_TABLE)
-    DBConnection.dropTable(ACCOUNT_TABLE)
-    DBConnection.insertRow(CUSTOMER_TABLE, ['uname', PasswordHash.generateHash('upass'), 'fname', 'lname', 'addr', '12345'])
-    # DBConnection.insertRow(ACCOUNT_TABLE, [PasswordHash.generateHash('a1pass'),'salary', '70000'])
-    # DBConnection.insertRow(ACCOUNT_TABLE, [PasswordHash.generateHash('a2pass'),'salary', '70000'])
-    # DBConnection.insertRow(ACCOUNT_MAPPING_TABLE, ['1','1'])
-    # DBConnection.insertRow(ACCOUNT_MAPPING_TABLE, ['2','1'])
-    # DBConnection.insertRow(TRANSACTION_TABLE, ['1', '2', '1000', f"'{DBConnection.getTimeStamp()}'"])
-    # DBConnection.insertRow(TRANSACTION_TABLE, ['1','1000', f"'{DBConnection.getTimeStamp()}'"], [TRANSACTION_TABLE_COLS[2], TRANSACTION_TABLE_COLS[3], TRANSACTION_TABLE_COLS[4]])
-    # custpass = DBConnection.selectRows(CUSTOMER_TABLE, additions=f"ORDER BY {CUSTOMER_TABLE_COLS[1][0]}")[0][2]
-    # accpass = DBConnection.selectRows(ACCOUNT_TABLE, condition=f"{ACCOUNT_TABLE_COLS[2][0]} = 'salary'")[0][1]
-    # print(custpass)
-    # print(accpass)
-    # print(PasswordHash.verifyHash(custpass, 'upass'))
-    # print(PasswordHash.verifyHash(accpass, 'apass'))
-    # print(DBConnection.selectRows(ACCOUNT_MAPPING_TABLE))
-    # print(DBConnection.selectRows(TRANSACTION_TABLE))

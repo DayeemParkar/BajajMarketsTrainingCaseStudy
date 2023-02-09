@@ -1059,3 +1059,12 @@ jwt.exceptions.DecodeError: Invalid header string: 'utf-8' codec can't decode by
 2023-02-09 12:59:22,267 - INFO - Customer Login info: Customer dayeemparkar verified
 2023-02-09 12:59:22,267 - INFO - Decoded token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiZGF5ZWVtIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxMjo1Nzo1My4xNzk4OTYifQ.I04lLwRpoppB2IFFuKQQLno_y0TYay74o8XRtA-sa4k to get {'username': 'dayeemparkar', 'password': 'dayeem', 'timestamp': '2023-02-09 12:57:53.179896'}
 2023-02-09 12:59:22,269 - INFO - Showing accounts for api customer
+2023-02-09 14:42:25,376 - INFO - Customer Login info: Customer uname verified
+2023-02-09 14:42:25,376 - INFO - Customer uname logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVuYW1lIiwicGFzc3dvcmQiOiIkMmIkMTIkOTMxQi5Mb01ieXB5VkczV1A2Y1Y5T2l6OC54Ny5rTFBFUDZKejY4MC9Tb3Exa3htZ2hLTW0iLCJ0aW1lc3RhbXAiOiIyMDIzLTAyLTA5IDE0OjQyOjI1LjM3NjIxMyJ9.o8El-S2kg1aSScnLCaGb_35o-6XNsE43wTe-jMQKAnM
+2023-02-09 14:42:25,381 - ERROR - Error while accessing home. User: uname
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/app.py", line 31, in home
+    customer = getCustomer(session[USERNAME, ''])
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/flask/sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: ('username', '')

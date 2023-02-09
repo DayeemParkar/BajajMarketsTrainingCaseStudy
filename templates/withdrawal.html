@@ -1,5 +1,10 @@
 {% extends "navbar.html" %}
 {% block body %}
+<div class="text" style="color:black;">
+    {% if msg %}
+        {{ msg }}
+    {% endif %}
+</div>
 {% if accountNotSelected %}
     {% if result %}
     <table border="1" style="border-collapse:collapse;">

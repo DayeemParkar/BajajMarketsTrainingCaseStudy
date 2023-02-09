@@ -1,5 +1,10 @@
 {% extends "navbar.html" %}
 {% block body %}
+<div class="text">
+    {% if msg %}
+        {{ msg }}
+    {% endif %}
+</div>
     <div class="login-container">
         
         <form action="" class="form-login" method="POST">

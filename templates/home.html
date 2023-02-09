@@ -1,9 +1,19 @@
 {% extends "navbar.html" %}
 {% block body %}
-<!-- <h1>
-    Username: {{ username }}
-    <br />
-    Token: {{ token }} -->
+    {% if customer %}
+        <div class="text" style="color:black;">
+        Welcome {{ customer[3] }} {{ customer[4] }}!
+        <br />
+        <br />
+        Customer ID: {{ customer[0] }}
+        <br />
+        Username: {{ customer[1] }}
+        <br />
+        Address: {{ customer[5] }}
+        <br />
+        Mobile number: {{ customer[6] }}
+        </div>
+    {% endif %}
     <div id="slide">
         <div class="slideshow-container">
          
@@ -34,8 +44,7 @@
         <span class="dot" onclick="currentSlide(5)"></span> 
         <span class="dot" onclick="currentSlide(6)"></span>
         <span class="dot" onclick="currentSlide(7)"></span>
-         </div>
-</h1>
+    </div>
 <script>
     var slideIndex = 0;
 showSlides();
