@@ -9,19 +9,18 @@
          
        <!-- 1 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000"> <img src="static/images/home.jpeg" style="width:100%"> </a> </div> 
           
-        <!-- 2 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/addaccount"> <img src="https://www.w3schools.com/howto/img_snow_wide.jpg" style="width:100%"> </a>  </div>
+        <!-- 2 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/addaccount"> <img src="static/images/Create_account.png" style="width:100%"> </a>  </div>
           
-        <!-- 3 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/viewaccount"> <img src="https://www.w3schools.com/howto/img_lights_wide.jpg" style="width:100%"> </a> </div>
+        <!-- 3 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/viewaccount"> <img src="static/images/view_account.png" style="width:100%"> </a> </div>
          
-        <!-- 4 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/transaction/-1"> <img src="https://www.w3schools.com/howto/img_mountains_wide.jpg"  style="width:100%"> </a> </div>
+        <!-- 4 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/transaction/-1"> <img src="static/images/transaction.png"  style="width:100%"> </a> </div>
          
-        <!-- 5 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/"> <img src="https://www.w3schools.com/howto/img_nature_wide.jpg" style="width:100%"> </a> </div>
           
-        <!-- 6 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/deposit/-1"> <img src="https://www.w3schools.com/howto/img_snow_wide.jpg" style="width:100%"> </a>  </div>
+        <!-- 6 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/deposit/-1"> <img src="static/images/deposit.png" style="width:100%"> </a>  </div>
           
-        <!-- 7 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/withdraw/-1"> <img src="https://www.w3schools.com/howto/img_lights_wide.jpg" style="width:100%"> </a> </div>
+        <!-- 7 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/withdraw/-1"> <img src="static/images/withdraw.png" style="width:100%"> </a> </div>
          
-        <!-- 8 --> <div class="mySlides fade"> <a href="http://127.0.0.1:5000/login"> <img src="https://www.w3schools.com/howto/img_mountains_wide.jpg"  style="width:100%"> </a> </div>
+        <!-- 8 --> <div class="mySlides fade"> <a href="{{ url_for('clearsession') }}"> <img src="static/images/logout.png"  style="width:100%"> </a> </div>
 
         <a class="prev" onclick="plusSlides(-1)">&#10094;</a> <a class="next" onclick="plusSlides(1)">&#10095;</a> </div>
         
@@ -31,10 +30,10 @@
         <span class="dot" onclick="currentSlide(2)"></span> 
         <span class="dot" onclick="currentSlide(3)"></span>
         <span class="dot" onclick="currentSlide(4)"></span>
+ 
         <span class="dot" onclick="currentSlide(5)"></span> 
-        <span class="dot" onclick="currentSlide(6)"></span> 
+        <span class="dot" onclick="currentSlide(6)"></span>
         <span class="dot" onclick="currentSlide(7)"></span>
-        <span class="dot" onclick="currentSlide(8)"></span>
          </div>
 </h1>
 <script>

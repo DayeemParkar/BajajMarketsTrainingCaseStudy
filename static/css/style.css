@@ -46,7 +46,7 @@ padding-bottom: 5rem;
 .login-nav {
 position: relative;
 padding: 0;
-margin: 0 0 4em 1rem;
+margin: 0 0 6em 1rem;
 background-color: transparent;
 }
 
@@ -101,14 +101,15 @@ transition: .20s all ease;
 
 .login__label {
 display: block;
+padding-left: 1rem;
 }
 
 .login__label,
 .login__label--checkbox {
-color: rgba(255, 255, 255, 0.436);
+color: rgba(255, 255, 255, 0.5);
 text-transform: uppercase;
-font-size: 1rem;
-margin-bottom: 0.5rem;
+font-size: .75rem;
+margin-bottom: 1rem;
 }
 
 .login__label--checkbox {
@@ -309,13 +310,17 @@ tr:hover {background-color: rgb(216, 186, 186)}
 }
 
 .mySlides {
+	
 	display: none
 }
 
 .slideshow-container {
 	width: 1000px;
+	margin: auto ;
 	position: relative;
-    margin: 6rem;
+	margin-top: 5rem;
+    margin-left: 15rem;
+	
 
 }
 /* Next & previous buttons */
@@ -343,10 +348,15 @@ tr:hover {background-color: rgb(216, 186, 186)}
 }
 /* Caption text */
 .text {
-	color: rgba(255, 255, 255, 0.557);
-	font-size: 1.9rem;
+	color: white;
+	font-size: 2rem;
+	width: 100%;
+	padding: .5rem 1rem;
+	border: 2px solid transparent;
+	outline: none;
+	border-radius: 1.5rem;
+	letter-spacing: 1px;
 	text-align: center;
-	font-family: 'Times New Roman', Times, serif;
 }
 
 /* The dots/bullets/indicators */
