@@ -13,7 +13,6 @@
                 <th>To Account No</th>
                 <th>Amount</th>
                 <th>Transaction Time</th>
-                <th>Action</th>
             </tr>
             {% for row in result %}
             <tr>
@@ -22,14 +21,11 @@
                 <td>{{ row[2] }}</td>
                 <td>{{ row[3] }}</td>
                 <td>{{ row[4] }}</td>
-                <td><a href="{{ url_for('withdrawal', account_no=row[0]) }}">Delete</a> <br>
-                    <a href="{{ url_for('withdrawal', account_no=row[0]) }}">Modify</a>
-                </td>
             </tr>
             {% endfor %}
         </table>
     {% else %}
-        No transactions done on this account
+        No transactions done on any account
     {% endif %}
     
 {% endblock %}

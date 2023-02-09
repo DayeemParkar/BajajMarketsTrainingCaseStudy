@@ -1101,3 +1101,41 @@ jwt.exceptions.DecodeError: Not enough segments
 2023-02-09 15:09:07,142 - INFO - Customer dayeemparkar logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxNTowOTowNy4xNDI1ODEifQ.O_c-P6E677aG_SONb4fXG8vpxW2BP9mCJJafQfDMCUs
 2023-02-09 15:09:21,610 - INFO - Clearing session variables
 2023-02-09 15:09:21,611 - INFO - Session variables cleared
+2023-02-09 15:23:06,945 - INFO - Clearing session variables
+2023-02-09 15:23:06,946 - INFO - Session variables cleared
+2023-02-09 15:23:06,952 - ERROR - Could not verify session for user  with token 
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 143, in _load
+    signing_input, crypto_segment = jwt.rsplit(b'.', 1)
+ValueError: not enough values to unpack (expected 2, got 1)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/helpers.py", line 78, in verifySession
+    data = Token.checkApiToken(bytes(token, 'utf-8'), SECRET_KEY)
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/token_class.py", line 34, in checkApiToken
+    header = jwt.get_unverified_header(token)
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 129, in get_unverified_header
+    headers = self._load(jwt)[2]
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 146, in _load
+    raise DecodeError('Not enough segments')
+jwt.exceptions.DecodeError: Not enough segments
+2023-02-09 15:23:17,528 - ERROR - Could not verify session for user  with token 
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 143, in _load
+    signing_input, crypto_segment = jwt.rsplit(b'.', 1)
+ValueError: not enough values to unpack (expected 2, got 1)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/helpers.py", line 78, in verifySession
+    data = Token.checkApiToken(bytes(token, 'utf-8'), SECRET_KEY)
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/token_class.py", line 34, in checkApiToken
+    header = jwt.get_unverified_header(token)
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 129, in get_unverified_header
+    headers = self._load(jwt)[2]
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 146, in _load
+    raise DecodeError('Not enough segments')
+jwt.exceptions.DecodeError: Not enough segments
