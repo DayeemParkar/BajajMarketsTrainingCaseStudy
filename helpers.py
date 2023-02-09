@@ -407,7 +407,7 @@ def displayTransactions():
         for row in rows:
             currrent_result = [row[0]]
             currrent_result.append(row[1] if row[1] else "Cash")
-            currrent_result.append(row[2] if row[1] else "Cash")
+            currrent_result.append(row[2] if row[2] else "Cash")
             currrent_result.append(row[3])
             currrent_result.append(row[4])
             result.append(currrent_result)

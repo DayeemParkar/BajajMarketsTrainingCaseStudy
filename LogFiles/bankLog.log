@@ -1268,3 +1268,50 @@ Traceback (most recent call last):
     raise DecodeError('Not enough segments')
 jwt.exceptions.DecodeError: Not enough segments
 2023-02-09 16:12:59,040 - INFO - Deleted customer 6
+2023-02-09 16:16:06,732 - INFO - Customer Login info: Customer dayeemparkar verified
+2023-02-09 16:16:06,733 - INFO - Customer dayeemparkar logged in with token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxNjoxNjowNi43MzI4OTkifQ.AEe12f3LajFLjg4mOLBmZzLGbQWOnKCx18GUoPc4oJ4
+2023-02-09 16:16:13,304 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxNjoxNjowNi43MzI4OTkifQ.AEe12f3LajFLjg4mOLBmZzLGbQWOnKCx18GUoPc4oJ4' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 16:16:06.732899'}
+2023-02-09 16:16:20,190 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxNjoxNjowNi43MzI4OTkifQ.AEe12f3LajFLjg4mOLBmZzLGbQWOnKCx18GUoPc4oJ4' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 16:16:06.732899'}
+2023-02-09 16:16:29,702 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxNjoxNjowNi43MzI4OTkifQ.AEe12f3LajFLjg4mOLBmZzLGbQWOnKCx18GUoPc4oJ4' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 16:16:06.732899'}
+2023-02-09 16:16:29,987 - INFO - Decoded token b'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImRheWVlbXBhcmthciIsInBhc3N3b3JkIjoiJDJiJDEyJDVmRnh2TC81Z2dqZGVaOEtoRmxra09rTDhIU3prNVRtczBsTms2anN2Rms4RGRTZzdtSXNLIiwidGltZXN0YW1wIjoiMjAyMy0wMi0wOSAxNjoxNjowNi43MzI4OTkifQ.AEe12f3LajFLjg4mOLBmZzLGbQWOnKCx18GUoPc4oJ4' to get {'username': 'dayeemparkar', 'password': '$2b$12$5fFxvL/5ggjdeZ8KhFlkkOkL8HSzk5Tms0lNk6jsvFk8DdSg7mIsK', 'timestamp': '2023-02-09 16:16:06.732899'}
+2023-02-09 16:16:29,990 - INFO - Displaying transaction history of account 6
+2023-02-09 16:16:39,109 - INFO - Clearing session variables for user dayeemparkar
+2023-02-09 16:16:39,109 - INFO - Session variables cleared
+2023-02-09 16:16:44,873 - INFO - Clearing session variables
+2023-02-09 16:16:44,873 - INFO - Session variables cleared
+2023-02-09 16:16:44,877 - ERROR - Could not verify session for user  with token 
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 143, in _load
+    signing_input, crypto_segment = jwt.rsplit(b'.', 1)
+ValueError: not enough values to unpack (expected 2, got 1)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/helpers.py", line 78, in verifySession
+    data = Token.checkApiToken(bytes(token, 'utf-8'), SECRET_KEY)
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/token_class.py", line 34, in checkApiToken
+    header = jwt.get_unverified_header(token)
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 129, in get_unverified_header
+    headers = self._load(jwt)[2]
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 146, in _load
+    raise DecodeError('Not enough segments')
+jwt.exceptions.DecodeError: Not enough segments
+2023-02-09 16:16:52,424 - ERROR - Could not verify session for user  with token 
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 143, in _load
+    signing_input, crypto_segment = jwt.rsplit(b'.', 1)
+ValueError: not enough values to unpack (expected 2, got 1)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/helpers.py", line 78, in verifySession
+    data = Token.checkApiToken(bytes(token, 'utf-8'), SECRET_KEY)
+  File "/Users/dayeemparkar/Desktop/Training/BajajMarketsTrainingCaseStudy/token_class.py", line 34, in checkApiToken
+    header = jwt.get_unverified_header(token)
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 129, in get_unverified_header
+    headers = self._load(jwt)[2]
+  File "/Users/dayeemparkar/opt/anaconda3/lib/python3.9/site-packages/jwt/api_jws.py", line 146, in _load
+    raise DecodeError('Not enough segments')
+jwt.exceptions.DecodeError: Not enough segments
