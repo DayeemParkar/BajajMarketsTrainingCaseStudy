@@ -53,7 +53,7 @@ def signup():
                 return render_template('signup_form.html', title='Signup', form=form, msg=res[1])
             # customer registered, proceed to login
             logger.info(res[1])
-            return render_template('login_form.html', title='Login', form=LoginForm(), msg=res[1])
+            return redirect(url_for('login'))
         return render_template('signup_form.html', title='Signup', form=form)
     except Exception as e:
         logger.exception('Error while accessing signup')
